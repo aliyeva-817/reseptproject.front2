@@ -6,7 +6,7 @@ import AddRecipe from "../pages/add/AddRecipe";
 import RecipeDetail from "../pages/recipe/RecipeDetail";
 import Favorites from "../pages/favorites/Favorites";
 import Layout from "../components/layout/Layout";
-import Chat from "../pages/chat/Chat";           // Yeni əlavə
+import Chat from "../pages/chat/ChatPage";           // Yeni əlavə
 import Profile from "../pages/profile/Profile"; // Yeni əlavə
 
 const Router = () => {
