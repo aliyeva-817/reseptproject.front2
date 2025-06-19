@@ -1,0 +1,226 @@
+.chatPage {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  font-family: sans-serif;
+}
+
+/* === Left Sidebar === */
+.sidebar {
+  width: 300px;
+  background-color: #f9f9f9;
+  border-right: 1px solid #ddd;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.topBar {
+  display: flex;
+  gap: 10px;
+}
+
+.topBar input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.topBar button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+select {
+  padding: 8px;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.chatArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+/* === Header (top of chat) === */
+.header {
+  padding: 10px 20px;
+  background-color: #fafafa;
+  border-bottom: 1px solid #ddd;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* === Message List === */
+.messageList {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: #fffdf8;
+}
+
+/* === Individual Message === */
+.message {
+  max-width: 70%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  position: relative;
+  word-wrap: break-word;
+  background-color: #f1f1f1;
+}
+
+.fromSelf {
+  align-self: flex-end;
+  background-color: #d2ffd2;
+  text-align: right;
+}
+
+.fromOther {
+  align-self: flex-start;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+}
+
+.message p {
+  margin: 0;
+  font-size: 15px;
+}
+
+.message small {
+  display: block;
+  margin-top: 4px;
+  color: #555;
+  font-size: 12px;
+}
+
+/* === Edit/Delete Icons === */
+.icon {
+  margin-left: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  vertical-align: middle;
+  color: #666;
+}
+
+.editedTag {
+  margin-left: 5px;
+  font-size: 12px;
+  color: #888;
+}
+
+/* === Message Input === */
+.inputArea {
+  padding: 10px 20px;
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid #ddd;
+  background-color: #fafafa;
+}
+
+.inputArea textarea {
+  flex: 1;
+  resize: none;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  height: 60px;
+}
+
+.inputArea button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* === THEMES === */
+.theme_brokoli {
+  --chat-bg: #eaffea;
+}
+
+.theme_carrot {
+  --chat-bg: #fff0d6;
+}
+
+.theme_watermelon {
+  --chat-bg: #ffeef2;
+}
+
+.theme_dark {
+  background-color: #1e1e1e;
+  color: white;
+}
+
+.theme_brokoli .messageList {
+  background-color: #f0fff0;
+}
+
+.theme_carrot .messageList {
+  background-color: #fff7e6;
+}
+
+.theme_watermelon .messageList {
+  background-color: #fff5f7;
+}
+
+.theme_dark .chatArea,
+.theme_dark .sidebar,
+.theme_dark .inputArea {
+  background-color: #2a2a2a;
+  color: white;
+}
+
+.theme_dark .message {
+  background-color: #3a3a3a;
+  color: white;
+}
+/* === Yeni Mesaj Animasiya === */
+@keyframes popIn {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.message {
+  animation: popIn 0.3s ease-out;
+}
+
+/* === Bildiriş nişanı (ChatList üçün) === */
+.badge {
+  background-color: red;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-size: 12px;
+  margin-left: 6px;
+}
