@@ -17,7 +17,9 @@ const Favorites = () => {
     const fetchFavorites = async () => {
       try {
         const data = await getFavorites();
-        setFavorites(data.map(f => f.recipe));
+        // recipe null olmayanları seç
+        const filtered = data.filter(f => f.recipe !== null).map(f => f.recipe);
+        setFavorites(filtered);
       } catch (err) {
         console.error('Favoritləri yükləmək olmadı:', err);
       }
@@ -43,25 +45,25 @@ const Favorites = () => {
         {favorites.length === 0 ? (
           <p>Favorit resept yoxdur.</p>
         ) : (
-          favorites.map((recipe) => (
-            <div
-              key={recipe._id}
-              className={styles.card}
-            >
-              <img
-                src={`http://localhost:5000/${recipe.image}`}
-                alt={recipe.title}
-                onClick={() => navigate(`/recipe/${recipe._id}`)}
-              />
-              <h3>{recipe.title}</h3>
-              <button
-                className={styles.deleteBtn}
-                onClick={() => handleRemove(recipe._id)}
-              >
-                Sil
-              </button>
-            </div>
-          ))
+          favorites.map((recipe) => {
+            if (!recipe) return null;
+            return (
+              <div key={recipe._id} className={styles.card}>
+                <img
+                  src={`http://localhost:5000/${recipe.image}`}
+                  alt={recipe.title}
+                  onClick={() => navigate(`/recipe/${recipe._id}`)}
+                />
+                <h3>{recipe.title}</h3>
+                <button
+                  className={styles.deleteBtn}
+                  onClick={() => handleRemove(recipe._id)}
+                >
+                  Sil
+                </button>
+              </div>
+            );
+          })
         )}
       </div>
     </div>

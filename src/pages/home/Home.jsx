@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axiosInstance, {
-  getFavorites,
-  addFavorite,
-  removeFavorite
-} from '../../services/axiosInstance';
+import axiosInstance, { getFavorites, addFavorite, removeFavorite } from '../../services/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.css';
 import CommentModal from '../../components/commentModal/CommentModal';
+import CarouselCategory from './CarouselCategory';
 
 const Home = () => {
   const [query, setQuery] = useState('');
@@ -16,17 +13,23 @@ const Home = () => {
   const [newComment, setNewComment] = useState('');
   const [activeModalRecipeId, setActiveModalRecipeId] = useState(null);
   const navigate = useNavigate();
-
   const token = localStorage.getItem("accessToken");
 
   const fetchRecipes = async (ingredient = '') => {
     try {
-      const res = await axiosInstance.get('/recipes', {
-        params: { ingredient }
-      });
+      const res = await axiosInstance.get('/recipes', { params: { ingredient } });
       setRecipes(res.data);
     } catch (err) {
       console.error('Reseptləri yükləmək olmadı:', err);
+    }
+  };
+
+  const fetchRecipesByCategory = async (category) => {
+    try {
+      const res = await axiosInstance.get(`/recipes/category/search?category=${category}`);
+      setRecipes(res.data);
+    } catch (err) {
+      console.error('Kategoriya üzrə filter alınmadı:', err);
     }
   };
 
@@ -34,7 +37,7 @@ const Home = () => {
     if (!token) return;
     try {
       const data = await getFavorites();
-      setFavorites(data.map(f => f.recipe._id));
+      setFavorites(data.map(f => f.recipe?._id)); // ✅ yoxlama ilə
     } catch (err) {
       console.error('Favoritlər yüklənmədi:', err);
     }
@@ -50,32 +53,22 @@ const Home = () => {
   };
 
   const toggleFavorite = async (recipeId) => {
-    if (!token) {
-      navigate('/login');
-      return;
-    }
-
+    if (!token) return navigate('/login');
     try {
       if (favorites.includes(recipeId)) {
         await removeFavorite(recipeId);
       } else {
         await addFavorite(recipeId);
       }
-      await fetchFavorites();
+      await fetchFavorites(); // ✅ real-time yenilənmə
     } catch (err) {
       console.error("Favorit əməliyyatı uğursuz oldu:", err);
-      alert("Əlavə və ya silmə zamanı xəta baş verdi!");
     }
   };
 
   const handleAddComment = async (recipeId) => {
-    if (!token) {
-      navigate('/login');
-      return;
-    }
-
+    if (!token) return navigate('/login');
     if (!newComment) return;
-
     try {
       await axiosInstance.post('/comments', { recipeId, content: newComment });
       setNewComment('');
@@ -106,44 +99,56 @@ const Home = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <h2>Resept Axtar</h2>
+    <div className={styles.homePage}>
+      {/* 🟧 Karusel ən yuxarıya çəkildi */}
+      <CarouselCategory onFilter={fetchRecipesByCategory} />
+
+      {/* 🟨 Axtarış formu */}
+      <h2 className={styles.title}>🍲 Resept Axtarışı</h2>
       <form onSubmit={handleSearch} className={styles.searchForm}>
         <input
+          className={styles.searchInput}
           type="text"
           placeholder="Məsələn: un, yumurta..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        <button type="submit">Axtar</button>
+        <button type="submit" className={styles.searchButton}>🔍 Axtar</button>
       </form>
 
+      {/* 🟩 Resept kartları */}
       <div className={styles.cardContainer}>
         {recipes.map((recipe) => (
           <div key={recipe._id} className={styles.card}>
-           <img
-  src={`http://localhost:5000/uploads/${recipe.image}`} // 🔥 uploads əlavə et
+            <div className={styles.imageWrapper}>
+             <img
+  src={`http://localhost:5000/${recipe.image}`} // ✅ düzgün yol
   alt={recipe.title}
+  className={styles.image}
 />
 
-            <h3>{recipe.title}</h3>
+            </div>
 
-            <button
-              className={styles.favBtn}
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleFavorite(recipe._id);
-              }}
-            >
-              {favorites.includes(recipe._id) ? '❤️' : '🤍'}
-            </button>
+            <h3 className={styles.cardTitle}>{recipe.title}</h3>
 
-            <button
-              className={styles.detailsBtn}
-              onClick={() => navigate(`/recipe/${recipe._id}`)}
-            >
-              Ətraflı bax
-            </button>
+            <div className={styles.cardActions}>
+              <button
+                className={styles.favBtn}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleFavorite(recipe._id);
+                }}
+              >
+                {favorites.includes(recipe._id) ? '❤️' : '🤍'}
+              </button>
+
+              <button
+                className={styles.detailsBtn}
+                onClick={() => navigate(`/recipe/${recipe._id}`)}
+              >
+                Ətraflı bax
+              </button>
+            </div>
 
             <p
               className={styles.commentToggle}
@@ -155,17 +160,17 @@ const Home = () => {
         ))}
       </div>
 
-    {activeModalRecipeId && (
-  <CommentModal
-    recipeId={activeModalRecipeId} // BUNU ƏLAVƏ ETMİSƏN YOXDURSA MÜTLƏQ ƏLAVƏ ET
-    comments={comments[activeModalRecipeId] || []}
-    onClose={handleCloseModal}
-    onChange={(e) => setNewComment(e.target.value)}
-    newComment={newComment}
-    onSubmit={() => handleAddComment(activeModalRecipeId)}
-  />
-)}
-
+      {/* 🟦 Şərh modalı */}
+      {activeModalRecipeId && (
+        <CommentModal
+          recipeId={activeModalRecipeId}
+          comments={comments[activeModalRecipeId] || []}
+          onClose={handleCloseModal}
+          onChange={(e) => setNewComment(e.target.value)}
+          newComment={newComment}
+          onSubmit={() => handleAddComment(activeModalRecipeId)}
+        />
+      )}
     </div>
   );
 };
