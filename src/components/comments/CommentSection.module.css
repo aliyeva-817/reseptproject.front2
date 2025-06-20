@@ -1,0 +1,15 @@
+.commentForm {
+  margin-top: 10px;
+}
+.textarea {
+  width: 100%;
+  min-height: 80px;
+  margin-bottom: 8px;
+}
+.submitBtn {
+  padding: 6px 12px;
+}
+.loginNotice {
+  font-style: italic;
+  color: gray;
+}

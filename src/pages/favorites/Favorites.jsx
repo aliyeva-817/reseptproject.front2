@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getFavorites, removeFavorite } from '../../services/axiosInstance';
 import styles from './Favorites.module.css';
+import CommentSection from '../../components/comments/CommentSection';
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
@@ -17,7 +18,6 @@ const Favorites = () => {
     const fetchFavorites = async () => {
       try {
         const data = await getFavorites();
-        // recipe null olmayanları seç
         const filtered = data.filter(f => f.recipe !== null).map(f => f.recipe);
         setFavorites(filtered);
       } catch (err) {
@@ -49,18 +49,10 @@ const Favorites = () => {
             if (!recipe) return null;
             return (
               <div key={recipe._id} className={styles.card}>
-                <img
-                  src={`http://localhost:5000/${recipe.image}`}
-                  alt={recipe.title}
-                  onClick={() => navigate(`/recipe/${recipe._id}`)}
-                />
+                <img src={`http://localhost:5000/${recipe.image}`} alt={recipe.title} className={styles.image} />
                 <h3>{recipe.title}</h3>
-                <button
-                  className={styles.deleteBtn}
-                  onClick={() => handleRemove(recipe._id)}
-                >
-                  Sil
-                </button>
+                <button onClick={() => handleRemove(recipe._id)} className={styles.removeBtn}>Sil</button>
+                <CommentSection recipeId={recipe._id} />
               </div>
             );
           })
