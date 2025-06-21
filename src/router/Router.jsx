@@ -8,8 +8,13 @@ import Favorites from "../pages/favorites/Favorites";
 import Layout from "../components/layout/Layout";
 import Chat from "../pages/chat/ChatPage";
 import Profile from "../pages/profile/Profile";
-import CategoryPage from "../pages/category/CategoryPage"; // ✅ Yeni əlavə
-import Premium from "../pages/premium/Premium"; // ✅ Premium səhifə üçün əlavə
+import CategoryPage from "../pages/category/CategoryPage";
+import Premium from "../pages/premium/Premium";
+import PremiumDetail from "../pages/premium/PremiumDetail";
+
+// 🆕 Stripe nəticə səhifələri
+import PaymentSuccess from "../pages/payment/PaymentSuccess";
+import PaymentCancel from "../pages/payment/PaymentCancel";
 
 const Router = () => {
   const isLoggedIn = !!localStorage.getItem("accessToken");
@@ -33,8 +38,9 @@ const Router = () => {
 
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/category/:categoryName" element={<CategoryPage />} /> {/* ✅ Əlavə olunan route */}
-        <Route path="/premium" element={<Premium />} /> {/* ✅ Premium reseptlər səhifəsi */}
+        <Route path="/category/:categoryName" element={<CategoryPage />} />
+        <Route path="/premium" element={<Premium />} />
+        <Route path="/premium/:id" element={<PremiumDetail />} />
 
         {isLoggedIn && (
           <Route element={<Layout />}>
@@ -44,6 +50,10 @@ const Router = () => {
             <Route path="/add" element={<AddRecipe />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/recipe/:id" element={<RecipeDetail />} />
+
+            {/* 🆕 Stripe nəticə səhifələri Layout daxilində */}
+            <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/payment-cancel" element={<PaymentCancel />} />
           </Route>
         )}
 
@@ -55,6 +65,9 @@ const Router = () => {
             <Route path="/add" element={<Navigate to="/" replace />} />
             <Route path="/profile" element={<Navigate to="/" replace />} />
             <Route path="/recipe/:id" element={<Navigate to="/" replace />} />
+            {/* Premium detail də qorunsun */}
+            <Route path="/payment-success" element={<Navigate to="/" replace />} />
+            <Route path="/payment-cancel" element={<Navigate to="/" replace />} />
           </>
         )}
       </Routes>
