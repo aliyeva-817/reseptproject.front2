@@ -1,39 +1,34 @@
-import React, { useRef } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './CarouselCategory.module.css';
 
-import salad from '../../assets/categories/salad.png';
-import main from '../../assets/categories/burger.png';
-
 const categories = [
-  { name: 'Salad', label: '🥗 Salatlar', image: salad },
-  { name: 'Main', label: '🍛 Əsas Yeməklər', image: main },
+  { name: 'Dessert', image: '/images/dessert.png' },
+  { name: 'Main', image: '/images/main.png' },
+  { name: 'Soup', image: '/images/soup.png' },
+  { name: 'Salad', image: '/images/salad.png' },
+  { name: 'Breakfast', image: '/images/breakfast.png' },
+  { name: 'Fastfood', image: '/images/fastfood.png' },
+  { name: 'icki', image: '/images/drinks.png' },
 ];
 
-const CarouselCategory = ({ onFilter }) => {
-  const scrollRef = useRef(null);
+const CarouselCategory = () => {
+  const navigate = useNavigate();
 
-  const scroll = (direction) => {
-    const container = scrollRef.current;
-    if (container) {
-      const scrollAmount = direction === 'left' ? -container.offsetWidth : container.offsetWidth;
-      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
+  const handleCategoryClick = (category) => {
+    navigate(`/category/${category}`);
   };
 
   return (
-    <div style={{ position: 'relative' }}>
-      <button className={`${styles.navButton} ${styles.left}`} onClick={() => scroll('left')}>←</button>
-      <div className={styles.carousel} ref={scrollRef}>
-        {categories.map((cat) => (
-          <div key={cat.name} className={styles.item}>
-            <img src={cat.image} alt={cat.label} className={styles.image} />
-            <button onClick={() => onFilter(cat.name)} className={styles.button}>
-              {cat.label}
-            </button>
-          </div>
-        ))}
-      </div>
-      <button className={`${styles.navButton} ${styles.right}`} onClick={() => scroll('right')}>→</button>
+    <div className={styles.carousel}>
+      {categories.map(cat => (
+        <div key={cat.name} className={styles.item}>
+          <img src={cat.image} alt={cat.name} className={styles.image} />
+          <button onClick={() => handleCategoryClick(cat.name)} className={styles.button}>
+            {cat.name}
+          </button>
+        </div>
+      ))}
     </div>
   );
 };
