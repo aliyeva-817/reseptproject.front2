@@ -9,6 +9,7 @@ import Layout from "../components/layout/Layout";
 import Chat from "../pages/chat/ChatPage";
 import Profile from "../pages/profile/Profile";
 import CategoryPage from "../pages/category/CategoryPage"; // ✅ Yeni əlavə
+import Premium from "../pages/premium/Premium"; // ✅ Premium səhifə üçün əlavə
 
 const Router = () => {
   const isLoggedIn = !!localStorage.getItem("accessToken");
@@ -33,6 +34,7 @@ const Router = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/category/:categoryName" element={<CategoryPage />} /> {/* ✅ Əlavə olunan route */}
+        <Route path="/premium" element={<Premium />} /> {/* ✅ Premium reseptlər səhifəsi */}
 
         {isLoggedIn && (
           <Route element={<Layout />}>

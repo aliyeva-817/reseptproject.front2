@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axiosInstance, { getFavorites, addFavorite, removeFavorite } from '../../services/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.css';
-import CommentModal from '../../components/commentModal/CommentModal';
 import CarouselCategory from './CarouselCategory';
 import CommentSection from '../../components/comments/CommentSection';
 
@@ -10,7 +9,6 @@ const Home = () => {
   const [query, setQuery] = useState('');
   const [recipes, setRecipes] = useState([]);
   const [favorites, setFavorites] = useState([]);
-  const [activeModalRecipeId, setActiveModalRecipeId] = useState(null);
   const navigate = useNavigate();
   const token = localStorage.getItem("accessToken");
 
@@ -42,10 +40,21 @@ const Home = () => {
     }
   };
 
-  useEffect(() => {
-    fetchRecipes();
-    fetchFavorites();
-  }, []);
+  const handleSearch = async () => {
+    if (!query.trim()) return;
+    try {
+      const res = await axiosInstance.get(`/recipes/search?ingredient=${encodeURIComponent(query)}`);
+      if (res.data.length === 0 || res.data.message === 'Uyğun resept tapılmadı.') {
+        alert('Uyğun resept tapılmadı.');
+        setRecipes([]);
+      } else {
+        setRecipes(res.data);
+      }
+    } catch (err) {
+      console.error("Axtarış alınmadı:", err);
+      alert("Axtarış zamanı xəta baş verdi.");
+    }
+  };
 
   const handleFavoriteToggle = async (recipeId) => {
     if (!token) return navigate('/login');
@@ -62,22 +71,38 @@ const Home = () => {
     }
   };
 
+  useEffect(() => {
+    fetchRecipes();
+    fetchFavorites();
+  }, []);
+
   return (
     <div className={styles.container}>
       <CarouselCategory onSelectCategory={fetchRecipesByCategory} />
+
+      <div className={styles.searchContainer}>
+        <input
+          type="text"
+          placeholder="Ərzağa görə axtar..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className={styles.searchInput}
+        />
+        <button onClick={handleSearch} className={styles.searchIcon}>🔍</button>
+      </div>
+
       <div className={styles.recipeList}>
         {recipes.map((recipe) => (
           <div key={recipe._id} className={styles.card}>
-<img
-  src={
-    recipe.image?.includes('uploads/')
-      ? `http://localhost:5000/${recipe.image}`
-      : `http://localhost:5000/uploads/${recipe.image}`
-  }
-  alt={recipe.title}
-  className={styles.image}
-/>
-
+            <img
+              src={
+                recipe.image?.includes('uploads/')
+                  ? `http://localhost:5000/${recipe.image}`
+                  : `http://localhost:5000/uploads/${recipe.image}`
+              }
+              alt={recipe.title}
+              className={styles.image}
+            />
             <h3>{recipe.title}</h3>
             <button onClick={() => handleFavoriteToggle(recipe._id)} className={styles.favoriteBtn}>
               {favorites.includes(recipe._id) ? '❤️' : '🤍'}
