@@ -2,225 +2,218 @@
   display: flex;
   height: 100vh;
   overflow: hidden;
-  font-family: sans-serif;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-/* === Left Sidebar === */
+/* === Sidebar === */
 .sidebar {
-  width: 300px;
-  background-color: #f9f9f9;
-  border-right: 1px solid #ddd;
-  padding: 20px;
+  width: 260px;
+  background: #fff7ea;
+  padding: 24px 18px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: 20px;
+  gap: 26px;
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.05);
+  border-right: none;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
 }
 
-.topBar {
+.sidebar label {
+  font-weight: 500;
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 6px;
+  display: inline-block;
+}
+
+/* === Search input + circular button in one row === */
+.searchContainer {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  background: #f2f2f5;
+  padding: 6px 12px;
+  border-radius: 30px;
+  gap: 8px;
+  position: relative;
 }
 
-.topBar input {
+.searchContainer input {
   flex: 1;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
 }
 
-.topBar button {
-  background-color: #007bff;
+.searchContainer button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #f43f5e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+}
+
+.searchContainer button svg {
   color: white;
-  border: none;
-  padding: 0 12px;
-  border-radius: 4px;
-  cursor: pointer;
+  font-size: 14px;
 }
 
-select {
+/* === Theme Selector === */
+.themeSelector {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.themeSelector select {
   padding: 8px;
-  border-radius: 4px;
+  border: 2px solid orange;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: white;
 }
 
-button {
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
+/* === Chat Area === */
 .chatArea {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background-color: #fff;
-  overflow: hidden;
+  background-color: #edf9f0;
+  position: relative;
 }
 
-/* === Header (top of chat) === */
 .header {
-  padding: 10px 20px;
-  background-color: #fafafa;
-  border-bottom: 1px solid #ddd;
+  padding: 16px;
   font-weight: bold;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  font-size: 18px;
+  background-color: white;
+  border-bottom: 1px solid #ddd;
 }
 
-/* === Message List === */
 .messageList {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  background-color: #fffdf8;
+  gap: 12px;
 }
 
-/* === Individual Message === */
+.noChat {
+  text-align: center;
+  color: gray;
+  margin-top: 20%;
+  font-style: italic;
+}
+
 .message {
   max-width: 70%;
-  padding: 12px 16px;
-  border-radius: 12px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   position: relative;
-  word-wrap: break-word;
-  background-color: #f1f1f1;
+  word-break: break-word;
 }
 
 .fromSelf {
   align-self: flex-end;
-  background-color: #d2ffd2;
-  text-align: right;
+  background-color: #fff8d6;
+  margin-right: 8px;
 }
 
 .fromOther {
   align-self: flex-start;
-  background-color: #ffffff;
-  border: 1px solid #ddd;
+  background-color: #d6f8e0;
+  margin-left: 8px;
 }
 
 .message p {
   margin: 0;
-  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .message small {
-  display: block;
-  margin-top: 4px;
+  font-size: 11px;
   color: #555;
-  font-size: 12px;
-}
-
-/* === Edit/Delete Icons === */
-.icon {
-  margin-left: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  vertical-align: middle;
-  color: #666;
+  margin-top: 4px;
+  display: block;
 }
 
 .editedTag {
-  margin-left: 5px;
-  font-size: 12px;
-  color: #888;
+  font-size: 10px;
+  color: gray;
+  margin-left: 6px;
 }
 
-/* === Message Input === */
+.icon {
+  margin-left: 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* === Input Area === */
 .inputArea {
-  padding: 10px 20px;
+  padding: 12px;
   display: flex;
   gap: 10px;
+  background: white;
   border-top: 1px solid #ddd;
-  background-color: #fafafa;
 }
 
 .inputArea textarea {
   flex: 1;
   resize: none;
+  border: 2px solid #ddd;
+  border-radius: 10px;
   padding: 10px;
   font-size: 14px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  height: 60px;
+  font-family: inherit;
+  height: 48px;
 }
 
 .inputArea button {
-  padding: 10px 20px;
-  background-color: #007bff;
+  padding: 0 18px;
+  background-color: orange;
   color: white;
-  font-weight: bold;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   cursor: pointer;
 }
 
-/* === THEMES === */
-.theme_brokoli {
-  --chat-bg: #eaffea;
+/* === Random emoji effect above messages === */
+.message::before {
+  content: '🍝';
+  position: absolute;
+  top: -12px;
+  left: -12px;
+  font-size: 18px;
 }
 
-.theme_carrot {
-  --chat-bg: #fff0d6;
-}
+/* === Theme backgrounds === */
+.theme_brokoli .chatArea { background: #eafbe5; }
+.theme_carrot .chatArea { background: #fff3e6; }
+.theme_watermelon .chatArea { background: #ffeef0; }
+.theme_dark .chatArea { background: #1e1e1e; color: #eee; }
 
-.theme_watermelon {
-  --chat-bg: #ffeef2;
-}
+.theme_dark .message { background: #2c2c2c; color: #eee; }
+.theme_dark .inputArea { background: #222; }
+.theme_dark .inputArea textarea { background: #333; color: white; border-color: #555; }
+.theme_dark .inputArea button { background-color: #444; }
 
-.theme_dark {
-  background-color: #1e1e1e;
-  color: white;
+/* === Hide Scrollbar === */
+.messageList::-webkit-scrollbar {
+  display: none;
 }
-
-.theme_brokoli .messageList {
-  background-color: #f0fff0;
-}
-
-.theme_carrot .messageList {
-  background-color: #fff7e6;
-}
-
-.theme_watermelon .messageList {
-  background-color: #fff5f7;
-}
-
-.theme_dark .chatArea,
-.theme_dark .sidebar,
-.theme_dark .inputArea {
-  background-color: #2a2a2a;
-  color: white;
-}
-
-.theme_dark .message {
-  background-color: #3a3a3a;
-  color: white;
-}
-/* === Yeni Mesaj Animasiya === */
-@keyframes popIn {
-  0% {
-    transform: scale(0.9);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-.message {
-  animation: popIn 0.3s ease-out;
-}
-
-/* === Bildiriş nişanı (ChatList üçün) === */
-.badge {
-  background-color: red;
-  color: white;
-  padding: 2px 6px;
-  border-radius: 12px;
-  font-size: 12px;
-  margin-left: 6px;
+.messageList {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

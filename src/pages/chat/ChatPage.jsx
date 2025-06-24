@@ -3,11 +3,13 @@ import axiosInstance from '../../services/axiosInstance';
 import { io } from 'socket.io-client';
 import { ThemeContext } from '../../components/theme/ThemeContext';
 import styles from './ChatPage.module.css';
-import { FaEdit, FaTrashAlt, FaArrowLeft } from 'react-icons/fa';
+import { FaEdit, FaTrashAlt, FaArrowLeft, FaSearch } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const SOCKET_SERVER_URL = 'http://localhost:5000';
+
+const emojiOptions = ['🍎', '🍏', '🍐', '🍒', '🍓', '🥭', '🥝', '🍆'];
 
 const ChatPage = () => {
   const { theme, setTheme } = useContext(ThemeContext);
@@ -23,6 +25,13 @@ const ChatPage = () => {
     socketRef.current = io(SOCKET_SERVER_URL);
     if (userId) socketRef.current.emit("addUser", userId);
 
+    const storedRecipient = localStorage.getItem("chatRecipient");
+    if (storedRecipient) {
+      const parsed = JSON.parse(storedRecipient);
+      setRecipient(parsed);
+      fetchMessages(parsed._id);
+    }
+
     socketRef.current.on("getMessage", (data) => {
       if (recipient && data.senderId === recipient._id) {
         setMessages(prev => [...prev, {
@@ -31,6 +40,7 @@ const ChatPage = () => {
           fromSelf: false,
           timestamp: new Date(data.createdAt),
           edited: data.edited || false,
+          emoji: emojiOptions[Math.floor(Math.random() * emojiOptions.length)]
         }]);
       }
     });
@@ -38,9 +48,7 @@ const ChatPage = () => {
     socketRef.current.on("messageEdited", (data) => {
       setMessages(prev =>
         prev.map(msg =>
-          msg._id === data._id
-            ? { ...msg, text: data.text, edited: true }
-            : msg
+          msg._id === data._id ? { ...msg, text: data.text, edited: true } : msg
         )
       );
     });
@@ -63,6 +71,7 @@ const ChatPage = () => {
         return;
       }
       setRecipient(res.data[0]);
+      localStorage.setItem("chatRecipient", JSON.stringify(res.data[0]));
       setUsername('');
       fetchMessages(res.data[0]._id);
       toast.success(`İstifadəçi tapıldı: ${res.data[0].username}`);
@@ -82,6 +91,7 @@ const ChatPage = () => {
         fromSelf: msg.sender === userId,
         timestamp: new Date(msg.createdAt),
         edited: msg.edited,
+        emoji: emojiOptions[Math.floor(Math.random() * emojiOptions.length)]
       }));
       setMessages(loaded);
     } catch {
@@ -120,16 +130,17 @@ const ChatPage = () => {
         content: messageText,
       });
 
-      const msgData = {
+      const emoji = emojiOptions[Math.floor(Math.random() * emojiOptions.length)];
+
+      socketRef.current.emit('sendMessage', {
         _id: res.data._id,
-        senderId: userId, // BUNU ƏLAVƏ EDİRİK!
+        senderId: userId,
         receiverId: recipient._id,
         text: res.data.content,
         createdAt: res.data.createdAt,
         edited: res.data.edited || false,
-      };
-
-      socketRef.current.emit('sendMessage', msgData);
+        emoji
+      });
 
       setMessages(prev => [...prev, {
         _id: res.data._id,
@@ -137,6 +148,7 @@ const ChatPage = () => {
         fromSelf: true,
         timestamp: new Date(res.data.createdAt),
         edited: false,
+        emoji
       }]);
       setMessageText('');
     } catch {
@@ -165,10 +177,6 @@ const ChatPage = () => {
     }
   };
 
-  const handleClearChat = () => {
-    setMessages([]);
-  };
-
   const handleThemeChange = (e) => {
     setTheme(e.target.value);
   };
@@ -178,23 +186,24 @@ const ChatPage = () => {
   return (
     <div className={`${styles.chatPage} ${themeClass}`}>
       <ToastContainer />
-      <div className={styles.sidebar}>
-        <div className={styles.topBar}>
+      <aside className={styles.sidebar}>
+        <label className={styles.label}>İstifadəçi axtar:</label>
+        <div className={styles.searchWrapDribbble}>
           <input
-            placeholder="İstifadəçi axtar..."
+            placeholder="İstifadəçi..."
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-          <button onClick={handleFindUser}>🔍</button>
+          <button onClick={handleFindUser} className={styles.searchBtn}><FaSearch /></button>
         </div>
+        <label className={styles.label}>Tema seçin:</label>
         <select onChange={handleThemeChange} value={theme}>
           <option value="brokoli">🥦 Brokoli</option>
           <option value="carrot">🥕 Kök</option>
           <option value="watermelon">🍉 Qarpız</option>
           <option value="dark">🌑 Qaranlıq</option>
         </select>
-        <button onClick={handleClearChat}>Söhbəti təmizlə</button>
-      </div>
+      </aside>
 
       <div className={styles.chatArea}>
         <div className={styles.header}>
@@ -202,6 +211,8 @@ const ChatPage = () => {
             <h3 onClick={() => {
               setRecipient(null);
               setUsername('');
+              setMessages([]);
+              localStorage.removeItem("chatRecipient");
             }} style={{ cursor: 'pointer' }}>
               <FaArrowLeft /> {recipient.username}
             </h3>
@@ -209,36 +220,42 @@ const ChatPage = () => {
         </div>
 
         <div className={styles.messageList}>
-          {messages.map((msg) => (
-            <div
-              key={msg._id}
-              className={`${styles.message} ${msg.fromSelf ? styles.fromSelf : styles.fromOther}`}
-            >
-              <p>
-                🍇 {msg.text}
-                {msg.edited && <span className={styles.editedTag}>(düzənləndi)</span>}
-                {msg.fromSelf && (
-                  <>
-                    <FaEdit onClick={() => handleEdit(msg._id, msg.text)} className={styles.icon} />
-                    <FaTrashAlt onClick={() => handleDelete(msg._id)} className={styles.icon} />
-                  </>
-                )}
-              </p>
-              <small>{msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</small>
-            </div>
-          ))}
+          {recipient ? (
+            messages.map((msg) => (
+              <div
+                key={msg._id}
+                className={`${styles.message} ${msg.fromSelf ? styles.fromSelf : styles.fromOther} ${styles[`theme_${theme}`]}`}
+              >
+                <p>
+                  {msg.emoji} {msg.text}
+                  {msg.edited && <span className={styles.editedTag}>(düzənləndi)</span>}
+                  {msg.fromSelf && (
+                    <>
+                      <FaEdit onClick={() => handleEdit(msg._id, msg.text)} className={styles.icon} />
+                      <FaTrashAlt onClick={() => handleDelete(msg._id)} className={styles.icon} />
+                    </>
+                  )}
+                </p>
+                <small>{msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</small>
+              </div>
+            ))
+          ) : (
+            <p className={styles.noChat}>Hazırda heç kimlə danışmırsınız</p>
+          )}
         </div>
 
-        <div className={styles.inputArea}>
-          <textarea
-            placeholder="Mesaj yazın..."
-            value={messageText}
-            onChange={(e) => setMessageText(e.target.value)}
-          />
-          <button onClick={handleSendMessage}>
-            {editId ? "Yenilə" : "Göndər"}
-          </button>
-        </div>
+        {recipient && (
+          <div className={styles.inputArea}>
+            <textarea
+              placeholder="Mesaj yazın..."
+              value={messageText}
+              onChange={(e) => setMessageText(e.target.value)}
+            />
+            <button onClick={handleSendMessage}>
+              {editId ? "Yenilə" : "Göndər"}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

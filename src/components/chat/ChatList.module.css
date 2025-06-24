@@ -39,3 +39,35 @@
   border-radius: 12px;
   font-size: 12px;
 }
+.chatList ul {
+  list-style: none;
+  padding: 0;
+}
+
+.chatListItem {
+  padding: 8px 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  position: relative;
+}
+
+.onlineDot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: green;
+  border-radius: 50%;
+  margin-left: 8px;
+}
+
+.unreadBadge {
+  background-color: red;
+  color: white;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+

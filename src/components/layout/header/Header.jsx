@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import styles from './Header.module.css';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -12,24 +13,24 @@ const Header = () => {
   };
 
   return (
-    <header>
-      <h1>Virtual Closet</h1>
-      <nav>
-        <Link to="/home">Əsas</Link>
+    <header className={styles.header}>
+      <h1 className={styles.title}>Virtual Closet</h1>
+      <nav className={styles.nav}>
+        <Link to="/home" className={styles.link}>Əsas</Link>
         {isLoggedIn && (
           <>
-            <Link to="/favorites">Favorilər</Link>
-            <Link to="/add">Resept əlavə et</Link>
-            <Link to="/chat">Chat</Link>
-            <Link to="/premium">Premium Reseptlər</Link>
-            <Link to="/profile">Profil</Link>
-            <button onClick={handleLogout}>Çıxış</button>
+            <Link to="/favorites" className={styles.link}>Favorilər</Link>
+            <Link to="/add" className={styles.link}>Resept əlavə et</Link>
+            <Link to="/chat" className={styles.link}>Chat</Link>
+            <Link to="/premium" className={styles.link}>Premium Reseptlər</Link>
+            <Link to="/profile" className={styles.link}>Profil</Link>
+            <button onClick={handleLogout} className={styles.button}>Çıxış</button>
           </>
         )}
         {!isLoggedIn && (
           <>
-            <Link to="/login">Giriş</Link>
-            <Link to="/register">Qeydiyyat</Link>
+            <Link to="/login" className={styles.link}>Giriş</Link>
+            <Link to="/register" className={styles.link}>Qeydiyyat</Link>
           </>
         )}
       </nav>
