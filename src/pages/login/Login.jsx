@@ -1,25 +1,38 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import axiosInstance from '../../services/axiosInstance';
 import { useNavigate, Link } from 'react-router-dom';
 import styles from './Login.module.css';
+import { AuthContext } from '../../context/AuthContext';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { setAuth } = useContext(AuthContext);  // buraya əlavə et
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const res = await axiosInstance.post('/auth/login', { email, password });
 
+      // Tokenləri localStorage-a yaz
       localStorage.setItem('accessToken', res.data.tokens.accessToken);
       localStorage.setItem('refreshToken', res.data.tokens.refreshToken);
       localStorage.setItem('isRegistered', "true");
-       localStorage.setItem('userId', res.data.user._id);  // Bu sətri əlavə et
+      localStorage.setItem('userId', res.data.user._id);
+
+      // AuthContext-də auth state-i yenilə
+      setAuth({
+        isLoggedIn: true,
+        isAdmin: res.data.user.isAdmin || false,
+        loading: false,
+        user: res.data.user,
+      });
 
       alert('Giriş uğurludur');
-      navigate('/home');
+
+      // Yönləndir
+      navigate(res.data.user.isAdmin ? '/admin' : '/home');
     } catch (err) {
       if (err.response?.status === 403) {
         alert('OTP təsdiqlənməyib. Emailinizi yoxlayın.');
@@ -49,7 +62,6 @@ function Login() {
         <button type="submit">Daxil ol</button>
       </form>
 
-      {/* Qeydiyyat linki düzəldildi */}
       <p style={{ marginTop: '10px' }}>
         Qeydiyyatdan keçməmisiniz? <Link to="/register">Qeydiyyat</Link>
       </p>

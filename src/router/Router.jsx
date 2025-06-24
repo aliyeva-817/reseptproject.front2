@@ -1,4 +1,6 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
+
 import Register from "../pages/register/Register";
 import Login from "../pages/login/Login";
 import Home from "../pages/home/Home";
@@ -14,54 +16,101 @@ import PremiumDetail from "../pages/premium/PremiumDetail";
 import PaymentSuccess from "../pages/payment/PaymentSuccess";
 import PaymentCancel from "../pages/payment/PaymentCancel";
 
+import AdminLogin from "../pages/admin/AdminLogin";
+import AdminLayout from "../pages/admin/AdminLayout";
+import AdminPanel from "../pages/admin/AdminPanel";
+import Users from "../pages/admin/Users";
+import Recipes from "../pages/admin/Recipes";
+import Comments from "../pages/admin/Comments";
+import Categories from "../pages/admin/Categories";
+import Payments from "../pages/admin/Payments";
+import Notifications from "../pages/admin/Notifications";
+
+import { AuthContext } from "../context/AuthContext";
+
 const Router = () => {
-  const isLoggedIn = !!localStorage.getItem("accessToken");
+  const { auth } = useContext(AuthContext);
+  const { isLoggedIn, isAdmin, loading } = auth;
+
+  const PrivateRoute = () => {
+    if (loading) return <p>Yüklənir...</p>;
+    return isLoggedIn ? <Outlet /> : <Navigate to="/login" replace />;
+  };
+
+  const AdminRoute = () => {
+    if (loading) return <p>Yüklənir...</p>;
+    return isLoggedIn && isAdmin ? <Outlet /> : <Navigate to="/admin/login" replace />;
+  };
+
+  const PublicRoute = () => {
+    if (loading) return <p>Yüklənir...</p>;
+    if (isLoggedIn) {
+      if (isAdmin) return <Navigate to="/admin" replace />;
+      else return <Navigate to="/home" replace />;
+    }
+    return <Outlet />;
+  };
 
   return (
     <BrowserRouter>
       <Routes>
-        {/* İlk girişdə yönləndirmə */}
+        <Route path="/" element={<PublicRoute />}>
+          <Route index element={<Register />} />
+          <Route path="register" element={<Register />} />
+          <Route path="login" element={<Login />} />
+        </Route>
+
+        <Route element={<PrivateRoute />}>
+          <Route element={<Layout />}>
+            <Route path="home" element={<Home />} />
+            <Route path="favorites" element={<Favorites />} />
+            <Route path="add" element={<AddRecipe />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="chat" element={<Chat />} />
+            <Route path="recipe/:id" element={<RecipeDetail />} />
+            <Route path="category/:categoryName" element={<CategoryPage />} />
+            <Route path="premium" element={<Premium />} />
+            <Route path="premium/:id" element={<PremiumDetail />} />
+            <Route path="payment-success" element={<PaymentSuccess />} />
+            <Route path="payment-cancel" element={<PaymentCancel />} />
+          </Route>
+        </Route>
+
         <Route
-          path="/"
+          path="/admin/login"
           element={
-            isLoggedIn ? <Navigate to="/home" replace /> : <Register />
+            loading ? (
+              <p>Yüklənir...</p>
+            ) : isLoggedIn && isAdmin ? (
+              <Navigate to="/admin" replace />
+            ) : (
+              <AdminLogin />
+            )
           }
         />
 
-        {/* Açıq səhifələr */}
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/category/:categoryName" element={<CategoryPage />} />
-        <Route path="/premium" element={<Premium />} />
-
-        {/* Layout ilə açıq səhifələr (Header görünür) */}
-        <Route element={<Layout />}>
-          <Route path="/premium/:id" element={<PremiumDetail />} />
-          <Route path="/payment-success" element={<PaymentSuccess />} />
-          <Route path="/payment-cancel" element={<PaymentCancel />} />
+        <Route path="/admin" element={<AdminRoute />}>
+          <Route element={<AdminLayout />}>
+            <Route index element={<AdminPanel />} />
+            <Route path="users" element={<Users />} />
+            <Route path="recipes" element={<Recipes />} />
+            <Route path="comments" element={<Comments />} />
+            <Route path="categories" element={<Categories />} />
+            <Route path="payments" element={<Payments />} />
+            <Route path="notifications" element={<Notifications />} />
+          </Route>
         </Route>
 
-        {/* Login olmuş istifadəçilər üçün Layout daxilindəki qorunan səhifələr */}
-        {isLoggedIn ? (
-          <Route element={<Layout />}>
-            <Route path="/home" element={<Home />} />
-            <Route path="/chat" element={<Chat />} />
-            <Route path="/favorites" element={<Favorites />} />
-            <Route path="/add" element={<AddRecipe />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/recipe/:id" element={<RecipeDetail />} />
-          </Route>
-        ) : (
-          // Login olunmayıbsa qorunanlara daxil olmaq olmaz
-          <>
-            <Route path="/home" element={<Navigate to="/" replace />} />
-            <Route path="/chat" element={<Navigate to="/" replace />} />
-            <Route path="/favorites" element={<Navigate to="/" replace />} />
-            <Route path="/add" element={<Navigate to="/" replace />} />
-            <Route path="/profile" element={<Navigate to="/" replace />} />
-            <Route path="/recipe/:id" element={<Navigate to="/" replace />} />
-          </>
-        )}
+        <Route
+          path="*"
+          element={
+            loading ? (
+              <p>Yüklənir...</p>
+            ) : (
+              <Navigate to={isLoggedIn ? (isAdmin ? "/admin" : "/home") : "/"} replace />
+            )
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

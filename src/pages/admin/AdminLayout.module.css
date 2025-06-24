@@ -1,0 +1,93 @@
+.container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #1e1e1e;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebar {
+  width: 240px;
+  background-color: #111;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border-right: 2px solid #333;
+}
+
+.sidebar h2 {
+  font-size: 22px;
+  margin-bottom: 25px;
+  color: #00bcd4;
+  text-align: center;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidebar nav a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  transition: background 0.3s, color 0.3s;
+}
+
+.sidebar nav a.active,
+.sidebar nav a:hover {
+  background-color: #00bcd4;
+  color: #111;
+  font-weight: bold;
+}
+
+.logoutBtn {
+  margin-top: 20px;
+  padding: 10px 15px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.logoutBtn:hover {
+  background-color: #d32f2f;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #222;
+}
+
+.header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  font-size: 20px;
+  font-weight: 500;
+  border-bottom: 1px solid #444;
+  text-align: center;
+}
+
+.main {
+  flex: 1;
+  padding: 30px;
+  background-color: #2a2a2a;
+  overflow-y: auto;
+}
+
+.footer {
+  background-color: #111;
+  color: #888;
+  text-align: center;
+  padding: 15px;
+  font-size: 14px;
+  border-top: 1px solid #444;
+}

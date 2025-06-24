@@ -5,6 +5,10 @@ import axiosInstance from "../../services/axiosInstance";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/reducers/userSlice";
 
+// Toastify importları
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Layout = () => {
   const dispatch = useDispatch();
 
@@ -27,6 +31,8 @@ const Layout = () => {
       <main style={{ padding: "20px" }}>
         <Outlet />
       </main>
+      {/* ToastContainer burada */}
+      <ToastContainer position="top-right" autoClose={3000} />
     </>
   );
 };
