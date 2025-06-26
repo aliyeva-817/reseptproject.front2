@@ -1,3 +1,4 @@
+// ... mövcud importlar
 import { useState, useContext } from 'react';
 import axiosInstance from '../../services/axiosInstance';
 import { useNavigate, Link } from 'react-router-dom';
@@ -15,13 +16,14 @@ function Login() {
     try {
       const res = await axiosInstance.post('/auth/login', { email, password });
 
-      // Tokenləri localStorage-a yaz
       localStorage.setItem('accessToken', res.data.tokens.accessToken);
       localStorage.setItem('refreshToken', res.data.tokens.refreshToken);
       localStorage.setItem('isRegistered', "true");
       localStorage.setItem('userId', res.data.user._id);
 
-      // AuthContext-də auth state-i yenilə
+      // ✅ Bu sətri əlavə et: login sonrası intro göstərilsin
+      sessionStorage.setItem('justLoggedIn', 'true');
+
       setAuth({
         isLoggedIn: true,
         isAdmin: res.data.user.isAdmin || false,
@@ -30,9 +32,7 @@ function Login() {
       });
 
       alert('Giriş uğurludur');
-
-      // Yönləndir
-      navigate(res.data.user.isAdmin ? '/admin' : '/home');
+      navigate('/home');
     } catch (err) {
       if (err.response?.status === 403) {
         alert('OTP təsdiqlənməyib. Emailinizi yoxlayın.');

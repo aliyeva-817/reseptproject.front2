@@ -54,6 +54,21 @@ const AdminPanel = () => {
     }
   };
 
+  const handleRoleToggle = async (id, isAdmin) => {
+    const confirmed = window.confirm(
+      isAdmin ? "Bu istifadəçinin adminliyini ləğv etmək istədiyinizə əminsiniz?" : "Bu istifadəçini admin etmək istəyirsiniz?"
+    );
+    if (!confirmed) return;
+
+    try {
+      await axiosInstance.put(`/admin/users/${id}/role`, { isAdmin: !isAdmin });
+      toast.success("✅ Rol yeniləndi");
+      fetchAll();
+    } catch (err) {
+      toast.error("❌ Rol dəyişdirilmədi");
+    }
+  };
+
   const handleAddCategory = async () => {
     if (!newCategory.trim()) {
       toast.warning("⚠️ Kateqoriya adı boş ola bilməz");
@@ -99,12 +114,18 @@ const AdminPanel = () => {
         {users.length === 0 ? (
           <p className={styles.empty}>İstifadəçi yoxdur</p>
         ) : (
-          <ul className={styles.list}>{users.map(u => (
-            <li key={u._id} className={styles.item}>
-              {u.username} ({u.email}) 
-              <button onClick={() => handleDelete("users", u._id)} className={styles.deleteBtn}>Sil</button>
-            </li>
-          ))}</ul>
+          <ul className={styles.list}>
+            {users.map(u => (
+              <li key={u._id} className={styles.item}>
+                {u.username} ({u.email}) 
+                <span className={styles.role}>{u.isAdmin ? "Admin" : "İstifadəçi"}</span>
+                <button onClick={() => handleRoleToggle(u._id, u.isAdmin)} className={styles.editBtn}>
+                  {u.isAdmin ? "Adminliyi Sil" : "Admin et"}
+                </button>
+                <button onClick={() => handleDelete("users", u._id)} className={styles.deleteBtn}>Sil</button>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
 
@@ -113,12 +134,14 @@ const AdminPanel = () => {
         {recipes.length === 0 ? (
           <p className={styles.empty}>Resept yoxdur</p>
         ) : (
-          <ul className={styles.list}>{recipes.map(r => (
-            <li key={r._id} className={styles.item}>
-              {r.title} 
-              <button onClick={() => handleDelete("recipes", r._id)} className={styles.deleteBtn}>Sil</button>
-            </li>
-          ))}</ul>
+          <ul className={styles.list}>
+            {recipes.map(r => (
+              <li key={r._id} className={styles.item}>
+                {r.title}
+                <button onClick={() => handleDelete("recipes", r._id)} className={styles.deleteBtn}>Sil</button>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
 
@@ -127,11 +150,13 @@ const AdminPanel = () => {
         {payments.length === 0 ? (
           <p className={styles.empty}>Ödəniş yoxdur</p>
         ) : (
-          <ul className={styles.list}>{payments.map(p => (
-            <li key={p._id} className={styles.item}>
-              {p.user?.username} → {p.recipe?.title} ({p.amount} ₼)
-            </li>
-          ))}</ul>
+          <ul className={styles.list}>
+            {payments.map(p => (
+              <li key={p._id} className={styles.item}>
+                {p.user?.username} → {p.recipe?.title} ({p.amount} ₼)
+              </li>
+            ))}
+          </ul>
         )}
       </div>
 
@@ -140,12 +165,14 @@ const AdminPanel = () => {
         {categories.length === 0 ? (
           <p className={styles.empty}>Kateqoriya yoxdur</p>
         ) : (
-          <ul className={styles.list}>{categories.map(c => (
-            <li key={c._id} className={styles.item}>
-              {c.name} 
-              <button onClick={() => handleDelete("categories", c._id)} className={styles.deleteBtn}>Sil</button>
-            </li>
-          ))}</ul>
+          <ul className={styles.list}>
+            {categories.map(c => (
+              <li key={c._id} className={styles.item}>
+                {c.name}
+                <button onClick={() => handleDelete("categories", c._id)} className={styles.deleteBtn}>Sil</button>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
 
@@ -154,12 +181,14 @@ const AdminPanel = () => {
         {comments.length === 0 ? (
           <p className={styles.empty}>Şərh yoxdur</p>
         ) : (
-          <ul className={styles.list}>{comments.map(c => (
-            <li key={c._id} className={styles.item}>
-              <b>{c.user?.username}</b>: {c.content} 
-              <button onClick={() => handleDelete("comments", c._id)} className={styles.deleteBtn}>Sil</button>
-            </li>
-          ))}</ul>
+          <ul className={styles.list}>
+            {comments.map(c => (
+              <li key={c._id} className={styles.item}>
+                <b>{c.user?.username}</b>: {c.content}
+                <button onClick={() => handleDelete("comments", c._id)} className={styles.deleteBtn}>Sil</button>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
     </div>

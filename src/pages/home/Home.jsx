@@ -5,6 +5,7 @@ import styles from './Home.module.css';
 import CarouselCategory from './CarouselCategory';
 import CommentModal from '../../components/comments/CommentModal';
 import { FaHeart, FaRegHeart, FaCommentDots } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 import food1 from '../../assets/food/food1.png';
 import food2 from '../../assets/food/food2.png';
@@ -17,6 +18,8 @@ const Home = () => {
   const [favorites, setFavorites] = useState([]);
   const [showIntro, setShowIntro] = useState(false);
   const [activeCommentId, setActiveCommentId] = useState(null);
+  const [noResultsMessage, setNoResultsMessage] = useState(false);
+  const [showRecipes, setShowRecipes] = useState(true);
   const navigate = useNavigate();
   const token = localStorage.getItem("accessToken");
 
@@ -25,7 +28,7 @@ const Home = () => {
       const res = await axiosInstance.get('/recipes');
       setRecipes(res.data);
     } catch (err) {
-      console.error('Reseptləri yükləmək olmadı:', err);
+      toast.error('❌ Reseptləri yükləmək mümkün olmadı');
     }
   };
 
@@ -34,7 +37,7 @@ const Home = () => {
       const res = await axiosInstance.get(`/recipes/category/search?category=${category}`);
       setRecipes(res.data);
     } catch (err) {
-      console.error('Kategoriya üzrə filter alınmadı:', err);
+      toast.error('❌ Kategoriya üzrə filter alınmadı');
     }
   };
 
@@ -44,23 +47,42 @@ const Home = () => {
       const data = await getFavorites();
       setFavorites(data.map(f => f.recipe?._id));
     } catch (err) {
-      console.error("Favoritləri yükləmək mümkün olmadı:", err);
+      toast.error("❌ Favoritləri yükləmək mümkün olmadı");
     }
   };
 
   const handleSearch = async () => {
     if (!query.trim()) return;
+
     try {
       const res = await axiosInstance.get(`/recipes/search?ingredient=${encodeURIComponent(query)}`);
-      if (res.data.length === 0 || res.data.message === 'Uyğun resept tapılmadı.') {
-        alert('Uyğun resept tapılmadı.');
-        setRecipes([]);
+      const data = res.data;
+
+      if (!Array.isArray(data) || data.length === 0) {
+        toast.info('ℹ️ Uyğun resept tapılmadı.');
+        setQuery('');
+        setNoResultsMessage(true);
+        setShowRecipes(false);
+        setTimeout(() => {
+          setNoResultsMessage(false);
+          setShowRecipes(true);
+          fetchRecipes();
+        }, 3000);
       } else {
-        setRecipes(res.data);
+        setRecipes(data);
+        setNoResultsMessage(false);
+        setShowRecipes(true);
       }
     } catch (err) {
-      console.error("Axtarış alınmadı:", err);
-      alert("Axtarış zamanı xəta baş verdi.");
+      toast.info("ℹ️ Uyğun resept tapılmadı.");
+      setQuery('');
+      setNoResultsMessage(true);
+      setShowRecipes(false);
+      setTimeout(() => {
+        setNoResultsMessage(false);
+        setShowRecipes(true);
+        fetchRecipes();
+      }, 3000);
     }
   };
 
@@ -75,18 +97,18 @@ const Home = () => {
         setFavorites(prev => [...prev, recipeId]);
       }
     } catch (err) {
-      console.error('Favorit dəyişmə xətası:', err);
+      toast.error("❌ Favorit dəyişdirilə bilmədi");
     }
   };
 
   const handleIntroEnd = () => {
     setShowIntro(false);
-    localStorage.setItem('introWatched', 'true');
+    sessionStorage.setItem('introWatched', 'true');
     document.body.style.overflow = 'auto';
   };
 
   useEffect(() => {
-    const hasWatched = localStorage.getItem('introWatched');
+    const hasWatched = sessionStorage.getItem('introWatched');
     if (!hasWatched) {
       setShowIntro(true);
       document.body.style.overflow = 'hidden';
@@ -177,34 +199,40 @@ const Home = () => {
         </div>
       </div>
 
-      <div className={styles.recipeList}>
-        {recipes.map((recipe) => (
-          <div key={recipe._id} className={styles.card}>
-            {recipe.isPremium && <div className={styles.premiumLabel}>★ Premium</div>}
-            <img
-              src={
-                recipe.image?.includes('uploads/')
-                  ? `http://localhost:5000/${recipe.image}`
-                  : `http://localhost:5000/uploads/${recipe.image}`
-              }
-              alt={recipe.title}
-              className={styles.image}
-            />
-            <h3>{recipe.title}</h3>
-            <div className={styles.actionRow}>
-              <button onClick={() => handleFavoriteToggle(recipe._id)} className={styles.favoriteBtn}>
-                {favorites.includes(recipe._id) ? <FaHeart /> : <FaRegHeart />}
-              </button>
-              <button onClick={() => openComments(recipe._id)} className={styles.commentBtn}>
-                <FaCommentDots />
+      {noResultsMessage && (
+        <div className={styles.noResultsMessage}>Uyğun resept tapılmadı.</div>
+      )}
+
+      {showRecipes && (
+        <div className={styles.recipeList}>
+          {recipes.map((recipe) => (
+            <div key={recipe._id} className={styles.card}>
+              {recipe.isPremium && <div className={styles.premiumLabel}>★ Premium</div>}
+              <img
+                src={
+                  recipe.image?.includes('uploads/')
+                    ? `http://localhost:5000/${recipe.image}`
+                    : `http://localhost:5000/uploads/${recipe.image}`
+                }
+                alt={recipe.title}
+                className={styles.image}
+              />
+              <h3>{recipe.title}</h3>
+              <div className={styles.actionRow}>
+                <button onClick={() => handleFavoriteToggle(recipe._id)} className={styles.favoriteBtn}>
+                  {favorites.includes(recipe._id) ? <FaHeart /> : <FaRegHeart />}
+                </button>
+                <button onClick={() => openComments(recipe._id)} className={styles.commentBtn}>
+                  <FaCommentDots />
+                </button>
+              </div>
+              <button onClick={() => handleRecipeClick(recipe)} className={styles.detailBtn}>
+                Ətraflı bax
               </button>
             </div>
-            <button onClick={() => handleRecipeClick(recipe)} className={styles.detailBtn}>
-              Ətraflı bax
-            </button>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {activeCommentId && (
         <CommentModal recipeId={activeCommentId} onClose={closeComments} />

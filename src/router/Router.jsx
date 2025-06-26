@@ -15,6 +15,11 @@ import Premium from "../pages/premium/Premium";
 import PremiumDetail from "../pages/premium/PremiumDetail";
 import PaymentSuccess from "../pages/payment/PaymentSuccess";
 import PaymentCancel from "../pages/payment/PaymentCancel";
+import MyRecipes from "../pages/myrecipes/MyRecipes";
+import MealPlanner from "../pages/mealPlanner/MealPlanner";
+
+
+
 
 import AdminLogin from "../pages/admin/AdminLogin";
 import AdminLayout from "../pages/admin/AdminLayout";
@@ -44,11 +49,7 @@ const Router = () => {
 
   const PublicRoute = () => {
     if (loading) return <p>Yüklənir...</p>;
-    if (isLoggedIn) {
-      if (isAdmin) return <Navigate to="/admin" replace />;
-      else return <Navigate to="/home" replace />;
-    }
-    return <Outlet />;
+    return isLoggedIn ? <Navigate to="/home" replace /> : <Outlet />;
   };
 
   return (
@@ -66,6 +67,11 @@ const Router = () => {
             <Route path="favorites" element={<Favorites />} />
             <Route path="add" element={<AddRecipe />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="my-recipes" element={<MyRecipes />} />
+            <Route path="meal-planner" element={<MealPlanner />} />
+            
+
+
             <Route path="chat" element={<Chat />} />
             <Route path="recipe/:id" element={<RecipeDetail />} />
             <Route path="category/:categoryName" element={<CategoryPage />} />
@@ -76,19 +82,10 @@ const Router = () => {
           </Route>
         </Route>
 
-        <Route
-          path="/admin/login"
-          element={
-            loading ? (
-              <p>Yüklənir...</p>
-            ) : isLoggedIn && isAdmin ? (
-              <Navigate to="/admin" replace />
-            ) : (
-              <AdminLogin />
-            )
-          }
-        />
+        {/* ✅ AdminLogin hər zaman göstərilir */}
+        <Route path="/admin/login" element={<AdminLogin />} />
 
+        {/* ✅ Admin panel qorunur */}
         <Route path="/admin" element={<AdminRoute />}>
           <Route element={<AdminLayout />}>
             <Route index element={<AdminPanel />} />
@@ -101,13 +98,14 @@ const Router = () => {
           </Route>
         </Route>
 
+        {/* Default yönləndirmə */}
         <Route
           path="*"
           element={
             loading ? (
               <p>Yüklənir...</p>
             ) : (
-              <Navigate to={isLoggedIn ? (isAdmin ? "/admin" : "/home") : "/"} replace />
+              <Navigate to={isLoggedIn ? "/home" : "/"} replace />
             )
           }
         />

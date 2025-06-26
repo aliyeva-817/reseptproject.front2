@@ -22,6 +22,8 @@ const Header = () => {
             <Link to="/favorites" className={styles.link}>Favorilər</Link>
             <Link to="/add" className={styles.link}>Resept əlavə et</Link>
             <Link to="/chat" className={styles.link}>Chat</Link>
+            <Link to="/my-recipes">Mənim Reseptlərim</Link>
+            <Link to="/meal-planner">Planlayıcı</Link>
             <Link to="/premium" className={styles.link}>Premium Reseptlər</Link>
             <Link to="/profile" className={styles.link}>Profil</Link>
             <button onClick={handleLogout} className={styles.button}>Çıxış</button>

@@ -199,6 +199,19 @@ h3 {
 .detailBtn:hover {
   background-color: #ffdd33;
 }
+.noResultsMessage {
+  text-align: center;
+  color: gray;
+  font-size: 1rem;
+  margin-top: 1rem;
+  animation: fadeOut 3s forwards;
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; display: none; }
+}
 
 .premiumLabel {
   position: absolute;

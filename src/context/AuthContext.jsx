@@ -48,28 +48,28 @@ export const AuthProvider = ({ children }) => {
     fetchProfile();
   }, []);
 
-  const logout = async () => {
-    try {
-      // await axiosInstance.post("/auth/logout");
-    } catch (err) {
-      // console.error(err);
-    } finally {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-      localStorage.removeItem("isAdmin");
+const logout = async () => {
+  try {
+    // await axiosInstance.post("/auth/logout");
+  } catch (err) {
+    // console.error(err);
+  } finally {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("isAdmin");
 
-      setAuth({
-        isLoggedIn: false,
-        isAdmin: false,
-        loading: true, // Yenidən profil yüklənməsi üçün
-        user: null,
-      });
+    setAuth({
+      isLoggedIn: false,
+      isAdmin: false,
+      loading: false,
+      user: null,
+    });
 
-      setTimeout(() => {
-        fetchProfile();
-      }, 100);
-    }
-  };
+    // ✅ Redirect to Home, not Login or Register
+    window.location.href = "/home";
+  }
+};
+
 
   return (
     <AuthContext.Provider value={{ auth, setAuth, logout, fetchProfile }}>

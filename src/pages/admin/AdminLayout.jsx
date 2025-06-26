@@ -1,15 +1,10 @@
-import React from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { NavLink, Outlet } from "react-router-dom";
 import styles from "./AdminLayout.module.css";
+import { AuthContext } from "../../context/AuthContext"; // ✅ Əlavə et
 
 const AdminLayout = () => {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("isAdmin");
-    navigate("/home"); // və ya "/login" ə yönləndirə bilərsən
-  };
+  const { logout } = useContext(AuthContext); // ✅ logout-u AuthContext-dən al
 
   return (
     <div className={styles.container}>
@@ -24,8 +19,8 @@ const AdminLayout = () => {
           <NavLink to="/admin/payments">Payments</NavLink>
           <NavLink to="/admin/notifications">Notifications</NavLink>
 
-          {/* ✅ Burada dəyişiklik etdik */}
-          <button onClick={handleLogout} className={styles.logoutBtn}>
+          {/* ✅ Əvvəlki navigate() yerinə logout çağırılır */}
+          <button onClick={logout} className={styles.logoutBtn}>
             Logout
           </button>
         </nav>

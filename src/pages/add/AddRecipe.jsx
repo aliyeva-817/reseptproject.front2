@@ -11,31 +11,35 @@ const AddRecipe = () => {
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('ingredients', ingredients);
-    formData.append('instructions', instructions);
-    formData.append('category', category);
-    formData.append('image', image);
+  e.preventDefault();
+  const formData = new FormData();
+  formData.append('title', title);
+  formData.append('ingredients', ingredients);
+  formData.append('instructions', instructions);
+  formData.append('category', category);
+  formData.append('image', image);
 
-    try {
-      const res = await axiosInstance.post('/recipes', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      setMessage('Resept uğurla əlavə olundu!');
-      setTitle('');
-      setIngredients('');
-      setInstructions('');
-      setCategory('');
-      setImage(null);
-    } catch (err) {
-      setMessage('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
-      console.error('Error uploading recipe:', err);
-    }
-  };
+  // ✅ Admin panelindən göndərilənlərdə bu sahə əlavə edilir
+  formData.append('addedByAdmin', true);
+
+  try {
+    const res = await axiosInstance.post('/recipes', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    setMessage('Resept uğurla əlavə olundu!');
+    setTitle('');
+    setIngredients('');
+    setInstructions('');
+    setCategory('');
+    setImage(null);
+  } catch (err) {
+    setMessage('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
+    console.error('Error uploading recipe:', err);
+  }
+};
+
 
   return (
     <div className={styles.container}>

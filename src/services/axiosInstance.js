@@ -52,5 +52,7 @@ export const likeComment = async (commentId) => {
   const res = await axiosInstance.post(`/comments/${commentId}/like`);
   return res.data;
 };
+;
+
 
 export default axiosInstance;

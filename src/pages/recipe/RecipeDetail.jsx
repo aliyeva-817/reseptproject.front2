@@ -28,7 +28,7 @@ const RecipeDetail = () => {
         title: recipe.title,
         image: `http://localhost:5000/${recipe.image}`
       });
-      window.location.href = res.data.url; // Stripe linkə yönləndir
+      window.location.href = res.data.url;
     } catch (err) {
       console.error('Ödəniş xətası:', err);
       alert('Ödəniş prosesi uğursuz oldu.');
@@ -49,18 +49,22 @@ const RecipeDetail = () => {
         alt={recipe.title}
       />
 
-      <h1>{recipe.title}</h1>
+<h1 className={styles.title}>
+  {recipe.title}
+  {(recipe.addedByAdmin === true || recipe.user?.isAdmin) && (
+    <span className={styles.adminBadge}>👑 Admin tərəfindən əlavə olunub</span>
+  )}
+</h1>
+
+
+
       <p><strong>Ərzaqlar:</strong> {recipe.ingredients.join(', ')}</p>
       <p><strong>Kateqoriya:</strong> {recipe.category}</p>
+
       <p><strong>Hazırlanma:</strong></p>
       {recipe.instructions && recipe.instructions.length > 0 ? (
         <ol>
-          {(Array.isArray(recipe.instructions)
-            ? recipe.instructions
-            : typeof recipe.instructions === 'string'
-              ? recipe.instructions.split('.').filter(Boolean)
-              : []
-          ).map((step, idx) => (
+          {recipe.instructions.map((step, idx) => (
             <li key={idx}>{step.trim()}</li>
           ))}
         </ol>

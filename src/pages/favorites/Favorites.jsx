@@ -38,6 +38,14 @@ const Favorites = () => {
     }
   };
 
+  const handleDetail = (recipe) => {
+    if (recipe.isPremium) {
+      navigate(`/premium/${recipe._id}`);
+    } else {
+      navigate(`/recipe/${recipe._id}`);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <h2>Sevdiyiniz Reseptlər</h2>
@@ -49,9 +57,25 @@ const Favorites = () => {
             if (!recipe) return null;
             return (
               <div key={recipe._id} className={styles.card}>
-                <img src={`http://localhost:5000/${recipe.image}`} alt={recipe.title} className={styles.image} />
+                {recipe.isPremium && <div className={styles.premiumLabel}>★ Premium</div>}
+                <img
+                  src={
+                    recipe.image?.includes('uploads/')
+                      ? `http://localhost:5000/${recipe.image}`
+                      : `http://localhost:5000/uploads/${recipe.image}`
+                  }
+                  alt={recipe.title}
+                  className={styles.image}
+                />
                 <h3>{recipe.title}</h3>
-                <button onClick={() => handleRemove(recipe._id)} className={styles.removeBtn}>Sil</button>
+                <div className={styles.buttons}>
+                  <button onClick={() => handleDetail(recipe)} className={styles.detailBtn}>
+                    Ətraflı bax
+                  </button>
+                  <button onClick={() => handleRemove(recipe._id)} className={styles.removeBtn}>
+                    Sil
+                  </button>
+                </div>
                 <CommentSection recipeId={recipe._id} />
               </div>
             );

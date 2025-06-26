@@ -183,6 +183,24 @@
   font-weight: bold;
   cursor: pointer;
 }
+.adminBadge {
+  margin-left: 10px;
+  font-size: 0.9rem;
+  background-color: #f3e5f5;
+  color: #6a1b9a;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+
+
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 
 .commentForm button:hover {
   background-color: #ff9f20;
