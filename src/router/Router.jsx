@@ -17,6 +17,7 @@ import PaymentSuccess from "../pages/payment/PaymentSuccess";
 import PaymentCancel from "../pages/payment/PaymentCancel";
 import MyRecipes from "../pages/myrecipes/MyRecipes";
 import MealPlanner from "../pages/mealPlanner/MealPlanner";
+import ResetPassword from '../pages/auth/ResetPassword';
 
 
 
@@ -69,7 +70,7 @@ const Router = () => {
             <Route path="profile" element={<Profile />} />
             <Route path="my-recipes" element={<MyRecipes />} />
             <Route path="meal-planner" element={<MealPlanner />} />
-            
+            <Route path="/reset-password" element={<ResetPassword />} />
 
 
             <Route path="chat" element={<Chat />} />

@@ -2,81 +2,150 @@ import { useState, useEffect, useRef } from "react";
 import socket from "../../services/socket";
 import axios from "axios";
 
-const ChatRoom = ({ chatId, currentUser }) => {
+const ChatRoom = ({ selectedUser, currentUser }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const messageEndRef = useRef(null);
 
   useEffect(() => {
-    if (!chatId) return;
-
-    socket.emit("joinChat", chatId);
+    if (!selectedUser) return;
 
     const fetchMessages = async () => {
-      const res = await axios.get(`http://localhost:5000/api/chat/messages/${chatId}`, { withCredentials: true });
-      setMessages(res.data);
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/messages/conversation/${currentUser._id}/${selectedUser._id}`,
+          { withCredentials: true }
+        );
+        setMessages(res.data);
+      } catch (err) {
+        console.error("Mesajlar alınmadı", err);
+      }
     };
+
     fetchMessages();
 
-    socket.on("newMessage", (message) => {
-      if (message.chatId === chatId) {
+    socket.emit("addUser", currentUser._id);
+
+    const handleGetMessage = (message) => {
+      // HƏR İKİ TƏRƏF ÜÇÜN GÖSTƏR
+      if (
+        (message.senderId === selectedUser._id && message.receiverId === currentUser._id) ||
+        (message.senderId === currentUser._id && message.receiverId === selectedUser._id)
+      ) {
         setMessages((prev) => [...prev, message]);
       }
-    });
+    };
 
-    socket.on("updatedMessage", (message) => {
+    const handleMessageEdited = (data) => {
       setMessages((prev) =>
-        prev.map((m) => (m._id === message._id ? message : m))
+        prev.map((m) =>
+          m._id === data._id ? { ...m, content: data.text, edited: true } : m
+        )
       );
-    });
+    };
 
-    socket.on("deletedMessage", (messageId) => {
+    const handleMessageDeleted = ({ messageId }) => {
       setMessages((prev) => prev.filter((m) => m._id !== messageId));
-    });
+    };
+
+    socket.on("getMessage", handleGetMessage);
+    socket.on("messageEdited", handleMessageEdited);
+    socket.on("messageDeleted", handleMessageDeleted);
 
     return () => {
-      socket.off("newMessage");
-      socket.off("updatedMessage");
-      socket.off("deletedMessage");
+      socket.off("getMessage", handleGetMessage);
+      socket.off("messageEdited", handleMessageEdited);
+      socket.off("messageDeleted", handleMessageDeleted);
     };
-  }, [chatId]);
+  }, [selectedUser, currentUser]);
 
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     if (!input.trim()) return;
-    socket.emit("sendMessage", {
-      chatId,
-      sender: currentUser._id,
+
+    const newMessage = {
+      senderId: currentUser._id,
+      receiverId: selectedUser._id,
       content: input.trim(),
-    });
-    setInput("");
+    };
+
+    try {
+      const res = await axios.post("http://localhost:5000/api/messages", newMessage, {
+        withCredentials: true,
+      });
+
+      socket.emit("sendMessage", {
+        _id: res.data._id,
+        senderId: res.data.sender,
+        receiverId: res.data.receiver,
+        text: res.data.content,
+        createdAt: res.data.createdAt,
+        edited: false,
+      });
+
+      // Artıq emit edən də görür
+      setMessages((prev) => [...prev, res.data]);
+      setInput("");
+    } catch (err) {
+      console.error("Mesaj göndərilə bilmədi", err);
+    }
   };
 
-  const editMessage = (messageId, newContent) => {
-    socket.emit("editMessage", { messageId, newContent });
+  const editMessage = async (messageId, content) => {
+    const newContent = prompt("Yeni mesaj:", content);
+    if (newContent && newContent !== content) {
+      try {
+        await axios.put(
+          `http://localhost:5000/api/messages/${messageId}`,
+          { newText: newContent },
+          { withCredentials: true }
+        );
+
+        socket.emit("editMessage", {
+          _id: messageId,
+          text: newContent,
+          receiverId: selectedUser._id,
+        });
+      } catch (err) {
+        console.error("Redaktə zamanı xəta", err);
+      }
+    }
   };
 
-  const deleteMessage = (messageId) => {
-    socket.emit("deleteMessage", { messageId });
+  const deleteMessage = async (messageId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/messages/${messageId}`, {
+        withCredentials: true,
+      });
+
+      socket.emit("deleteMessage", {
+        messageId,
+        receiverId: selectedUser._id,
+      });
+
+      setMessages((prev) => prev.filter((m) => m._id !== messageId));
+    } catch (err) {
+      console.error("Silinmə zamanı xəta", err);
+    }
   };
 
   return (
-    <div>
-      <div style={{ maxHeight: "300px", overflowY: "auto" }}>
+    <div style={{ padding: "1rem", borderLeft: "1px solid #ccc" }}>
+      <h3>{selectedUser?.username} ilə söhbət</h3>
+      <div style={{ maxHeight: "400px", overflowY: "auto", marginBottom: "1rem" }}>
         {messages.map((m) => (
           <div key={m._id}>
-            <b>{m.sender.username}</b>:&nbsp;
+            <b>{m.sender === currentUser._id || m.senderId === currentUser._id ? "Siz" : selectedUser.username}</b>:&nbsp;
             <span>
-              {m.content}
-              {m.edited && " (redaktə edildi)"}
+              {m.text || m.content} {m.edited && <i>(düzənləndi)</i>}
             </span>
-            {m.sender._id === currentUser._id && (
+            {(m.sender === currentUser._id || m.senderId === currentUser._id) && (
               <>
-                <button onClick={() => editMessage(m._id, prompt("Yeni mətn:", m.content) || m.content)}>Düzəliş</button>
-                <button onClick={() => deleteMessage(m._id)}>Sil</button>
+                <button onClick={() => editMessage(m._id, m.text || m.content)}>✏️</button>
+                <button onClick={() => deleteMessage(m._id)}>🗑️</button>
               </>
             )}
           </div>

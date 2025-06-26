@@ -1,15 +1,15 @@
-// ... mövcud importlar
 import { useState, useContext } from 'react';
 import axiosInstance from '../../services/axiosInstance';
 import { useNavigate, Link } from 'react-router-dom';
 import styles from './Login.module.css';
 import { AuthContext } from '../../context/AuthContext';
+import { toast } from 'react-toastify';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const { setAuth } = useContext(AuthContext);  // buraya əlavə et
+  const { setAuth } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -21,7 +21,7 @@ function Login() {
       localStorage.setItem('isRegistered', "true");
       localStorage.setItem('userId', res.data.user._id);
 
-      // ✅ Bu sətri əlavə et: login sonrası intro göstərilsin
+      // Login sonrası intro video üçün flag
       sessionStorage.setItem('justLoggedIn', 'true');
 
       setAuth({
@@ -31,15 +31,25 @@ function Login() {
         user: res.data.user,
       });
 
-      alert('Giriş uğurludur');
+      toast.success('✅ Giriş uğurludur!');
       navigate('/home');
     } catch (err) {
+      const message = err.response?.data?.message;
+
       if (err.response?.status === 403) {
-        alert('OTP təsdiqlənməyib. Emailinizi yoxlayın.');
-      } else if (err.response?.data?.message === 'Email tapılmadı.') {
-        alert('Siz qeydiyyatdan keçməmisiniz.');
+        toast.warning('⚠️ OTP təsdiqlənməyib. Emailinizi yoxlayın.');
+      } else if (message === 'Email tapılmadı.') {
+        toast.error('❌ Siz qeydiyyatdan keçməmisiniz.');
+      } else if (
+        message === 'Bu email artıq istifadə olunub' ||
+        message === 'Bu istifadəçi adı artıq istifadə olunub' ||
+        message === 'Bu istifadəçi adı artıq mövcuddur'
+      ) {
+        toast.error('⚠️ Bu ad və ya email artıq istifadə olunub.');
+      } else if (message === 'Şifrə yanlışdır.') {
+        toast.error('❌ Şifrə yanlışdır.');
       } else {
-        alert(err.response?.data?.message || 'Giriş xətası');
+        toast.error(message || '❌ Giriş zamanı xəta baş verdi.');
       }
     }
   };

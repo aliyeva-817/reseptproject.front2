@@ -25,24 +25,35 @@ function Profile() {
 
   if (!user) return <p>Yüklənir...</p>;
 
-  return (
-    <div className={styles.profile}>
-      <h2>Profil Məlumatları</h2>
-      {user.profileImage && (
-        <img src={`http://localhost:5000/${user.profileImage}`} alt="Profil" />
-      )}
-      <p><strong>Ad:</strong> {user.name}</p>
-      <p><strong>İstifadəçi adı:</strong> {user.username}</p>
-      <p><strong>Email:</strong> {user.email}</p>
-      <p><strong>Doğum tarixi:</strong> {user.birthday}</p>
-      <p><strong>Cins:</strong> {user.gender}</p>
-      <p><strong>Stil seçimi:</strong> {user.stylePreference}</p>
-      {user.profileEmoji && <p><strong>Emoji:</strong> {user.profileEmoji}</p>}
-      {user.profileColor && (
-        <p><strong>Rəng:</strong> <span style={{ backgroundColor: user.profileColor }}>{user.profileColor}</span></p>
-      )}
-    </div>
-  );
+return (
+  <div className={styles.profile}>
+    <h2>Profil Məlumatları</h2>
+    {user.profileImage && (
+      <img src={`http://localhost:5000/${user.profileImage}`} alt="Profil" />
+    )}
+    <p><strong>Ad:</strong> {user.name}</p>
+    <p><strong>İstifadəçi adı:</strong> {user.username}</p>
+    <p><strong>Email:</strong> {user.email}</p>
+    <p><strong>Doğum tarixi:</strong> {user.birthday}</p>
+    <p><strong>Cins:</strong> {user.gender}</p>
+    <p><strong>Stil seçimi:</strong> {user.stylePreference}</p>
+    {user.profileEmoji && <p><strong>Emoji:</strong> {user.profileEmoji}</p>}
+    {user.profileColor && (
+      <p><strong>Rəng:</strong> <span style={{ backgroundColor: user.profileColor }}>{user.profileColor}</span></p>
+    )}
+
+    <p>
+      <strong>Şifrəni unutmusuz?</strong>{' '}
+      <span
+        style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}
+        onClick={() => navigate('/reset-password')}
+      >
+        Şifrəni sıfırla
+      </span>
+    </p>
+  </div>
+);
+
 }
 
 export default Profile;

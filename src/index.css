@@ -1,0 +1,82 @@
+/* GLOBAL RESET (istəyə bağlı) */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Font və ümumi görünüş */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f4;
+}
+
+/* ==================== TOASTIFY CUSTOM STYLES ==================== */
+
+.Toastify__toast {
+  border-radius: 8px !important;
+  padding: 10px 16px !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* Sol icon və mesaj */
+.Toastify__toast-body {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+/* X (close) düyməsi sağda və yuxarıda yerləşir */
+.Toastify__close-button {
+  position: absolute;
+  top: 6px !important;
+  right: 3px !important;
+  font-size: 14px !important;
+  opacity: 0.6 !important;
+  color: #333 !important;
+  padding: 4px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* Hover effekti daha yumşaq olsun */
+.Toastify__close-button:hover {
+  opacity: 1 !important;
+  transform: scale(1.05);
+}
+
+/* Aşağıdakı loading xətti */
+.Toastify__progress-bar {
+  height: 3px !important;
+  margin-top: 2px;
+  border-radius: 0 0 8px 8px;
+}
+
+/* Error mesajları üçün qırmızı border */
+.Toastify__toast--error {
+  background: #fff !important;
+  border-left: 5px solid #e74c3c !important;
+  color: #333 !important;
+}
+
+/* Success mesajları üçün yaşıl border */
+.Toastify__toast--success {
+  background: #fff !important;
+  border-left: 5px solid #27ae60 !important;
+  color: #333 !important;
+}
+
+/* Warning mesajları üçün sarı border */
+.Toastify__toast--warning {
+  background: #fff !important;
+  border-left: 5px solid #f1c40f !important;
+  color: #333 !important;
+}

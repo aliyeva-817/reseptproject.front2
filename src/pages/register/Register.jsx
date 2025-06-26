@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axiosInstance from '../../services/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import styles from './Register.module.css';
+import { useSnackbar } from 'notistack'; // ✅ Notistack
 
 const Register = () => {
   const [form, setForm] = useState({
@@ -13,6 +14,7 @@ const Register = () => {
   const [otp, setOtp] = useState('');
   const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar(); // ✅
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -24,18 +26,18 @@ const Register = () => {
       const res = await axiosInstance.post('/auth/register', form);
       setUserId(res.data.userId);
       setOtpStep(true);
+      enqueueSnackbar("✅ OTP emailə göndərildi.", { variant: 'success' });
     } catch (err) {
-      // İstifadəçi artıq mövcuddur alerti silindi, digər xətalar alert kimi qalır
       const msg = err.response?.data?.message;
-      if (msg && msg.includes('artıq mövcuddur')) {
-        // Heç nə göstərmir, sadəcə OTP mərhələsinə keçmək üçün istifadəçi ID varsa set et
-        if (err.response.data.userId) {
-          setUserId(err.response.data.userId);
-          setOtpStep(true);
-        }
-        // Əgər userId yoxdursa, heç nə etmə
+
+      if (msg && msg.includes('istifadəçi adı')) {
+        enqueueSnackbar("❌ Bu istifadəçi adı artıq istifadə olunub.", { variant: 'error' });
+      } else if (msg && msg.includes('email')) {
+        enqueueSnackbar("❌ Bu email artıq istifadə olunub.", { variant: 'error' });
+      } else if (msg && msg.includes('OTP emailə göndərildi')) {
+        enqueueSnackbar("✅ OTP yenidən göndərildi.", { variant: 'success' });
       } else {
-        alert(msg || 'Qeydiyyat xətası');
+        enqueueSnackbar(msg || '❌ Qeydiyyat zamanı xəta baş verdi.', { variant: 'error' });
       }
     }
   };
@@ -45,10 +47,10 @@ const Register = () => {
     try {
       await axiosInstance.post('/auth/verify-otp', { userId, otp });
       localStorage.setItem('isRegistered', "true");
-      alert('OTP təsdiqləndi. İndi daxil ola bilərsiniz.');
+      enqueueSnackbar('✅ OTP təsdiqləndi. İndi daxil ola bilərsiniz.', { variant: 'success' });
       navigate('/login');
     } catch (err) {
-      alert(err.response?.data?.message || 'OTP xətası');
+      enqueueSnackbar(err.response?.data?.message || '❌ OTP təsdiqləmə xətası', { variant: 'error' });
     }
   };
 

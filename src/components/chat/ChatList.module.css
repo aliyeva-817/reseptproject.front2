@@ -1,73 +1,56 @@
 .chatList {
-  padding: 10px;
+  padding: 1rem;
 }
 
-.header {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 8px;
+.title {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #5e5e5e;
 }
 
 .list {
   list-style: none;
   padding: 0;
-  margin: 0;
 }
 
-.listItem {
+.item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 12px;
-  cursor: pointer;
-  border-bottom: 1px solid #ddd;
-  transition: background 0.2s ease;
+  margin-bottom: 0.7rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background: #f3f3f3;
 }
 
-.listItem:hover {
-  background-color: #f3f3f3;
+.userBox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.statusDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.online {
+  background-color: green;
+}
+
+.offline {
+  background-color: gray;
 }
 
 .username {
   font-weight: 500;
 }
 
-.badge {
-  background-color: red;
-  color: white;
-  padding: 2px 6px;
-  border-radius: 12px;
-  font-size: 12px;
-}
-.chatList ul {
-  list-style: none;
-  padding: 0;
-}
-
-.chatListItem {
-  padding: 8px 10px;
-  border-bottom: 1px solid #eee;
+.deleteBtn {
+  background: none;
+  border: none;
+  color: #d33;
   cursor: pointer;
-  position: relative;
 }
-
-.onlineDot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background-color: green;
-  border-radius: 50%;
-  margin-left: 8px;
-}
-
-.unreadBadge {
-  background-color: red;
-  color: white;
-  border-radius: 10px;
-  font-size: 0.75rem;
-  padding: 2px 6px;
-  position: absolute;
-  right: 10px;
-  top: 10px;
-}
-
