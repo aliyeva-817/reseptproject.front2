@@ -247,7 +247,7 @@ const ChatPage = () => {
         <label>Istifadəçi axtar:</label>
         <div className={styles.searchWrapDribbble}>
           <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Istifadəçi..." />
-          <button onClick={handleFindUser}><FaSearch /></button>
+          <button className={styles.ibtn} onClick={handleFindUser}><FaSearch /></button>
         </div>
         <label>Tema:</label>
         <select value={theme} onChange={(e) => setTheme(e.target.value)}>

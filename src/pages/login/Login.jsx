@@ -5,6 +5,13 @@ import styles from './Login.module.css';
 import { AuthContext } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
 
+// ✅ Floating food images
+import food1 from '../../assets/food/food1.png';
+import food2 from '../../assets/food/food2.png';
+import food3 from '../../assets/food/food3.png';
+import food4 from '../../assets/food/food4.png';
+import bgImage from '../../assets/food/arxa fon2.webp';
+
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,8 +27,6 @@ function Login() {
       localStorage.setItem('refreshToken', res.data.tokens.refreshToken);
       localStorage.setItem('isRegistered', "true");
       localStorage.setItem('userId', res.data.user._id);
-
-      // Login sonrası intro video üçün flag
       sessionStorage.setItem('justLoggedIn', 'true');
 
       setAuth({
@@ -55,26 +60,54 @@ function Login() {
   };
 
   return (
-    <div className={styles.login}>
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Şifrə"
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Daxil ol</button>
-      </form>
+    <div
+      className={styles.pageBackground}
+      style={{ backgroundImage: `url(${bgImage})` }}
+    >
+      <div className={styles.overlay}>
+        <div className={styles.container}>
+          {/* Animated Food Images */}
+          <img src={food1} className={`${styles.foodImage} ${styles.img1}`} alt="food1" />
+          <img src={food2} className={`${styles.foodImage} ${styles.img2}`} alt="food2" />
+          <img src={food3} className={`${styles.foodImage} ${styles.img3}`} alt="food3" />
+          <img src={food4} className={`${styles.foodImage} ${styles.img4}`} alt="food4" />
 
-      <p style={{ marginTop: '10px' }}>
-        Qeydiyyatdan keçməmisiniz? <Link to="/register">Qeydiyyat</Link>
-      </p>
+          <h2 className={styles.title}>Giriş</h2>
+          <form onSubmit={handleLogin} className={styles.form}>
+            <input
+              type="email"
+              placeholder="Email"
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              placeholder="Şifrə"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button type="submit">Daxil ol</button>
+          </form>
+
+          <p style={{
+  marginTop: '33px',
+  marginRight: '6px',
+  color: '#1f1f1f',        // daha təmiz qara ton
+  fontSize: '15.5px',
+  textAlign: 'center',
+}}>
+  Qeydiyyatdan keçməmisiniz?{' '}
+  <Link to="/register" style={{
+    color: '#3d6b4f',       // daha tünd yaşıl
+    fontWeight: '600',
+    textDecoration: 'none'  // altındakı xətt silinsin
+  }}>
+    Qeydiyyat
+  </Link>
+</p>
+
+        </div>
+      </div>
     </div>
   );
 }

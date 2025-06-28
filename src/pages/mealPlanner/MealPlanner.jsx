@@ -11,7 +11,15 @@ import {
 } from '../../services/api';
 import styles from './MealPlanner.module.css';
 
-const daysOfWeek = ['Bazar ertəsi', 'Çərşənbə axşamı', 'Çərşənbə', 'Cümə axşamı', 'Cümə', 'Şənbə', 'Bazar'];
+const daysOfWeek = [
+  'Bazar ertəsi',
+  'Çərşənbə axşamı',
+  'Çərşənbə',
+  'Cümə axşamı',
+  'Cümə',
+  'Şənbə',
+  'Bazar'
+];
 const mealTypes = ['Səhər yeməyi', 'Günorta yeməyi', 'Axşam yeməyi', 'Şirniyyat'];
 
 const MealPlanner = () => {
@@ -121,13 +129,14 @@ const MealPlanner = () => {
             <h3>{day}</h3>
             {mealTypes.map(type => (
               <div key={type} className={styles.mealBlock}>
-                <strong>{type}</strong>
-                <input
-                  value={mealInputs[`${day}-${type}`] || ''}
-                  onChange={(e) => handleMealChange(day, type, e.target.value)}
-                  placeholder={`${type} üçün...`}
-                />
-                <button onClick={() => handleMealAdd(day, type)}>Əlavə et</button>
+                <div className={styles.inputGroup}>
+                  <input
+                    value={mealInputs[`${day}-${type}`] || ''}
+                    onChange={(e) => handleMealChange(day, type, e.target.value)}
+                    placeholder={`${type} üçün...`}
+                  />
+                  <button onClick={() => handleMealAdd(day, type)}>Əlavə et</button>
+                </div>
 
                 {(groupedMeals[day]?.[type] || []).map(item => (
                   <div key={item._id} className={styles.mealItem}>
@@ -152,39 +161,40 @@ const MealPlanner = () => {
             ))}
           </div>
         ))}
-      </div>
 
-      <div className={styles.notes}>
-        <h2>Shopping List</h2>
-        <div className={styles.newNote}>
-          <input
-            value={newNote}
-            onChange={(e) => setNewNote(e.target.value)}
-            placeholder="Yeni qeyd..."
-          />
-          <button onClick={handleNoteAdd}>Əlavə et</button>
+        {/* Bazar və Shopping List yan-yana durması üçün Shopping List də grid-in içindədir */}
+        <div className={styles.notes}>
+          <h2>Shopping List</h2>
+          <div className={styles.newNote}>
+            <input
+              value={newNote}
+              onChange={(e) => setNewNote(e.target.value)}
+              placeholder="Yeni qeyd..."
+            />
+            <button onClick={handleNoteAdd}>Əlavə et</button>
+          </div>
+          <ul className={styles.noteList}>
+            {notes.map(note => (
+              <li key={note._id}>
+                {editingNote[note._id] !== undefined ? (
+                  <>
+                    <input
+                      value={editingNote[note._id]}
+                      onChange={(e) => handleNoteEdit(note._id, e.target.value)}
+                    />
+                    <button onClick={() => handleNoteSave(note._id)}>Yadda saxla</button>
+                  </>
+                ) : (
+                  <>
+                    {note.text}
+                    <button onClick={() => handleNoteEdit(note._id, note.text)}>Dəyiş</button>
+                    <button onClick={() => handleNoteDelete(note._id)}>Sil</button>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
         </div>
-        <ul className={styles.noteList}>
-          {notes.map(note => (
-            <li key={note._id}>
-              {editingNote[note._id] !== undefined ? (
-                <>
-                  <input
-                    value={editingNote[note._id]}
-                    onChange={(e) => handleNoteEdit(note._id, e.target.value)}
-                  />
-                  <button onClick={() => handleNoteSave(note._id)}>Yadda saxla</button>
-                </>
-              ) : (
-                <>
-                  {note.text}
-                  <button onClick={() => handleNoteEdit(note._id, note.text)}>Dəyiş</button>
-                  <button onClick={() => handleNoteDelete(note._id)}>Sil</button>
-                </>
-              )}
-            </li>
-          ))}
-        </ul>
       </div>
     </div>
   );

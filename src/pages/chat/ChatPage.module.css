@@ -1,95 +1,152 @@
+*{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}/* === Əsas konteyner - bütün chat səhifəsi üçün === */
 .chatPage {
   display: flex;
   height: 100vh;
   overflow: hidden;
   font-family: 'Segoe UI', sans-serif;
 }
+/* ChatPage.module.css içində olmalıdır */
+.theme_brokoli {
+  background-color: #e6ffe6;
+  color: #333;
+}
 
-/* === Sidebar === */
+.theme_carrot {
+  background-color: #fff3e0;
+  color: #333;
+}
+
+.theme_watermelon {
+  background-color: #ffe6ec;
+  color: #333;
+}
+
+.theme_dark {
+  background-color: #1a1a1a !important;
+  color : #f0f0f0 !important;
+}
+
+
+/* === Sol Panel (Sidebar) === */
 .sidebar {
-  width: 260px;
-  background: #fff7ea;
+  width: 360px;
+  background: #EEEFE0;
   padding: 24px 18px;
   display: flex;
   flex-direction: column;
-  gap: 26px;
+  gap: 24px;
   box-shadow: 4px 0 12px rgba(0, 0, 0, 0.05);
   border-top-right-radius: 16px;
   border-bottom-right-radius: 16px;
 }
 
+/* Sidebar başlıqları üçün yazı tərzi */
 .sidebar label {
   font-weight: 500;
-  font-size: 15px;
-  color: #333;
-  margin-bottom: 6px;
-  display: inline-block;
+  font-size: 19px;
+  color: #819A91;
 }
 
-/* === Search input + circular button === */
+/* === Axtarış input-u və düyməsi (Home dizaynı ilə eyni) === */
 .searchWrapDribbble {
-  display: flex;
-  align-items: center;
-  background: #f2f2f5;
-  padding: 6px 12px;
-  border-radius: 30px;
-  gap: 8px;
+  position: relative;
+  width: fit-content;
+  margin: 0 auto;
+  height: 48px;
 }
 
+/* Input dizaynı - home dizaynı ilə eyni */
 .searchWrapDribbble input {
-  flex: 1;
-  border: none;
+  height: 48px;
+  padding: 0 45px 0 20px;
+  width: 300px;
+  border: 2px solid #819A91;
+  border-radius: 50px;
   outline: none;
-  background: transparent;
-  font-size: 14px;
+  font-size: 16px;
+  color: #333;
+  background-color: white;
 }
 
-.searchWrapDribbble button {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #f43f5e;
+/* Axtarış düyməsinin dizaynı - sağda yerləşir, şəffaf fon */
+.ibtn{
+ color: #819A91;
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 22px;
+  width: 22px;
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+  
+  cursor: pointer;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: none;
-  cursor: pointer;
 }
 
-.searchWrapDribbble button svg {
-  color: white;
+/* Hover zamanı vizual effekt */
+.ibtn:hover {
+ background-color: transparent !important;
+}
+
+
+/* Axtarış icon-un stili */
+.ibtn svg {
+ 
   font-size: 14px;
 }
 
-/* === Chat List === */
+/* === Tema seçimi üçün dropdown menyu === */
+.sidebar select {
+  padding: 6px 10px;
+  border: 2px solid orange;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: white;
+  outline: none;
+}
+
+/* === İstifadəçi siyahısı (chat listəsi) === */
 .chatList {
   list-style: none;
   padding: 0;
   margin: 0;
+  overflow-y: auto;
+  flex-grow: 1;
 }
 
-.chatListItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* Hər bir chat list elementi */
+.chatList li {
   background: #fff;
   padding: 10px 14px;
   margin-bottom: 10px;
   border-radius: 10px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   transition: background 0.2s ease;
 }
 
-.chatListItem:hover {
+/* Hover zamanı fon rəngi dəyişir */
+.chatList li:hover {
   background: #f2f2f2;
 }
 
+/* Onlayn/oflayn status nöqtələri */
 .statusDot {
-  display: inline-block;
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  margin-right: 8px;
+  margin-right: 6px;
 }
 
 .online {
@@ -100,25 +157,29 @@
   background-color: #a3a3a3;
 }
 
-/* === Theme Selector === */
-.themeSelector select {
-  padding: 8px;
-  border: 2px solid orange;
-  border-radius: 8px;
-  font-size: 14px;
-  background-color: white;
+/* Oxunmamış mesaj sayı göstəricisi */
+.unreadBadge {
+  background: red;
+  color: white;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 12px;
+  margin-left: 8px;
 }
 
-/* === Chat Area === */
+/* === Sağ tərəf - Chat yazışma hissəsi === */
 .chatArea {
   flex: 1;
   display: flex;
   flex-direction: column;
   background-color: #edf9f0;
   position: relative;
+  height: 100vh;
 }
 
+/* Header - mesajlaşma başlığı */
 .header {
+
   padding: 16px;
   font-weight: bold;
   font-size: 18px;
@@ -126,6 +187,7 @@
   border-bottom: 1px solid #ddd;
 }
 
+/* === Mesaj siyahısı === */
 .messageList {
   flex: 1;
   padding: 20px;
@@ -135,13 +197,7 @@
   gap: 12px;
 }
 
-.noChat {
-  text-align: center;
-  color: gray;
-  margin-top: 20%;
-  font-style: italic;
-}
-
+/* === Mesaj qutusu (bubble) === */
 .message {
   max-width: 70%;
   padding: 10px 14px;
@@ -152,18 +208,19 @@
   word-break: break-word;
 }
 
+/* Öz mesajların stili */
 .fromSelf {
   align-self: flex-end;
   background-color: #fff8d6;
-  margin-right: 8px;
 }
 
+/* Qarşı tərəfin mesajı */
 .fromOther {
   align-self: flex-start;
   background-color: #d6f8e0;
-  margin-left: 8px;
 }
 
+/* Mesajın içindəki yazı */
 .message p {
   margin: 0;
   display: flex;
@@ -171,6 +228,7 @@
   gap: 6px;
 }
 
+/* Tarix və düzəliş statusu */
 .message small {
   font-size: 11px;
   color: #555;
@@ -178,25 +236,29 @@
   display: block;
 }
 
+/* "Düzənləndi" etiketi */
 .editedTag {
   font-size: 10px;
-  color: gray;
+  color: #819A91;
   margin-left: 6px;
 }
 
-.icon {
+/* Redaktə və silmə icon-ları */
+.message svg {
   margin-left: 6px;
   font-size: 13px;
   cursor: pointer;
 }
 
-/* === Input Area === */
+/* === Mesaj göndərmə sahəsi === */
 .inputArea {
   padding: 12px;
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 10px;
-  background: white;
-  border-top: 1px solid #ddd;
+ background-color: transparent;
+  
 }
 
 .inputArea textarea {
@@ -204,22 +266,40 @@
   resize: none;
   border: 2px solid #ddd;
   border-radius: 10px;
-  padding: 10px;
+  padding: 10px 12px;
   font-size: 14px;
   font-family: inherit;
   height: 48px;
+  box-sizing: border-box; /* 🧠 vacib: padding + border daxil edilir */
 }
 
 .inputArea button {
-  padding: 0 18px;
-  background-color: orange;
+  width: 80px;
+  height: 48px;
+  background-color: #819A91;
   color: white;
   border: none;
   border-radius: 10px;
   cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  margin: 10px;
+  box-sizing: border-box; /* 🧠 vacib */
 }
 
-/* === Random emoji effect above messages === */
+
+/* === Söhbət seçilməyibsə göstəriş === */
+.noChatSelected {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-style: italic;
+  color: #999;
+  font-size: 16px;
+}
+
+/* === Emoji dekorasiyası mesajlar üçün === */
 .message::before {
   content: '🍝';
   position: absolute;
@@ -228,7 +308,7 @@
   font-size: 18px;
 }
 
-/* === Theme backgrounds === */
+/* === Tema üzrə chat sahəsi fonları === */
 .theme_brokoli .chatArea { background: #eafbe5; }
 .theme_carrot .chatArea { background: #fff3e6; }
 .theme_watermelon .chatArea { background: #ffeef0; }
@@ -239,7 +319,7 @@
 .theme_dark .inputArea textarea { background: #333; color: white; border-color: #555; }
 .theme_dark .inputArea button { background-color: #444; }
 
-/* === Hide Scrollbar === */
+/* === Scroll gizlətmək üçün (esthetic görünüş) === */
 .messageList::-webkit-scrollbar {
   display: none;
 }

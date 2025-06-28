@@ -1,68 +1,236 @@
+/* Ümumi stillər */
 .container {
-  padding: 20px;
-  background: #f4f0fb;
-  font-family: sans-serif;
+  padding: 2rem; /* İç boşluq */
+  font-family: 'Segoe UI', sans-serif; /* Font tipi */
+  background-color: #fff5ef; /* Ümumi fon rəngi */
 }
 
 .title {
-  text-align: center;
-  color: #5d3fd3;
-  margin-bottom: 20px;
+  text-align: center; /* Mətin ortada yerləşsin */
+  margin-bottom: 2rem; /* Alt boşluq */
+  font-size: 2rem; /* Mətin ölçüsü */
+  color: #333; /* Mətin rəngi */
 }
 
-.week {
+/* Grid layout – 3 sütunlu düzülüş */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 bərabər sütun */
+  gap: 1.5rem; /* Sətir və sütunlar arası məsafə */
+}
+
+/* Hər günə aid kolon */
+.dayColumn {
+  background-color: #fff;
+  border-radius: 12px; /* Künclərin radiusu */
+  padding: 1rem; /* İç boşluq */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Kölgə effekti */
+  min-height: 400px; /* Minimum hündürlük */
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
-.dayBox {
-  background: white;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 0 6px rgba(0,0,0,0.1);
-  width: 300px;
+.dayColumn h3 {
+  text-align: center;
+  color: #222;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
 }
 
-.mealSection {
-  margin-top: 10px;
+/* Yemək hissəsi */
+.mealBlock {
+  margin-bottom: 1rem; /* Aşağı boşluq */
 }
 
-.mealSection input {
-  width: 100%;
-  padding: 5px;
-  margin: 5px 0;
-}
-
-.mealItem {
+/* Input + düymə qrup şəklində */
+.inputGroup {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 5px;
-  margin-top: 5px;
-  background: #eee;
-  padding: 5px 10px;
-  border-radius: 5px;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
-.notes {
-  margin-top: 30px;
-  text-align: center;
+.inputGroup input {
+  flex: 1;
+  height: 40px; /* Eyni hündürlük */
+  padding: 8px 12px;
+  
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  box-sizing: border-box;
 }
 
-.notes textarea {
-  width: 80%;
-  height: 100px;
-  padding: 10px;
-}
-
-.notes button {
-  margin-top: 10px;
-  background: #5d3fd3;
+.inputGroup button {
+  width: 50px;
+  height: 40px; /* Eyni hündürlük */
+  background-color: #007bff;
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  margin-bottom: 36px;
+}
+
+.inputGroup button:hover {
+  background-color: #0056b3; /* Hover zamanı daha tünd mavi */
+}
+
+/* Əlavə olunmuş yeməklər */
+.mealItem {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 8px;
+  margin-top: -30px;
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mealItem input {
+  flex: 1;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.mealItem button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: 0.3s ease;
+}
+
+/* Redaktə düyməsi */
+.mealItem button:nth-child(2) {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Silmə düyməsi */
+.mealItem button:nth-child(3) {
+  background-color: #dc3545;
+  color: white;
+}
+
+.mealItem button:hover {
+  opacity: 0.8; /* Hover zamanı şəffaflıq effekti */
+}
+
+/* Gündəlik qeydlər sahəsi */
+.notes {
+
+  grid-column: 3 / 4; /* tək 3-cü sütunu tutsun */
+  /* və ya */
+  grid-column: span 2; /* əgər daha çox yer tutsun istəyirsənsə */
+
+
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  min-height: 400px;
+}
+
+/* Yeni qeyd əlavə sahəsi */
+.newNote {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.newNote input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.newNote button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.newNote button:hover {
+  background-color: #0056b3;
+}
+
+/* Qeyd siyahısı */
+.noteList {
+  list-style: none;
+  padding: 0;
+}
+
+.noteList li {
+  background: #f1f1f1;
+  padding: 8px;
+  border-radius: 8px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.noteList input {
+  flex: 1;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.noteList button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+/* Qeydi yadda saxla */
+.noteList button:nth-child(2) {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Qeydi sil */
+.noteList button:nth-child(3) {
+  background-color: #dc3545;
+  color: white;
+}
+
+.noteList button:hover {
+  opacity: 0.8;
+}
+
+/* Responsivlik – 992px-dən kiçik ekranlar üçün 2 sütun */
+@media (max-width: 992px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 600px-dən kiçik cihazlar üçün 1 sütun */
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dayColumn {
+    min-height: auto;
+  }
 }

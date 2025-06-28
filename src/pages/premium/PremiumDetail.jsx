@@ -26,8 +26,8 @@ const PremiumDetail = () => {
       const res = await axiosInstance.post('/stripe/create-checkout-session', {
         recipeId: recipe._id,
         title: recipe.title,
-        image: `${window.location.origin}/` + recipe.image,
-        origin: window.location.origin, // 🆕 əlavə olunur
+        image: `http://localhost:5000/${recipe.image?.includes('uploads/') ? recipe.image : 'uploads/' + recipe.image}`,
+        origin: window.location.origin,
       });
       window.location.href = res.data.url;
     } catch (err) {
@@ -43,14 +43,17 @@ const PremiumDetail = () => {
     <div className={styles.container}>
       <img
         className={styles.image}
-        src={`${window.location.origin}/${recipe.image}`}
+        src={
+          recipe.image?.includes('uploads/')
+            ? `http://localhost:5000/${recipe.image}`
+            : `http://localhost:5000/uploads/${recipe.image}`
+        }
         alt={recipe.title}
       />
       <h1>{recipe.title}</h1>
-      <p><strong>Kateqoriya:</strong> {recipe.category}</p>
-      <p><strong>Ərzaqlar:</strong> {recipe.ingredients.join(', ')}</p>
+      
       <button onClick={handlePayment} className={styles.button} disabled={loading}>
-        {loading ? 'Yönləndirilir...' : '💳 Ödəniş et və bax'}
+        {loading ? 'Yönləndirilir...' : ' Ödəniş et və bax'}
       </button>
     </div>
   );

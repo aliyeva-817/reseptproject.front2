@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { getFavorites, removeFavorite } from '../../services/axiosInstance';
 import styles from './Favorites.module.css';
 import CommentSection from '../../components/comments/CommentSection';
+import CommentModal from '../../components/comments/CommentModal';
+import { FaCommentDots } from 'react-icons/fa';
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
+  const [activeCommentId, setActiveCommentId] = useState(null);
   const navigate = useNavigate();
   const token = localStorage.getItem("accessToken");
 
@@ -46,6 +49,14 @@ const Favorites = () => {
     }
   };
 
+  const openComments = (recipeId) => {
+    setActiveCommentId(recipeId);
+  };
+
+  const closeComments = () => {
+    setActiveCommentId(null);
+  };
+
   return (
     <div className={styles.container}>
       <h2>Sevdiyiniz Reseptlər</h2>
@@ -75,6 +86,9 @@ const Favorites = () => {
                   <button onClick={() => handleRemove(recipe._id)} className={styles.removeBtn}>
                     Sil
                   </button>
+                  <button onClick={() => openComments(recipe._id)} className={styles.commentBtn}>
+                    <FaCommentDots /> Şərh yaz
+                  </button>
                 </div>
                 <CommentSection recipeId={recipe._id} />
               </div>
@@ -82,6 +96,10 @@ const Favorites = () => {
           })
         )}
       </div>
+
+      {activeCommentId && (
+        <CommentModal recipeId={activeCommentId} onClose={closeComments} />
+      )}
     </div>
   );
 };

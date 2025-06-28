@@ -5,6 +5,7 @@ import styles from './Home.module.css';
 import CarouselCategory from './CarouselCategory';
 import CommentModal from '../../components/comments/CommentModal';
 import { FaHeart, FaRegHeart, FaCommentDots } from 'react-icons/fa';
+
 import { toast } from 'react-toastify';
 
 import food1 from '../../assets/food/food1.png';
@@ -185,16 +186,19 @@ const Home = () => {
         <img src={food4} className={`${styles.foodImage} ${styles.img4}`} alt="food4" />
 
         <div className={styles.searchSection}>
-          <h1 className={styles.heroTitle}>Yemək tapmaq indi daha asandır!</h1>
+          <h1 className={styles.heroTitle}>Ərzağa görə yemək tapmaq indi daha asandır!</h1>
           <div className={styles.searchGroup}>
             <input
               type="text"
-              placeholder="Ərzağa görə axtar..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               className={styles.searchInput}
+              placeholder="Axtar..."
             />
-            <button onClick={handleSearch} className={styles.searchBtn}>🔍</button>
+            <button onClick={handleSearch} className={styles.searchBtn}>
+              🔍
+            </button>
           </div>
         </div>
       </div>
@@ -208,25 +212,37 @@ const Home = () => {
           {recipes.map((recipe) => (
             <div key={recipe._id} className={styles.card}>
               {recipe.isPremium && <div className={styles.premiumLabel}>★ Premium</div>}
-              <img
-                src={
-                  recipe.image?.includes('uploads/')
-                    ? `http://localhost:5000/${recipe.image}`
-                    : `http://localhost:5000/uploads/${recipe.image}`
-                }
-                alt={recipe.title}
-                className={styles.image}
-              />
+             <div className={styles.imageWrapper}>
+  <img
+    src={recipe.image?.includes('uploads/')
+      ? `http://localhost:5000/${recipe.image}`
+      : `http://localhost:5000/uploads/${recipe.image}`
+    }
+    alt={recipe.title}
+    className={styles.image}
+  />
+
+  <div className={styles.iconOverlay}>
+    <button onClick={() => handleFavoriteToggle(recipe._id)}>
+      {favorites.includes(recipe._id) ? <FaHeart /> : <FaRegHeart />}
+    </button>
+    <button onClick={() => openComments(recipe._id)}>
+      <FaCommentDots />
+    </button>
+  </div>
+</div>
+
               <h3>{recipe.title}</h3>
-              <div className={styles.actionRow}>
-                <button onClick={() => handleFavoriteToggle(recipe._id)} className={styles.favoriteBtn}>
-                  {favorites.includes(recipe._id) ? <FaHeart /> : <FaRegHeart />}
-                </button>
-                <button onClick={() => openComments(recipe._id)} className={styles.commentBtn}>
-                  <FaCommentDots />
-                </button>
+              <div className={styles.greenLines}>
+                <div className={`${styles.line} ${styles.full}`}></div>
+                <div className={`${styles.line} ${styles.short}`}></div>
               </div>
-              <button onClick={() => handleRecipeClick(recipe)} className={styles.detailBtn}>
+              <div className={styles.ingredientCarousel}>
+                {recipe.ingredients?.map((ing, index) => (
+                  <span key={index} className={styles.ingredientTag}>{ing}</span>
+                ))}
+              </div>
+              <button onClick={() => handleRecipeClick(recipe)} className={styles.detailBtnFull}>
                 Ətraflı bax
               </button>
             </div>

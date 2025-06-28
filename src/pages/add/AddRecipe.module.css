@@ -1,0 +1,311 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+.pageBackground {
+  background-image: url('../../assets/food/arxa fon.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 109vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(3, 22, 1, 0.6);
+  z-index: 1;
+}
+
+body.dark .container {
+  background-color: #111;
+  color: white;
+}
+body.dark .form{
+    background-color: #111;
+}
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 600px;
+  margin: 40px auto;
+  background-color: #fefefe;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 24px;
+  color: #333;
+}
+.yazi{
+    color:  #6e9170;
+}
+.title {
+  color: orange;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  font-weight: 600;
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+
+.message {
+  text-align: center;
+  margin-bottom: 15px;
+  color:  #7ba07d;
+  font-weight: 500;
+}
+
+.form {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+  background-color: #f8f8f8;
+}
+
+.form input[type='text'],
+.form input[type='file'] {
+
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  margin: 0;
+
+}
+
+.form input[type='text']:focus,
+.form input[type='file']:focus {
+  outline: none;
+  border-color:  #6e9170;
+  box-shadow: 0 0 0 3px rgba(0, 152, 18, 0.2);
+}
+
+.form textarea {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  resize: vertical;
+  min-height: 160px;
+  transition: all 0.3s ease;
+}
+
+.form textarea:focus {
+  outline: none;
+  border-color:  #6e9170;
+  box-shadow: 0 0 0 3px rgba(0, 152, 18, 0.2);
+}
+
+button[type='submit'] {
+  background-color: #6e9170;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button[type='submit']:hover {
+  background-color: #32a532;
+}
+
+/* ================== ANİMASİYALI YEMƏK ŞƏKİLLƏRİ ================== */
+.foodImage {
+  position: absolute;
+  width: 80px;
+  opacity: 0.2;
+  animation: float 4s ease-in-out infinite;
+  z-index: 0;
+}
+
+.img1 {
+  top: -20px;
+  left: -20px;
+  animation-delay: 0s;
+}
+
+.img2 {
+  top: -30px;
+  right: -25px;
+  animation-delay: 1s;
+}
+
+.img3 {
+  bottom: -25px;
+  left: -30px;
+  animation-delay: 2s;
+}
+
+.img4 {
+  bottom: -30px;
+  right: -20px;
+  animation-delay: 3s;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* ================== RESPONSIVE ================== */
+@media screen and (max-width: 768px) {
+  .container {
+    margin: 20px;
+    padding: 24px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  .foodImage {
+    width: 60px;
+  }
+
+  .form {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+   
+   
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  .form {
+    width: 100%;
+     
+  }
+
+  .form textarea {
+    width: 100%;
+  }
+
+  .foodImage {
+    display: none;
+  }
+  .form input[type='text'],
+.form input[type='file'] {
+  width: 80%;
+  padding: 12px 14px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.form input[type='text']:focus,
+.form input[type='file']:focus {
+  outline: none;
+  border-color: #0077cc;
+  box-shadow: 0 0 0 3px rgba(0, 119, 204, 0.2);
+}
+
+.form textarea {
+  width: 72%;
+  padding: 14px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  resize: vertical;
+  min-height: 160px;
+  transition: all 0.3s ease;
+}
+
+.form textarea:focus {
+  outline: none;
+  border-color: #0077cc;
+  box-shadow: 0 0 0 3px rgba(0, 119, 204, 0.2);
+}
+
+button[type='submit'] {
+    width: 80%;
+  background-color: #3dbf3d;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+}
+
+/* Extra small devices */
+@media screen and (max-width: 300px) {
+  .container {
+    padding: 16px;
+    margin: 10px;
+  }
+
+  .form {
+    width: 100%;
+    gap: 5px;
+  }
+
+  button[type='submit'] {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+:global(body.dark) .form {
+  background-color: #111;
+  color: #fff;
+}
+:global(body.dark) .form {
+  background-color: #111;
+  color: #fff;
+}
+
+:global(body.dark) .form input[type='text'],
+:global(body.dark) .form input[type='file'],
+:global(body.dark) .form textarea {
+  background-color: #222;
+  color: #fff;
+  border-color: #444;
+}
+
+:global(body.dark) .form input[type='text']::placeholder,
+:global(body.dark) .form input[type='file']::placeholder,
+:global(body.dark) .form textarea::placeholder {
+  color: #bbb;
+}
+:global(body.dark) .container {
+  background-color: #1a1a1a; /* və ya başqa bir tünd rəng */
+  color: #f0f0f0;
+}

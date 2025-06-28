@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axiosInstance from '../../services/axiosInstance'; // ✅ Doğru axios import
+import axiosInstance from '../../services/axiosInstance';
 import styles from './Premium.module.css';
 
 const Premium = () => {
@@ -9,7 +9,7 @@ const Premium = () => {
   useEffect(() => {
     const fetchPremiumRecipes = async () => {
       try {
-        const res = await axiosInstance.get('/recipes/premium'); // ✅ Token daxil edilir
+        const res = await axiosInstance.get('/recipes/premium');
         setRecipes(res.data);
       } catch (err) {
         console.error('Premium reseptləri yüklənmədi:', err);
@@ -22,17 +22,26 @@ const Premium = () => {
     <div className={styles.container}>
       <h2>💎 Premium Reseptlər</h2>
       {recipes.length === 0 ? (
-        <p>Hazırda premium resept yoxdur.</p>
+        <p className={styles.noRecipes}>Hazırda premium resept yoxdur.</p>
+
       ) : (
         <div className={styles.grid}>
           {recipes.map((recipe) => (
             <div key={recipe._id} className={styles.card}>
               <img
-                src={`http://localhost:5000/${recipe.image}`}
+                src={
+                  recipe.image?.includes('uploads/')
+                    ? `http://localhost:5000/${recipe.image}`
+                    : `http://localhost:5000/uploads/${recipe.image}`
+                }
                 alt={recipe.title}
                 className={styles.image}
               />
-              <h3>{recipe.title}</h3>
+              <h3 className={styles.title}>{recipe.title}</h3>
+               <div className={styles.greenLines}>
+    <div className={`${styles.line} ${styles.full}`}></div>
+    <div className={`${styles.line} ${styles.short}`}></div>
+  </div>
               <Link to={`/premium/${recipe._id}`} className={styles.button}>
                 Ətraflı bax
               </Link>

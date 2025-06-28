@@ -1,78 +1,164 @@
-.carousel {
+.carouselWrapper {
   position: relative;
+  width: 100%;
+  height: 600px;
+  overflow: hidden;
+}
+
+.carousel {
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  gap: 20px;
-  padding: 20px 0;
-  margin-bottom: 30px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
+  width: 100%;
 }
+
 .carousel::-webkit-scrollbar {
   display: none;
 }
 
 .item {
+  flex: 0 0 100%;
+  height: 100%;
   position: relative;
-  flex: 0 0 90%;
-  height: 620px;
-  scroll-snap-align: center;
-  border-radius: 20px;
+  scroll-snap-align: start;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease;
-}
-
-.item:hover {
-  transform: scale(1.02);
+  transition: transform 0.5s ease;
 }
 
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
+  transition: transform 0.5s ease;
+}
+
+.item:hover .image {
+  transform: scale(1.03);
 }
 
 .button {
   position: absolute;
-  bottom: 16px;
-  right: 16px;
-  padding: 10px 20px;
-  background-color: #ff6f00;
-  color: #fff;
-  font-weight: bold;
-  border: none;
-  border-radius: 12px;
+  bottom: 20px;
+  width: 120px;
+  right: 20px;
+  background-color: #ff5722;
+  color: white;
+  padding: 10px 16px;
   font-size: 16px;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  z-index: 2;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .button:hover {
-  background-color: #e65c00;
+  background-color: #e64a19;
+  transform: scale(1.05);
 }
 
-/* Sürüşdür düymələri */
-.navButton {
+.arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
+  font-size: 32px;
   color: white;
-  border: none;
-  padding: 12px;
-  font-size: 18px;
-  cursor: pointer;
-  z-index: 1;
+  background-color: rgba(192, 185, 185, 0.4);
+  padding: 10px;
   border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  user-select: none;
+  transition: all 0.4s ease;
 }
 
-.left {
-  left: 10px;
+.arrow:hover {
+  background-color: rgba(202, 198, 198, 0.2);
+  transform: translateY(-50%) scale(1.1);
 }
 
-.right {
-  right: 10px;
+.arrowLeft {
+  left: 15px;
+}
+
+.arrowRight {
+  right: 15px;
+}
+
+/* Tablet */
+@media screen and (max-width: 1024px) {
+  .carouselWrapper {
+    height: 500px;
+  }
+
+  .button {
+    font-size: 14px;
+    padding: 8px 14px;
+  }
+
+  .arrow {
+    font-size: 28px;
+    padding: 8px;
+  }
+}
+
+/* Mobile */
+@media screen and (max-width: 768px) {
+  .carouselWrapper {
+    height: 400px;
+  }
+
+  .button {
+    font-size: 13px;
+    padding: 6px 12px;
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .arrow {
+    font-size: 24px;
+    padding: 6px;
+  }
+}
+
+/* Extra Small Devices */
+@media screen and (max-width: 480px) {
+  .carouselWrapper {
+    height: 300px;
+  }
+
+  .button {
+    font-size: 12px;
+    padding: 5px 10px;
+    bottom: 12px;
+    right: 12px;
+  }
+
+  .arrow {
+    font-size: 20px;
+    padding: 5px;
+  }
+}
+
+/* Ultra Small Devices (300px and under) */
+@media screen and (max-width: 300px) {
+  .carouselWrapper {
+    height: 250px;
+  }
+
+  .button {
+    font-size: 11px;
+    padding: 4px 8px;
+    width: 100px;
+    bottom: 10px;
+    right: 10px;
+  }
+
+  .arrow {
+    font-size: 18px;
+    padding: 4px;
+  }
 }

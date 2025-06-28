@@ -30,7 +30,15 @@ const PremiumRecipes = () => {
       <div className={styles.grid}>
         {recipes.map((recipe) => (
           <div key={recipe._id} className={styles.card}>
-            <img src={`http://localhost:5000/${recipe.image}`} alt={recipe.title} />
+            <img
+              src={
+                recipe.image?.includes('uploads/')
+                  ? `http://localhost:5000/${recipe.image}`
+                  : `http://localhost:5000/uploads/${recipe.image}`
+              }
+              alt={recipe.title}
+              className={styles.image}
+            />
             <h3>{recipe.title}</h3>
             <button onClick={() => handleViewClick(recipe)}>Bax</button>
           </div>

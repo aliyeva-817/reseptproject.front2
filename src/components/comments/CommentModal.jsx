@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styles from './CommentModal.module.css';
 import { FaTimes, FaHeart, FaTrash, FaReply } from 'react-icons/fa';
 import axiosInstance from '../../services/axiosInstance';
+import Swal from 'sweetalert2';
+import 'animate.css'; 
 
 const CommentModal = ({ recipeId, onClose }) => {
   const [comments, setComments] = useState([]);
@@ -58,15 +60,36 @@ const CommentModal = ({ recipeId, onClose }) => {
     }
   };
 
-  const handleDelete = async (commentId) => {
-    if (!window.confirm('Şərhi silmək istədiyinizə əminsiniz?')) return;
+ 
+
+const handleDelete = async (commentId) => {
+  const result = await Swal.fire({
+    title: 'Əminsiniz?',
+    text: 'Bu şərhi silmək istəyirsiniz?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#6bae6e',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Bəli, sil',
+    cancelButtonText: 'İmtina',
+    showClass: {
+      popup: 'animate__animated animate__fadeInDown'
+    },
+    hideClass: {
+      popup: 'animate__animated animate__fadeOutUp'
+    }
+  });
+
+  if (result.isConfirmed) {
     try {
       await axiosInstance.delete(`/comments/${commentId}`);
       setComments(comments.filter(c => c._id !== commentId));
     } catch (err) {
       console.error('Silinmə xətası:', err);
     }
-  };
+  }
+};
+
 
   useEffect(() => {
     fetchComments();
@@ -78,45 +101,37 @@ const CommentModal = ({ recipeId, onClose }) => {
         <button onClick={onClose} className={styles.closeBtn}><FaTimes /></button>
         <h3>Şərhlər</h3>
 
-        <div className={styles.inputArea}>
-          <textarea
-            placeholder="Şərhinizi yazın..."
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-          />
-          <button onClick={handleAddComment}>Göndər</button>
-        </div>
-        {error && <p className={styles.error}>{error}</p>}
-
         <div className={styles.commentList}>
           {comments.map((comment) => (
             <div key={comment._id} className={styles.comment}>
-              <p><strong>{comment.user?.name || 'Anonim'}:</strong> {comment.content}</p>
-              <div className={styles.commentActions}>
-                <button onClick={() => handleLike(comment._id)}>
-                  <FaHeart /> {comment.likes.length}
-                </button>
-                <button onClick={() => setActiveReplyId(comment._id)}>
-                  <FaReply />
-                </button>
-                {comment.user?._id === userId && (
-                  <button onClick={() => handleDelete(comment._id)}>
-                    <FaTrash />
+              <div className={styles.commentHeader}>
+                <p><strong>{comment.user?.name || 'Anonim'}:</strong> {comment.content}</p>
+                <div className={styles.commentActions}>
+                  <button onClick={() => handleLike(comment._id)} className={styles.iconButton}>
+                    <FaHeart className={styles.icon} />
+                    <span>{comment.likes.length}</span>
                   </button>
-                )}
+                  <button onClick={() => setActiveReplyId(comment._id)}>
+                    <FaReply />
+                  </button>
+                  {comment.user?._id === userId && (
+                    <button onClick={() => handleDelete(comment._id)}>
+                      <FaTrash />
+                    </button>
+                  )}
+                </div>
               </div>
 
-              {/* Replies */}
               {comment.replies?.map((reply, idx) => (
                 <div key={idx} className={styles.reply}>
                   <p><strong>{reply.user?.name || 'Anonim'}:</strong> {reply.content}</p>
                 </div>
               ))}
 
-              {/* Reply Input */}
               {activeReplyId === comment._id && (
                 <div className={styles.replyInput}>
-                  <textarea
+                  <input
+                    type="text"
                     placeholder="Cavab yazın..."
                     value={replyText}
                     onChange={(e) => setReplyText(e.target.value)}
@@ -126,6 +141,21 @@ const CommentModal = ({ recipeId, onClose }) => {
               )}
             </div>
           ))}
+        </div>
+
+        {/* Alt hissə şərh yazmaq üçün */}
+        <div className={styles.inputArea}>
+          <div className={styles.inputRow}>
+            <input
+              type="text"
+              placeholder="Şərhinizi yazın..."
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              
+            />
+            <button onClick={handleAddComment}>Göndər</button>
+          </div>
+          {error && <p className={styles.error}>{error}</p>}
         </div>
       </div>
     </div>

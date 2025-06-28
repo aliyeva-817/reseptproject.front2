@@ -1,102 +1,233 @@
 .overlay {
   position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 999;
 }
 
 .modal {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  max-height: 70vh;
-  background: #fff8e1;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  padding: 20px;
+  background-color: #f5f5f1;
+  border-radius: 20px;
+  padding: 30px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
   overflow-y: auto;
-  animation: slideUp 0.3s ease;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
 }
 
-@keyframes slideUp {
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0%);
-  }
+.closeBtn {
+  position: absolute;
+  top: -5px;
+  right: 12px;
+  background: #6bae6e;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.closeBtn:hover{
+  background-color: #569b5a;
+
 }
 
-.comments {
+.modal h3 {
+  text-align: center;
+  color: #2F5249;
+  margin-bottom: 20px;
+}
+
+.inputArea {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  max-height: 50vh;
-  overflow-y: auto;
-  padding-right: 10px;
+  gap: 10px;
+  margin-top: 20px;
+  margin-bottom: -30px;
 }
 
-.comment {
-  background: #fffde7;
-  padding: 12px;
-  border-radius: 12px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-}
-
-.comment strong {
-  display: block;
-  margin-bottom: 5px;
-  color: #d17f00;
-}
-
-.comment p {
-  margin: 0;
-  font-size: 14px;
-}
-
-.actions {
+.inputRow {
   display: flex;
-  justify-content: space-between;
-  margin-top: 5px;
-  font-size: 14px;
+  align-items: center; /* bütün elementlər eyni hündürlükdə olsun */
+  gap: 8px;
 }
 
-.actions span {
-  color: #ff5722;
-}
 
-.actions button {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: #999;
-}
-
-.inputWrapper {
-  display: flex;
-  margin-top: 15px;
-  border-top: 1px solid #eee;
-  padding-top: 10px;
-}
-
-.inputWrapper input {
+.inputRow textarea {
   flex: 1;
   padding: 10px;
   border-radius: 10px;
   border: 1px solid #ccc;
-  outline: none;
-  font-size: 14px;
+  font-size: 15px;
+  resize: none;
+  height: 50px ;
+  
 }
 
-.inputWrapper button {
-  background: #ffc107;
+.inputRow button {
+  width: 70px;
+  margin-bottom: 40px;
+  height: 40px; /* textarea ilə eyni hündürlükdə olsun */
+  padding: 0 16px; /* daxili boşluq düymə üçün */
+  font-size: 13px;
+  background-color: #6bae6e;
   color: white;
   border: none;
-  margin-left: 10px;
   border-radius: 10px;
-  padding: 0 16px;
   cursor: pointer;
-  font-weight: bold;
-  font-size: 18px;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.inputRow button:hover {
+  background-color: #599f5f;
+}
+
+.error {
+  color: #d93025;
+  font-size: 14px;
+  text-align: center;
+  margin-top: -10px;
+}
+
+.commentList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.comment {
+  background-color: #fff;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.commentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.commentHeader p {
+  margin: 0;
+  font-size: 14px;
+  flex: 1;
+  word-break: break-word;
+}
+
+.commentActions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.commentActions button {
+  margin-bottom: -20px;
+  background: none;
+  border: none;
+  color: #4caf50;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.commentActions button:hover {
+  background-color: transparent;
+  transform: scale(1.1);
+  color: #388e3c;
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: #4caf50;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.iconButton:hover {
+  transform: scale(1.1);
+  color: #388e3c;
+}
+
+.reply {
+  margin-left: 20px;
+  border-left: 2px solid #d5d5d5;
+  padding-left: 12px;
+  font-size: 14px;
+  color: #555;
+  margin-top: 10px;
+}
+
+.replyInput {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.replyInput textarea {
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.replyInput button {
+  background-color: #6bae6e;
+  color: white;
+  font-weight: 500;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.replyInput button:hover {
+  background-color: #5b9f5b;
+}
+
+@media (max-width: 480px) {
+  .modal {
+    padding: 20px;
+  }
+
+  .closeBtn {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+
+  .inputRow {
+    flex-direction: column;
+  }
+
+  .inputRow button {
+    width: 100%;
+  }
 }

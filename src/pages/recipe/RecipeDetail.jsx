@@ -3,10 +3,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../services/axiosInstance';
 import styles from './RecipeDetail.module.css';
 import CommentSection from '../../components/comments/CommentSection';
+import CommentModal from '../../components/comments/CommentModal';
+import { FaCommentDots } from 'react-icons/fa';
 
 const RecipeDetail = () => {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
+  const [activeCommentId, setActiveCommentId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,6 +38,14 @@ const RecipeDetail = () => {
     }
   };
 
+  const openComments = () => {
+    setActiveCommentId(id);
+  };
+
+  const closeComments = () => {
+    setActiveCommentId(null);
+  };
+
   if (!recipe) return <p>Yüklənir...</p>;
 
   return (
@@ -49,14 +60,12 @@ const RecipeDetail = () => {
         alt={recipe.title}
       />
 
-<h1 className={styles.title}>
-  {recipe.title}
-  {(recipe.addedByAdmin === true || recipe.user?.isAdmin) && (
-    <span className={styles.adminBadge}>👑 Admin tərəfindən əlavə olunub</span>
-  )}
-</h1>
-
-
+      <h1 className={styles.title}>
+        {recipe.title}
+        {(recipe.addedByAdmin === true || recipe.user?.isAdmin) && (
+          <span className={styles.adminBadge}>👑 Admin tərəfindən əlavə olunub</span>
+        )}
+      </h1>
 
       <p><strong>Ərzaqlar:</strong> {recipe.ingredients.join(', ')}</p>
       <p><strong>Kateqoriya:</strong> {recipe.category}</p>
@@ -79,7 +88,19 @@ const RecipeDetail = () => {
       )}
 
       <h3>Şərhlər</h3>
+
+      {/* Şərh yaz düyməsi */}
+      <button onClick={openComments} className={styles.commentButton}>
+        <FaCommentDots /> Şərh yaz
+      </button>
+
+      {/* Mövcud şərhlərin siyahısı */}
       <CommentSection recipeId={id} />
+
+      {/* Şərh modalı */}
+      {activeCommentId && (
+        <CommentModal recipeId={activeCommentId} onClose={closeComments} />
+      )}
     </div>
   );
 };

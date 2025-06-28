@@ -1,18 +1,32 @@
-/* GLOBAL RESET (istəyə bağlı) */
+/* GLOBAL RESET */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Font və ümumi görünüş */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f4f4f4;
+  color: #1a1a1a;
+  transition: all 0.3s ease;
+}
+
+body.dark {
+  background-color: #1a1a1a;
+  color: #f0f0f0;
+}
+
+/* Yazılar */
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark p,
+body.dark a {
+  color: #ffffff;
 }
 
 /* ==================== TOASTIFY CUSTOM STYLES ==================== */
-
 .Toastify__toast {
   border-radius: 8px !important;
   padding: 10px 16px !important;
@@ -24,7 +38,6 @@ body {
   position: relative;
 }
 
-/* Sol icon və mesaj */
 .Toastify__toast-body {
   display: flex;
   align-items: center;
@@ -32,14 +45,13 @@ body {
   flex: 1;
 }
 
-/* X (close) düyməsi sağda və yuxarıda yerləşir */
 .Toastify__close-button {
   position: absolute;
   top: 6px !important;
   right: 3px !important;
   font-size: 14px !important;
   opacity: 0.6 !important;
-  color: #333 !important;
+  
   padding: 4px;
   background: transparent;
   border: none;
@@ -47,36 +59,69 @@ body {
   z-index: 2;
 }
 
-/* Hover effekti daha yumşaq olsun */
 .Toastify__close-button:hover {
   opacity: 1 !important;
   transform: scale(1.05);
 }
 
-/* Aşağıdakı loading xətti */
 .Toastify__progress-bar {
   height: 3px !important;
   margin-top: 2px;
   border-radius: 0 0 8px 8px;
 }
 
-/* Error mesajları üçün qırmızı border */
 .Toastify__toast--error {
   background: #fff !important;
   border-left: 5px solid #e74c3c !important;
   color: #333 !important;
 }
 
-/* Success mesajları üçün yaşıl border */
 .Toastify__toast--success {
   background: #fff !important;
   border-left: 5px solid #27ae60 !important;
   color: #333 !important;
 }
 
-/* Warning mesajları üçün sarı border */
 .Toastify__toast--warning {
   background: #fff !important;
   border-left: 5px solid #f1c40f !important;
   color: #333 !important;
+}
+
+/* ========== DARK MODE AÇIQ STİLLƏR ========== */
+
+/* Kartlar */
+body.dark .card {
+  background-color: #2c2c2c !important;
+  color: #f0f0f0 !important;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.05);
+}
+
+/* Bütün button-lar (əgər class varsa override edilir) */
+body.dark button {
+  background-color: #333 !important;
+  color: #ffcc00 !important;
+  border: 1px solid #555;
+}
+
+/* Axtarış bölməsi */
+body.dark .searchSection {
+  background-color: #222;
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
+}
+
+/* Karusel itemləri */
+body.dark .carouselItem {
+  background-color: #333;
+}
+
+/* Konteyner */
+body.dark .container {
+  background-color: #1a1a1a;
+}
+
+/* Navbar */
+body.dark header {
+  background-color: #2a2a2a !important;
+  color: #fff !important;
 }

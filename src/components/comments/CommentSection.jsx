@@ -12,7 +12,7 @@ const CommentSection = ({ recipeId }) => {
   const token = localStorage.getItem('accessToken');
 
   const getUserName = (user) => {
-    return user?.name || user?.username || user?._id || 'Anonim';
+    return user?.name || user?.username || 'Anonim';
   };
 
   const fetchComments = async () => {
@@ -86,7 +86,7 @@ const CommentSection = ({ recipeId }) => {
 
   return (
     <div className={styles.commentSection}>
-      <h3>Şərhlər</h3>
+      <h3 className={styles.title}>Şərhlər</h3>
 
       {user ? (
         <form onSubmit={handleSubmit} className={styles.commentForm}>
@@ -97,7 +97,7 @@ const CommentSection = ({ recipeId }) => {
             className={styles.textarea}
             required
           />
-          <button type="submit" className={styles.submitBtn}>Göndər</button>
+          <button type="submit" className={styles.submitButton}>Göndər</button>
         </form>
       ) : (
         <p className={styles.loginNotice}>Şərh yazmaq üçün daxil olun</p>
@@ -105,32 +105,36 @@ const CommentSection = ({ recipeId }) => {
 
       <div className={styles.commentList}>
         {comments.map((comment) => (
-          <div key={comment._id} className={styles.comment}>
-            <p><strong>{getUserName(comment.user)}:</strong> {comment.content}</p>
-            <button onClick={() => toggleLike(comment._id)}>❤️ {comment.likes.length}</button>
-            {user?._id === comment.user?._id && (
-              <button onClick={() => handleDelete(comment._id)}>🗑️ Sil</button>
-            )}
-            <button onClick={() => setActiveReplyId(comment._id)}>💬 Cavab ver</button>
+          <div key={comment._id} className={styles.commentCard}>
+            <p className={styles.commentText}><strong className={styles.username}>{getUserName(comment.user)}:</strong> {comment.content}</p>
+
+            <div className={styles.actionButtons}>
+              <button className={styles.actionBtn} onClick={() => toggleLike(comment._id)}>❤️ {comment.likes.length}</button>
+              <button className={styles.actionBtn} onClick={() => setActiveReplyId(comment._id)}>💬</button>
+              {user?._id === comment.user?._id && (
+                <button className={styles.actionBtn} onClick={() => handleDelete(comment._id)}>🗑️</button>
+              )}
+            </div>
 
             {activeReplyId === comment._id && (
-              <form onSubmit={(e) => handleReplySubmit(e, comment._id)}>
+              <form onSubmit={(e) => handleReplySubmit(e, comment._id)} className={styles.replyForm}>
                 <input
                   value={replyText}
                   onChange={(e) => setReplyText(e.target.value)}
                   placeholder="Cavabınızı yazın"
+                  className={styles.replyInput}
                   required
                 />
-                <button type="submit">Göndər</button>
+                <button type="submit" className={styles.replyButton}>Göndər</button>
               </form>
             )}
 
             {comment.replies?.length > 0 && (
-              <div className={styles.replies}>
+              <div className={styles.replyList}>
                 {comment.replies.map((reply, idx) => (
-                  <div key={idx} className={styles.reply}>
+                  <div key={idx} className={styles.replyItem}>
                     <p>
-                      <strong>{getUserName(reply.user)}:</strong>
+                      <strong className={styles.username}>{getUserName(reply.user)}:</strong>
                       <span className={styles.replyContent}> ↳ {reply.content}</span>
                     </p>
                   </div>

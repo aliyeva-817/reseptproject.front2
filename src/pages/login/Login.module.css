@@ -1,32 +1,178 @@
-.loginContainer {
-  height: 100vh;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+.pageBackground {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  width: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
-  background-color: #f0f2f5;
+  justify-content: center;
+  position: relative;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-.loginForm {
-  background-color: white;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(3, 22, 1, 0.6);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  z-index: 2;
+  background-color: #fefefe;
+  padding: 90px 39px;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 490px;
+  min-height: 540px;
+  font-family: 'Poppins', sans-serif;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  width: 300px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
-.loginForm input {
-  padding: 10px;
+.title {
+  color: #6e9170;
+  font-weight: 600;
+  font-size: 26px;
+  margin-bottom: 24px;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+}
+
+input {
+  width: 100%;
+  padding: 14px 16px;
   font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  background-color: transparent !important;
 }
 
-.loginForm button {
-  padding: 10px;
-  background-color: #3b82f6;
+input:focus {
+  outline: none;
+  border-color: #6e9170;
+  box-shadow: 0 0 0 3px rgba(0, 152, 18, 0.2);
+}
+
+button {
+  width: 100%;
+  background-color: #6e9170 !important; 
   color: white;
   border: none;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 17px;
   cursor: pointer;
-  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #3fa557;
+}
+
+/* ================== Animasiya olunan şəkillər ================== */
+.foodImage {
+  position: absolute;
+  width: 80px;
+  opacity: 0.2;
+  animation: float 4s ease-in-out infinite;
+  z-index: 0;
+}
+
+.img1 { top: -20px; left: -20px; animation-delay: 0s; }
+.img2 { top: -30px; right: -25px; animation-delay: 1s; }
+.img3 { bottom: -25px; left: -30px; animation-delay: 2s; }
+.img4 { bottom: -30px; right: -20px; animation-delay: 3s; }
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(10px); }
+  100% { transform: translateY(0px); }
+}
+
+/* ================== Responsivlik ================== */
+@media screen and (max-width: 1344px) {
+  .container {
+    max-width: 45%;
+    padding: 100px 45px;
+    min-height: 580px;
+  }
+
+  input, button {
+    font-size: 17px;
+    padding: 15px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    max-width: 73%;
+    min-height: auto;
+    padding: 60px 30px;
+  }
+
+  input, button {
+    font-size: 15px;
+    padding: 13px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    padding: 24px;
+    max-width: 80%;
+    min-height: auto;
+  }
+
+  .foodImage {
+    display: none;
+  }
+
+  input, button {
+    font-size: 15px;
+    padding: 13px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .container {
+    padding: 16px;
+  }
+
+  input, button {
+    font-size: 13px;
+    padding: 10px;
+  }
 }

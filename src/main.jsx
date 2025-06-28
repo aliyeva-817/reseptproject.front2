@@ -2,12 +2,13 @@ import ReactDOM from "react-dom/client";
 import AppRouter from "./router/Router";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import { ThemeProvider } from "./components/theme/ThemeContext";
+import { ThemeProvider, ThemeContext } from "./components/theme/ThemeContext";
 import { AuthProvider } from "./context/AuthContext";
 
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { SnackbarProvider } from 'notistack';
+import React, { useContext, useEffect } from 'react';
 
 // ✅ Toastify üçün xüsusi bağlama düyməsi
 const customClose = ({ closeToast }) => (
@@ -28,6 +29,17 @@ const customClose = ({ closeToast }) => (
   </button>
 );
 
+// ✅ Dark mode class tətbiq edən komponent
+const BodyClassHandler = () => {
+  const { theme } = useContext(ThemeContext);
+
+  useEffect(() => {
+    document.body.classList.toggle('dark', theme === 'dark');
+  }, [theme]);
+
+  return null; // heçnə render etmir, sadəcə body-ə class əlavə edir
+};
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <ThemeProvider>
@@ -38,6 +50,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           autoHideDuration={3000}
         >
           <>
+            <BodyClassHandler />
             <AppRouter />
             <ToastContainer
               position="top-right"
