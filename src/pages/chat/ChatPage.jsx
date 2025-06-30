@@ -6,9 +6,10 @@ import styles from './ChatPage.module.css';
 import { FaEdit, FaTrashAlt, FaArrowLeft, FaSearch } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
+import 'animate.css';
 
 const SOCKET_SERVER_URL = 'http://localhost:5000';
-const emojiOptions = ['🍎','🍏','🍐','🍒','🍓','🥭','🥝','🍆'];
 
 const ChatPage = () => {
   const { theme, setTheme } = useContext(ThemeContext);
@@ -37,8 +38,7 @@ const ChatPage = () => {
         text: msg.text,
         fromSelf: false,
         timestamp: new Date(msg.createdAt),
-        edited: msg.edited || false,
-        emoji: msg.emoji || emojiOptions[Math.floor(Math.random() * emojiOptions.length)]
+        edited: msg.edited || false
       };
 
       setMessages((prev) => {
@@ -46,14 +46,6 @@ const ChatPage = () => {
         if (exists || !isCurrentChat) return prev;
         return [...prev, newMsg];
       });
-
-      // 👇 BU HİSSƏ SİLİNDİ (çünki bildirişdə var idi)
-      // if (!isCurrentChat) {
-      //   setUnreadCounts(prev => ({
-      //     ...prev,
-      //     [msg.senderId]: (prev[msg.senderId] || 0) + 1
-      //   }));
-      // }
     });
 
     socket.current.on('messageEdited', ({ _id, text }) => {
@@ -70,8 +62,7 @@ const ChatPage = () => {
         text: msg.content,
         fromSelf: false,
         timestamp: new Date(msg.createdAt),
-        edited: msg.edited || false,
-        emoji: emojiOptions[Math.floor(Math.random() * emojiOptions.length)]
+        edited: msg.edited || false
       }));
 
       setMessages((prev) => [...prev, ...newMsgs]);
@@ -133,8 +124,7 @@ const ChatPage = () => {
         text: msg.content,
         fromSelf: msg.sender === userId,
         timestamp: new Date(msg.createdAt),
-        edited: msg.edited,
-        emoji: emojiOptions[Math.floor(Math.random() * emojiOptions.length)]
+        edited: msg.edited
       })));
       socket.current.emit('joinChat', {
         userId,
@@ -201,8 +191,7 @@ const ChatPage = () => {
         text: res.data.content,
         fromSelf: true,
         timestamp: new Date(res.data.createdAt),
-        edited: false,
-        emoji: emojiOptions[Math.floor(Math.random() * emojiOptions.length)]
+        edited: false
       };
       setMessages((prev) => [...prev, newMsg]);
 
@@ -222,16 +211,34 @@ const ChatPage = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Silinsin?')) return;
-    try {
-      await axios.delete(`/messages/${id}`);
-      setMessages((prev) => prev.filter((m) => m._id !== id));
-      socket.current.emit('deleteMessage', {
-        messageId: id,
-        receiverId: recipient._id
-      });
-    } catch {
-      toast.error('Silinmə xətası');
+    const result = await Swal.fire({
+      title: 'Əminsiniz?',
+      text: 'Bu mesajı silmək istəyirsiniz?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#6bae6e',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Bəli, sil',
+      cancelButtonText: 'İmtina',
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp'
+      }
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await axios.delete(`/messages/${id}`);
+        setMessages((prev) => prev.filter((m) => m._id !== id));
+        socket.current.emit('deleteMessage', {
+          messageId: id,
+          receiverId: recipient._id
+        });
+      } catch {
+        toast.error('Silinmə xətası');
+      }
     }
   };
 
@@ -249,13 +256,12 @@ const ChatPage = () => {
           <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Istifadəçi..." />
           <button className={styles.ibtn} onClick={handleFindUser}><FaSearch /></button>
         </div>
-       <label className="themeLabel">Tema:</label>
-<select className="themeSelect" value={theme} onChange={(e) => setTheme(e.target.value)}>
-  <option value="brokoli">🥦 Yaşıl</option>
-  <option value="carrot">🥕 Narıncı</option>
-  <option value="watermelon">🍉 Qırmızı</option>
-  
-</select>
+        <label className="themeLabel">Tema:</label>
+        <select className="themeSelect" value={theme} onChange={(e) => setTheme(e.target.value)}>
+          <option value="brokoli">🥦 Yaşıl</option>
+          <option value="carrot">🥕 Narıncı</option>
+          <option value="watermelon">🍉 Qırmızı</option>
+        </select>
 
         <ul className={styles.chatList}>
           {chatUsers.map((u) => (
@@ -298,7 +304,7 @@ const ChatPage = () => {
           {messages.map((m) => (
             <div key={m._id} className={`${styles.message} ${m.fromSelf ? styles.fromSelf : styles.fromOther}`}>
               <p>
-                {m.emoji} {m.text}
+                {m.text}
                 {m.edited && <span className={styles.editedTag}>(düzənləndi)</span>}
                 {m.fromSelf && (
                   <>

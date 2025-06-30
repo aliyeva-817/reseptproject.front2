@@ -18,6 +18,8 @@ import PaymentCancel from "../pages/payment/PaymentCancel";
 import MyRecipes from "../pages/myrecipes/MyRecipes";
 import MealPlanner from "../pages/mealPlanner/MealPlanner";
 import ResetPassword from '../pages/auth/ResetPassword';
+import CommentPage from "../components/comments/CommentPage";
+
 
 
 
@@ -80,6 +82,8 @@ const Router = () => {
             <Route path="premium/:id" element={<PremiumDetail />} />
             <Route path="payment-success" element={<PaymentSuccess />} />
             <Route path="payment-cancel" element={<PaymentCancel />} />
+            <Route path="comments/:id" element={<CommentPage />} />
+
           </Route>
         </Route>
 

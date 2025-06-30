@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axiosInstance, { getFavorites, addFavorite, removeFavorite } from '../../services/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.css';
-import CommentModal from '../../components/comments/CommentModal';
 import { FaHeart, FaRegHeart, FaCommentDots } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import GreenLoader from '../../components/common/GreenLoader';
@@ -17,7 +16,6 @@ const Home = () => {
   const [recipes, setRecipes] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [showIntro, setShowIntro] = useState(false);
-  const [activeCommentId, setActiveCommentId] = useState(null);
   const [noResultsMessage, setNoResultsMessage] = useState(false);
   const [showRecipes, setShowRecipes] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -119,16 +117,12 @@ const Home = () => {
     }
   }, [showIntro]);
 
-  const openComments = (recipeId) => {
-    setActiveCommentId(recipeId);
-  };
-
-  const closeComments = () => {
-    setActiveCommentId(null);
-  };
-
   const handleRecipeClick = (recipe) => {
     navigate(recipe.isPremium ? `/premium/${recipe._id}` : `/recipe/${recipe._id}`);
+  };
+
+  const goToCommentsPage = (id) => {
+    navigate(`/comments/${id}`);
   };
 
   if (showIntro) {
@@ -228,7 +222,7 @@ const Home = () => {
                   <button onClick={() => handleFavoriteToggle(recipe._id)}>
                     {favorites.includes(recipe._id) ? <FaHeart /> : <FaRegHeart />}
                   </button>
-                  <button onClick={() => openComments(recipe._id)}>
+                  <button onClick={() => goToCommentsPage(recipe._id)}>
                     <FaCommentDots />
                   </button>
                 </div>
@@ -249,10 +243,6 @@ const Home = () => {
             </div>
           ))}
         </div>
-      )}
-
-      {activeCommentId && (
-        <CommentModal recipeId={activeCommentId} onClose={closeComments} />
       )}
     </div>
   );

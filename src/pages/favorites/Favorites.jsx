@@ -1,15 +1,13 @@
-// ✅ Favorites.jsx (tam uyğunlaşdırılmış versiya)
+// ✅ Favorites.jsx (tam versiya - CommentModal əvəzinə comment səhifəsinə yönləndirmə)
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getFavorites, removeFavorite } from '../../services/axiosInstance';
 import styles from './Favorites.module.css';
-import CommentModal from '../../components/comments/CommentModal';
 import GreenLoader from '../../components/common/GreenLoader';
 import { FaCommentDots } from 'react-icons/fa';
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
-  const [activeCommentId, setActiveCommentId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const token = localStorage.getItem("accessToken");
@@ -51,8 +49,9 @@ const Favorites = () => {
     }
   };
 
-  const openComments = (recipeId) => setActiveCommentId(recipeId);
-  const closeComments = () => setActiveCommentId(null);
+  const openComments = (recipeId) => {
+    navigate(`/comments/${recipeId}`);
+  };
 
   if (isLoading) return <GreenLoader />;
 
@@ -85,7 +84,6 @@ const Favorites = () => {
   colors="primary:#fff,secondary:#ffdd57"
   style="width:26px;height:26px">
 </lord-icon>
-
                         `,
                       }}
                     />
@@ -106,7 +104,6 @@ const Favorites = () => {
           ))
         )}
       </div>
-      {activeCommentId && <CommentModal recipeId={activeCommentId} onClose={closeComments} />}
     </div>
   );
 };

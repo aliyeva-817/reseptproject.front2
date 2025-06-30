@@ -3,7 +3,8 @@ import styles from './CommentModal.module.css';
 import { FaTimes, FaHeart, FaTrash, FaReply } from 'react-icons/fa';
 import axiosInstance from '../../services/axiosInstance';
 import Swal from 'sweetalert2';
-import 'animate.css'; 
+import 'animate.css';
+import avokado from '../../assets/food/avokado.png';
 
 const CommentModal = ({ recipeId, onClose }) => {
   const [comments, setComments] = useState([]);
@@ -60,44 +61,55 @@ const CommentModal = ({ recipeId, onClose }) => {
     }
   };
 
- 
+  const handleDelete = async (commentId) => {
+    const result = await Swal.fire({
+      title: 'Əminsiniz?',
+      text: 'Bu şərhi silmək istəyirsiniz?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#6bae6e',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Bəli, sil',
+      cancelButtonText: 'İmtina',
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp'
+      }
+    });
 
-const handleDelete = async (commentId) => {
-  const result = await Swal.fire({
-    title: 'Əminsiniz?',
-    text: 'Bu şərhi silmək istəyirsiniz?',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#6bae6e',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Bəli, sil',
-    cancelButtonText: 'İmtina',
-    showClass: {
-      popup: 'animate__animated animate__fadeInDown'
-    },
-    hideClass: {
-      popup: 'animate__animated animate__fadeOutUp'
+    if (result.isConfirmed) {
+      try {
+        await axiosInstance.delete(`/comments/${commentId}`);
+        setComments(comments.filter(c => c._id !== commentId));
+      } catch (err) {
+        console.error('Silinmə xətası:', err);
+      }
     }
-  });
-
-  if (result.isConfirmed) {
-    try {
-      await axiosInstance.delete(`/comments/${commentId}`);
-      setComments(comments.filter(c => c._id !== commentId));
-    } catch (err) {
-      console.error('Silinmə xətası:', err);
-    }
-  }
-};
-
+  };
 
   useEffect(() => {
     fetchComments();
   }, [recipeId]);
 
   return (
-    <div className={styles.overlay}>
-      <div className={styles.modal}>
+    <div className={styles.overlay} onClick={onClose}>
+      {/* ✅ Avokado arxa fon */}
+      <div className={styles.avocadoBackground}>
+        <img src={avokado} alt="avokado" className={styles.avocadoItem} />
+        <img src={avokado} alt="avokado" className={styles.avocadoItem} />
+        <img src={avokado} alt="avokado" className={styles.avocadoItem} />
+        <img src={avokado} alt="avokado" className={styles.avocadoItem} />
+        <img src={avokado} alt="avokado" className={styles.avocadoItem} />
+        <img src={avokado} alt="avokado" className={styles.avocadoItem} />
+        <img src={avokado} alt="avokado" className={styles.avocadoItem} />
+        <img src={avokado} alt="avokado" className={styles.avocadoItem} />
+        <img src={avokado} alt="avokado" className={styles.avocadoItem} />
+        <img src={avokado} alt="avokado" className={styles.avocadoItem} />
+      </div>
+
+      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <button onClick={onClose} className={styles.closeBtn}><FaTimes /></button>
         <h3>Şərhlər</h3>
 
@@ -109,7 +121,7 @@ const handleDelete = async (commentId) => {
                 <div className={styles.commentActions}>
                   <button onClick={() => handleLike(comment._id)} className={styles.iconButton}>
                     <FaHeart className={styles.icon} />
-                    <span>{comment.likes.length}</span>
+                    <span style={{ marginLeft: '6px' }}>{comment.likes.length}</span>
                   </button>
                   <button onClick={() => setActiveReplyId(comment._id)}>
                     <FaReply />
@@ -130,20 +142,21 @@ const handleDelete = async (commentId) => {
 
               {activeReplyId === comment._id && (
                 <div className={styles.replyInput}>
-                  <input
-                    type="text"
-                    placeholder="Cavab yazın..."
-                    value={replyText}
-                    onChange={(e) => setReplyText(e.target.value)}
-                  />
-                  <button onClick={() => handleReply(comment._id)}>Cavab ver</button>
-                </div>
+  <input
+    className={styles.replyText}
+    type="text"
+    placeholder="Cavab yazın..."
+    value={replyText}
+    onChange={(e) => setReplyText(e.target.value)}
+  />
+  <button className={styles.replyBtn} onClick={() => handleReply(comment._id)}>Cavabla</button>
+</div>
+
               )}
             </div>
           ))}
         </div>
 
-        {/* Alt hissə şərh yazmaq üçün */}
         <div className={styles.inputArea}>
           <div className={styles.inputRow}>
             <input
@@ -151,7 +164,6 @@ const handleDelete = async (commentId) => {
               placeholder="Şərhinizi yazın..."
               value={text}
               onChange={(e) => setText(e.target.value)}
-              
             />
             <button onClick={handleAddComment}>Göndər</button>
           </div>

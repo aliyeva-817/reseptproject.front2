@@ -145,31 +145,48 @@ body {
   box-shadow: 0 0 8px rgba(76, 175, 80, 0.7);
 }
 
+
+
+
+
 :global(body.dark) {
+  background-color: #1a1a1a;
+  color: #f0f0f0;
+}
+:global(body.dark) .container {
   background-color: #1a1a1a;
   color: #f0f0f0;
 }
 
 :global(body.dark) .searchSection {
-  background-color: #2a2a2a;
-  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
+  background-color: #515050;
+  box-shadow: 0 6px 20px rgba(147, 147, 147, 0.1);
 }
 
 :global(body.dark) .searchInput {
   background-color: #333;
   color: #fff;
-  border-color: #ff7a00;
+  border-color: #ffffff;
 }
 
 :global(body.dark) .heroTitle {
   color: #f5f5f5;
 }
-
+:global(body.dark) h3 {
+ color: white;
+}
+:global(body.dark) .searchBtn {
+ color: white;
+}
 :global(body.dark) .card {
+ background-color: #515050;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+}
+:global(body.dark) .heroContainer {
   background-color: #2c2c2c;
   box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
 }
-
+heroContainer
 :global(body.dark) .card:hover {
   box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
 }
@@ -335,11 +352,7 @@ body {
   justify-content: center;
 }
 
-.searchBtn:hover {
-  color: #ff7a00;
-  background-color: transparent;
-  padding: 0;
-}
+
 
 .recipeList {
   display: flex;
@@ -465,14 +478,20 @@ h3 {
   position: absolute;
   top: 10px;
   left: 10px;
-  background: gold;
-  color: black;
+ background: linear-gradient(to right, #FFD700, #FFA500);
+
+  width: 40%;
+  margin: 5px;
+
+  color: #fff;
+  
   padding: 3px 10px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: bold;
   border-radius: 12px;
   z-index: 2;
 }
+
 
 @media (max-width: 768px) {
   .card {
