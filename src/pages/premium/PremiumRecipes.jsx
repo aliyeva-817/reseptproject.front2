@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../services/axiosInstance';
 import styles from './PremiumRecipes.module.css';
 import { useNavigate } from 'react-router-dom';
+import GreenLoader from '../../components/common/GreenLoader'; // ✅ Loader import
 
 const PremiumRecipes = () => {
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState(null); // əvvəl boş array idi, indi null
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,8 +22,10 @@ const PremiumRecipes = () => {
   }, []);
 
   const handleViewClick = (recipe) => {
-    navigate(`/premium/${recipe._id}`, { state: recipe }); // resepti göndər
+    navigate(`/premium/${recipe._id}`, { state: recipe });
   };
+
+  if (!recipes) return <GreenLoader />; // ✅ Loader göstər
 
   return (
     <div className={styles.container}>

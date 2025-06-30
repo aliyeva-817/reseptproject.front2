@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../../services/axiosInstance';
 import styles from './PremiumDetail.module.css';
+import GreenLoader from '../../components/common/GreenLoader'; // ✅ Loader import
 
 const PremiumDetail = () => {
   const { id } = useParams();
@@ -37,7 +38,7 @@ const PremiumDetail = () => {
     }
   };
 
-  if (!recipe) return <p>Yüklənir...</p>;
+  if (!recipe) return <GreenLoader />; // ✅ Əvvəlki 'Yüklənir...' əvəzinə
 
   return (
     <div className={styles.container}>
@@ -51,9 +52,9 @@ const PremiumDetail = () => {
         alt={recipe.title}
       />
       <h1>{recipe.title}</h1>
-      
+
       <button onClick={handlePayment} className={styles.button} disabled={loading}>
-        {loading ? 'Yönləndirilir...' : ' Ödəniş et və bax'}
+        {loading ? 'Yönləndirilir...' : 'Ödəniş et və bax'}
       </button>
     </div>
   );

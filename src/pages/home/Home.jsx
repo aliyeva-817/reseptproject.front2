@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axiosInstance, { getFavorites, addFavorite, removeFavorite } from '../../services/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.css';
-import CarouselCategory from './CarouselCategory';
 import CommentModal from '../../components/comments/CommentModal';
 import { FaHeart, FaRegHeart, FaCommentDots } from 'react-icons/fa';
-
 import { toast } from 'react-toastify';
+import GreenLoader from '../../components/common/GreenLoader';
 
 import food1 from '../../assets/food/food1.png';
 import food2 from '../../assets/food/food2.png';
@@ -21,24 +20,19 @@ const Home = () => {
   const [activeCommentId, setActiveCommentId] = useState(null);
   const [noResultsMessage, setNoResultsMessage] = useState(false);
   const [showRecipes, setShowRecipes] = useState(true);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const token = localStorage.getItem("accessToken");
 
   const fetchRecipes = async () => {
+    setLoading(true);
     try {
       const res = await axiosInstance.get('/recipes');
       setRecipes(res.data);
     } catch (err) {
       toast.error('❌ Reseptləri yükləmək mümkün olmadı');
-    }
-  };
-
-  const fetchRecipesByCategory = async (category) => {
-    try {
-      const res = await axiosInstance.get(`/recipes/category/search?category=${category}`);
-      setRecipes(res.data);
-    } catch (err) {
-      toast.error('❌ Kategoriya üzrə filter alınmadı');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,7 +48,7 @@ const Home = () => {
 
   const handleSearch = async () => {
     if (!query.trim()) return;
-
+    setLoading(true);
     try {
       const res = await axiosInstance.get(`/recipes/search?ingredient=${encodeURIComponent(query)}`);
       const data = res.data;
@@ -84,6 +78,8 @@ const Home = () => {
         setShowRecipes(true);
         fetchRecipes();
       }, 3000);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -132,11 +128,7 @@ const Home = () => {
   };
 
   const handleRecipeClick = (recipe) => {
-    if (recipe.isPremium) {
-      navigate(`/premium/${recipe._id}`);
-    } else {
-      navigate(`/recipe/${recipe._id}`);
-    }
+    navigate(recipe.isPremium ? `/premium/${recipe._id}` : `/recipe/${recipe._id}`);
   };
 
   if (showIntro) {
@@ -175,10 +167,10 @@ const Home = () => {
     );
   }
 
+  if (loading) return <GreenLoader />;
+
   return (
     <div className={styles.container}>
-      <CarouselCategory onSelectCategory={fetchRecipesByCategory} />
-
       <div className={styles.heroContainer}>
         <img src={food1} className={`${styles.foodImage} ${styles.img1}`} alt="food1" />
         <img src={food2} className={`${styles.foodImage} ${styles.img2}`} alt="food2" />
@@ -197,7 +189,18 @@ const Home = () => {
               placeholder="Axtar..."
             />
             <button onClick={handleSearch} className={styles.searchBtn}>
-              🔍
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: `
+                    <lord-icon
+                      src="https://cdn.lordicon.com/hoetzosy.json"
+                      trigger="hover"
+                      colors="primary:#5a7b5b"
+                      style="width:24px;height:24px">
+                    </lord-icon>
+                  `,
+                }}
+              />
             </button>
           </div>
         </div>
@@ -212,26 +215,24 @@ const Home = () => {
           {recipes.map((recipe) => (
             <div key={recipe._id} className={styles.card}>
               {recipe.isPremium && <div className={styles.premiumLabel}>★ Premium</div>}
-             <div className={styles.imageWrapper}>
-  <img
-    src={recipe.image?.includes('uploads/')
-      ? `http://localhost:5000/${recipe.image}`
-      : `http://localhost:5000/uploads/${recipe.image}`
-    }
-    alt={recipe.title}
-    className={styles.image}
-  />
-
-  <div className={styles.iconOverlay}>
-    <button onClick={() => handleFavoriteToggle(recipe._id)}>
-      {favorites.includes(recipe._id) ? <FaHeart /> : <FaRegHeart />}
-    </button>
-    <button onClick={() => openComments(recipe._id)}>
-      <FaCommentDots />
-    </button>
-  </div>
-</div>
-
+              <div className={styles.imageWrapper}>
+                <img
+                  src={recipe.image?.includes('uploads/')
+                    ? `http://localhost:5000/${recipe.image}`
+                    : `http://localhost:5000/uploads/${recipe.image}`
+                  }
+                  alt={recipe.title}
+                  className={styles.image}
+                />
+                <div className={styles.iconOverlay}>
+                  <button onClick={() => handleFavoriteToggle(recipe._id)}>
+                    {favorites.includes(recipe._id) ? <FaHeart /> : <FaRegHeart />}
+                  </button>
+                  <button onClick={() => openComments(recipe._id)}>
+                    <FaCommentDots />
+                  </button>
+                </div>
+              </div>
               <h3>{recipe.title}</h3>
               <div className={styles.greenLines}>
                 <div className={`${styles.line} ${styles.full}`}></div>

@@ -4,10 +4,12 @@ import axiosInstance from '../../services/axiosInstance';
 import styles from './MyRecipes.module.css';
 import CommentModal from '../../components/comments/CommentModal';
 import { FaCommentDots, FaArrowRight, FaTrashAlt } from 'react-icons/fa';
+import GreenLoader from '../../components/common/GreenLoader'; 
 
 const MyRecipes = () => {
   const [recipes, setRecipes] = useState([]);
   const [activeCommentId, setActiveCommentId] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // ✅
 
   useEffect(() => {
     const fetchMyRecipes = async () => {
@@ -16,6 +18,8 @@ const MyRecipes = () => {
         setRecipes(res.data);
       } catch (err) {
         console.error('Mənim reseptlərim alınmadı:', err);
+      } finally {
+        setIsLoading(false); // ✅ Yükləmə bitdi
       }
     };
 
@@ -39,6 +43,8 @@ const MyRecipes = () => {
       console.error("Silinmə xətası:", err);
     }
   };
+
+  if (isLoading) return <GreenLoader />; // ✅ Loader göstər
 
   return (
     <div className={styles.container}>

@@ -4,44 +4,49 @@ import styles from './ResetPassword.module.css';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
+import GreenLoader from '../../components/common/GreenLoader'; // ✅ loader importu
 
 const ResetPassword = () => {
   const [email, setEmail] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [loading, setLoading] = useState(false); // ✅ loading state
   const navigate = useNavigate();
 
   const handleSendOtp = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       await axios.post('/auth/send-reset-otp', { email });
       setOtpSent(true);
       toast.success('✅ OTP emailə göndərildi');
     } catch (err) {
       toast.error(err.response?.data?.message || 'OTP göndərilmədi');
+    } finally {
+      setLoading(false);
     }
   };
 
- const handleResetPassword = async (e) => {
-  e.preventDefault();
-  try {
-    await axios.post('/auth/reset-password', { email, otp, newPassword });
-    toast.success("✅ Şifrə yeniləndi. Yönləndirilirsiniz...");
-
-    // 1 saniyə sonra yönləndir və formu təmizləmə
-    setTimeout(() => {
-      navigate("/login");
-    }, 1000); // daha qısa göstəririk
-
-  } catch (err) {
-    toast.error(err.response?.data?.message || 'Şifrə yenilənmədi');
-  }
-};
-
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      await axios.post('/auth/reset-password', { email, otp, newPassword });
+      toast.success("✅ Şifrə yeniləndi. Yönləndirilirsiniz...");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Şifrə yenilənmədi');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className={styles.container}>
+      {loading && <GreenLoader />} {/* ✅ Loader */}
       <h2>Şifrəni Bərpa Et</h2>
       <form onSubmit={otpSent ? handleResetPassword : handleSendOtp}>
         <input

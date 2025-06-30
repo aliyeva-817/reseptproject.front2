@@ -1,218 +1,188 @@
+/* Yeni RecipeDetail dizaynı */
 .container {
-  max-width: 850px;
+  width: 700px;
   margin: 40px auto;
-  padding: 30px;
-  background: linear-gradient(to bottom, #fffdf8, #fff9ee), url('/images/bg-pattern-light.png');
-  background-size: cover;
-  background-blend-mode: soft-light;
-  border-radius: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  animation: fadeIn 0.7s ease-in-out;
-  font-family: 'Segoe UI', sans-serif;
-}
-
-.image {
-  width: 100%;
-  height: 400px;
-  object-fit: cover;
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  margin-bottom: 25px;
-  transition: transform 0.3s ease;
-}
-
-.image:hover {
-  transform: scale(1.015);
-}
-
-.title {
-  text-align: center;
-  font-size: 2.4rem;
-  color: #333;
-  margin-bottom: 25px;
-  font-weight: bold;
-}
-
-.section {
-  margin-bottom: 30px;
-}
-
-.section h3 {
-  font-size: 1.6rem;
-  color: #444;
-  margin-bottom: 12px;
-  border-bottom: 3px solid #ffb347;
-  padding-bottom: 4px;
-}
-
-.ingredients {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 12px;
-  list-style: none;
-  padding: 0;
-  margin-bottom: 24px;
-}
-
-.ingredients li {
-  background-color: #fff1dc;
-  padding: 10px 12px;
-  border-radius: 10px;
-  font-weight: 500;
-  color: #5a3e1b;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(255, 179, 71, 0.15);
-  transition: transform 0.3s;
-}
-
-.ingredients li:hover {
-  transform: scale(1.05);
-}
-
-.instructions {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding-left: 0;
-  margin-top: 12px;
-  list-style: none;
-}
-
-.instructions li {
-  background: #fef9f4;
-  padding: 14px 20px;
-  border-left: 6px solid #ffb347;
-  border-radius: 10px;
-  font-size: 1.05rem;
-  color: #333;
-  position: relative;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  animation: fadeInStep 0.5s ease forwards;
-}
-
-.instructions li::before {
-  content: "🍽️";
-  position: absolute;
-  left: -34px;
-  top: 12px;
-  font-size: 1.2rem;
-}
-
-@keyframes fadeInStep {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.commentSection {
-  margin-top: 50px;
-  padding-top: 30px;
-  border-top: 2px solid #ffe4ba;
-  background-color: #fffdf8;
-  padding: 20px;
-  border-radius: 14px;
-}
-
-.commentSection h3 {
-  font-size: 1.4rem;
-  margin-bottom: 16px;
-  color: #444;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.noComments {
-  color: #aaa;
-  font-style: italic;
-  text-align: center;
-  margin-bottom: 16px;
-  font-size: 0.95rem;
-}
-
-.commentList {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.commentItem {
-  background: #fff5e6;
-  padding: 12px 18px;
-  border-radius: 10px;
-  color: #333;
-  font-size: 0.96rem;
-  border-left: 5px solid #ffb347;
-  transition: background-color 0.3s;
-}
-
-.commentItem:hover {
-  background-color: #fff0d9;
-}
-
-.commentForm {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 10px;
-}
-
-.commentForm input {
-  flex: 1;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-}
-
-.commentForm button {
-  padding: 0px 20px;
-  height: 43px;
-  background-color: #ffb347;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-}
-.adminBadge {
-  margin-left: 10px;
-  font-size: 0.9rem;
-  background-color: #f3e5f5;
-  color: #6a1b9a;
-  padding: 4px 8px;
-  border-radius: 8px;
-}
-
-
-
-
-.title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-
-.commentForm button:hover {
-  background-color: #ff9f20;
+  background-color: #f5f5f1;
+  padding: 20px 24px;
+  border-radius: 20px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  font-family: 'Poppins', sans-serif;
+  color: #2F5249;
+  animation: fadeIn 0.7s ease forwards;
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(15px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 16px;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2F5249;
+  margin-top: 15px;
+  word-break: break-word;
+}
+
+.adminBadge {
+  background-color: #e6e49b;
+  color: #2F5249;
+  font-size: 14px;
+  padding: 4px 10px;
+  margin-left: 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+p {
+  font-size: 16px;
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
+ol {
+  margin-top: 8px;
+  padding-left: 20px;
+}
+
+ol li {
+  margin-bottom: 8px;
+  background-color: #e1e5d3;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border-left: 4px solid #6e9170;
+}
+
+.premiumButton {
+  margin-top: 20px;
+  background-color: #6e9170;
+  color: white;
+  font-weight: bold;
+  border: none;
+  font-size: 16px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.premiumButton:hover {
+  background-color: #5a7b5b;
+}
+
+.commentTriggerBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  background-color: #f5f5f1;
+  padding: 12px 20px;
+  border-radius: 12px;
+  margin-top: 30px;
+}
+
+.commentText {
+  font-size: 16px;
+  font-weight: 500;
+  color: #2F5249;
+  margin: 0;
+}
+
+.commentButton {
+  margin-top: 16px;
+  background: none;
+  color: #6e9170;
+  background-color: transparent !important;
+  padding: 10px 18px;
+  font-size: 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.commentButton:hover {
+  background-color: #6e9170;
+  color: white;
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .adminBadge {
+    font-size: 12px;
+    padding: 3px 8px;
+  }
+
+  .image {
+    height: 200px;
+  }
+
+  .commentTriggerBox {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .commentButton {
+    align-self: flex-end;
+  }
+}
+
+@media (min-width: 1330px) {
+  .container {
+    max-width: 1000px;
+  }
+}
+
+:global(body.dark) .container {
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+}
+
+:global(body.dark) .adminBadge {
+  background-color: #4a4a4a;
+  color: #ffffff;
+}
+
+:global(body.dark) ol li {
+  background-color: #3b3b3b;
+  border-left: 4px solid #81c784;
+}
+
+:global(body.dark) .commentTriggerBox {
+  background-color: #3a3a3a;
+}
+
+:global(body.dark) .commentButton {
+  color: #81c784;
+}
+
+:global(body.dark) .commentButton:hover {
+  background-color: #81c784;
+  color: black;
 }

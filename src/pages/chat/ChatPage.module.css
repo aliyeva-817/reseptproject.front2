@@ -2,12 +2,25 @@
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
-}/* === Əsas konteyner - bütün chat səhifəsi üçün === */
+}
+
+/* === Əsas konteyner - bütün chat səhifəsi üçün === */
 .chatPage {
   display: flex;
   height: 100vh;
   overflow: hidden;
   font-family: 'Segoe UI', sans-serif;
+   animation: fadeInPage 0.6s ease-out both;
+}
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 /* ChatPage.module.css içində olmalıdır */
 .theme_brokoli {
@@ -25,24 +38,21 @@
   color: #333;
 }
 
-.theme_dark {
-  background-color: #1a1a1a !important;
-  color : #f0f0f0 !important;
-}
+
 
 
 /* === Sol Panel (Sidebar) === */
 .sidebar {
   width: 360px;
-  background: #EEEFE0;
+ background-color: white;/* daha fərqli görünüş üçün */
   padding: 24px 18px;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.05);
-  border-top-right-radius: 16px;
-  border-bottom-right-radius: 16px;
+  box-shadow: 4px 0 16px rgba(0, 0, 0, 0.15);
+  border-right: 1px solid #c8dcc6;
 }
+
 
 /* Sidebar başlıqları üçün yazı tərzi */
 .sidebar label {
@@ -61,6 +71,7 @@
 
 /* Input dizaynı - home dizaynı ilə eyni */
 .searchWrapDribbble input {
+ margin-left: -16px;
   height: 48px;
   padding: 0 45px 0 20px;
   width: 300px;
@@ -81,7 +92,7 @@
   transform: translateY(-50%);
   height: 22px;
   width: 22px;
-  background-color: transparent;
+  background-color: transparent !important;
   border: none;
   font-size: 18px;
   
@@ -106,16 +117,17 @@
 
 /* === Tema seçimi üçün dropdown menyu === */
 .sidebar select {
-  padding: 6px 10px;
-  border: 2px solid orange;
+  padding: 12px 9px;
+  
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 15px;
   background-color: white;
   outline: none;
 }
 
 /* === İstifadəçi siyahısı (chat listəsi) === */
 .chatList {
+  margin-top: 20px;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -169,6 +181,7 @@
 
 /* === Sağ tərəf - Chat yazışma hissəsi === */
 .chatArea {
+ 
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -176,9 +189,39 @@
   position: relative;
   height: 100vh;
 }
+.themeLabel {
+  font-weight: 500;
+  margin-right: 10px;
+  color: #2f5249;
+  font-size: 16px;
+}
+
+.themeSelect {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 2px solid #6e9170;
+  background-color: #fefefe;
+  color: #2f5249;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.themeSelect:hover {
+  border-color: #3fa557;
+  box-shadow: 0 0 0 3px rgba(111, 163, 111, 0.2);
+}
+
+.themeSelect:focus {
+  outline: none;
+  border-color: #3fa557;
+  box-shadow: 0 0 0 4px rgba(111, 163, 111, 0.3);
+}
 
 /* Header - mesajlaşma başlığı */
 .header {
+  height: 80px;
 
   padding: 16px;
   font-weight: bold;
@@ -199,6 +242,7 @@
 
 /* === Mesaj qutusu (bubble) === */
 .message {
+  
   max-width: 70%;
   padding: 10px 14px;
   border-radius: 14px;
@@ -312,7 +356,7 @@
 .theme_brokoli .chatArea { background: #eafbe5; }
 .theme_carrot .chatArea { background: #fff3e6; }
 .theme_watermelon .chatArea { background: #ffeef0; }
-.theme_dark .chatArea { background: #1e1e1e; color: #eee; }
+
 
 .theme_dark .message { background: #2c2c2c; color: #eee; }
 .theme_dark .inputArea { background: #222; }

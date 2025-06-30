@@ -4,12 +4,11 @@ import {
   addMeal,
   updateMeal,
   deleteMeal,
-  getNotes,
-  addNote,
-  editNote,
-  deleteNote,
 } from '../../services/api';
 import styles from './MealPlanner.module.css';
+import { FaPlus } from "react-icons/fa";
+import { MdModeEdit } from "react-icons/md";
+import GreenLoader from '../../components/common/GreenLoader'; // ✅
 
 const daysOfWeek = [
   'Bazar ertəsi',
@@ -26,14 +25,10 @@ const MealPlanner = () => {
   const [meals, setMeals] = useState([]);
   const [mealInputs, setMealInputs] = useState({});
   const [editingMeals, setEditingMeals] = useState({});
-
-  const [notes, setNotes] = useState([]);
-  const [newNote, setNewNote] = useState('');
-  const [editingNote, setEditingNote] = useState({});
+  const [isLoading, setIsLoading] = useState(true); // ✅
 
   useEffect(() => {
     fetchMeals();
-    fetchNotes();
   }, []);
 
   const fetchMeals = async () => {
@@ -42,15 +37,8 @@ const MealPlanner = () => {
       setMeals(data);
     } catch (err) {
       console.error('Yeməklər alınmadı:', err);
-    }
-  };
-
-  const fetchNotes = async () => {
-    try {
-      const data = await getNotes();
-      setNotes(data);
-    } catch (err) {
-      console.error('Qeydlər alınmadı:', err);
+    } finally {
+      setIsLoading(false); // ✅
     }
   };
 
@@ -93,35 +81,11 @@ const MealPlanner = () => {
     groupedMeals[meal.day][meal.mealType].push(meal);
   });
 
-  const handleNoteAdd = async () => {
-    if (!newNote.trim()) return;
-    await addNote(newNote);
-    setNewNote('');
-    fetchNotes();
-  };
-
-  const handleNoteEdit = (id, text) => {
-    setEditingNote(prev => ({ ...prev, [id]: text }));
-  };
-
-  const handleNoteSave = async (id) => {
-    await editNote(id, editingNote[id]);
-    setEditingNote(prev => {
-      const updated = { ...prev };
-      delete updated[id];
-      return updated;
-    });
-    fetchNotes();
-  };
-
-  const handleNoteDelete = async (id) => {
-    await deleteNote(id);
-    fetchNotes();
-  };
+  if (isLoading) return <GreenLoader />; // ✅ Loader göstər
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Həftəlik Yemək Planı və Qeyd Siyahısı</h1>
+      <h1 className={styles.title}>Həftəlik Yemək Planı</h1>
 
       <div className={styles.grid}>
         {daysOfWeek.map(day => (
@@ -135,7 +99,9 @@ const MealPlanner = () => {
                     onChange={(e) => handleMealChange(day, type, e.target.value)}
                     placeholder={`${type} üçün...`}
                   />
-                  <button onClick={() => handleMealAdd(day, type)}>Əlavə et</button>
+                  <button className={styles.addbtn} onClick={() => handleMealAdd(day, type)}>
+                    <FaPlus />
+                  </button>
                 </div>
 
                 {(groupedMeals[day]?.[type] || []).map(item => (
@@ -151,8 +117,24 @@ const MealPlanner = () => {
                     ) : (
                       <>
                         <span>{item.content}</span>
-                        <button onClick={() => handleMealEdit(item._id, item.content)}>Dəyiş</button>
-                        <button onClick={() => handleMealDelete(item._id)}>Sil</button>
+                        <div className={styles.qutu}>
+                          <button className={styles.sil} onClick={() => handleMealEdit(item._id, item.content)}>
+                            <MdModeEdit />
+                          </button>
+                          <button className={styles.edit} onClick={() => handleMealDelete(item._id)}>
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html: `
+                                  <lord-icon
+                                    src="https://cdn.lordicon.com/xyfswyxf.json"
+                                    trigger="hover"
+                                    colors="primary:#000000"
+                                    style="width:24px;height:24px">
+                                  </lord-icon>`
+                              }}
+                            />
+                          </button>
+                        </div>
                       </>
                     )}
                   </div>
@@ -161,40 +143,6 @@ const MealPlanner = () => {
             ))}
           </div>
         ))}
-
-        {/* Bazar və Shopping List yan-yana durması üçün Shopping List də grid-in içindədir */}
-        <div className={styles.notes}>
-          <h2>Shopping List</h2>
-          <div className={styles.newNote}>
-            <input
-              value={newNote}
-              onChange={(e) => setNewNote(e.target.value)}
-              placeholder="Yeni qeyd..."
-            />
-            <button onClick={handleNoteAdd}>Əlavə et</button>
-          </div>
-          <ul className={styles.noteList}>
-            {notes.map(note => (
-              <li key={note._id}>
-                {editingNote[note._id] !== undefined ? (
-                  <>
-                    <input
-                      value={editingNote[note._id]}
-                      onChange={(e) => handleNoteEdit(note._id, e.target.value)}
-                    />
-                    <button onClick={() => handleNoteSave(note._id)}>Yadda saxla</button>
-                  </>
-                ) : (
-                  <>
-                    {note.text}
-                    <button onClick={() => handleNoteEdit(note._id, note.text)}>Dəyiş</button>
-                    <button onClick={() => handleNoteDelete(note._id)}>Sil</button>
-                  </>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
     </div>
   );

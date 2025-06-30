@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axiosInstance from '../../services/axiosInstance';
 import styles from './Premium.module.css';
+import GreenLoader from '../../components/common/GreenLoader'; 
 
 const Premium = () => {
   const [recipes, setRecipes] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // ✅
 
   useEffect(() => {
     const fetchPremiumRecipes = async () => {
@@ -13,17 +15,20 @@ const Premium = () => {
         setRecipes(res.data);
       } catch (err) {
         console.error('Premium reseptləri yüklənmədi:', err);
+      } finally {
+        setIsLoading(false); // ✅
       }
     };
     fetchPremiumRecipes();
   }, []);
+
+  if (isLoading) return <GreenLoader />; // ✅
 
   return (
     <div className={styles.container}>
       <h2>💎 Premium Reseptlər</h2>
       {recipes.length === 0 ? (
         <p className={styles.noRecipes}>Hazırda premium resept yoxdur.</p>
-
       ) : (
         <div className={styles.grid}>
           {recipes.map((recipe) => (
@@ -38,10 +43,10 @@ const Premium = () => {
                 className={styles.image}
               />
               <h3 className={styles.title}>{recipe.title}</h3>
-               <div className={styles.greenLines}>
-    <div className={`${styles.line} ${styles.full}`}></div>
-    <div className={`${styles.line} ${styles.short}`}></div>
-  </div>
+              <div className={styles.greenLines}>
+                <div className={`${styles.line} ${styles.full}`}></div>
+                <div className={`${styles.line} ${styles.short}`}></div>
+              </div>
               <Link to={`/premium/${recipe._id}`} className={styles.button}>
                 Ətraflı bax
               </Link>

@@ -249,13 +249,14 @@ const ChatPage = () => {
           <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Istifadəçi..." />
           <button className={styles.ibtn} onClick={handleFindUser}><FaSearch /></button>
         </div>
-        <label>Tema:</label>
-        <select value={theme} onChange={(e) => setTheme(e.target.value)}>
-          <option value="brokoli">🥦 Brokoli</option>
-          <option value="carrot">🥕 Kök</option>
-          <option value="watermelon">🍉 Qarpız</option>
-          <option value="dark">🌑 Qaranlıq</option>
-        </select>
+       <label className="themeLabel">Tema:</label>
+<select className="themeSelect" value={theme} onChange={(e) => setTheme(e.target.value)}>
+  <option value="brokoli">🥦 Yaşıl</option>
+  <option value="carrot">🥕 Narıncı</option>
+  <option value="watermelon">🍉 Qırmızı</option>
+  
+</select>
+
         <ul className={styles.chatList}>
           {chatUsers.map((u) => (
             <li key={u._id} onClick={() => {

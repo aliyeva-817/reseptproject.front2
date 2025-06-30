@@ -1,13 +1,14 @@
 .toggleBtn {
-  background: transparent;
+  background: transparent !important;
   border: none;
   cursor: pointer;
-  font-size: 20px;
-  color: #ff7a00;
-  margin-left: 10px;
+  font-size: 25px;
+  color: #5a7b5b !important;
+  
+  margin-left: -18%;
   transition: color 0.3s ease;
 }
 
 .toggleBtn:hover {
-  color: #ffa500;
+  color: #4a654b;
 }

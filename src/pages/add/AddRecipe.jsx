@@ -7,6 +7,7 @@ import food2 from '../../assets/food/food2.png';
 import food3 from '../../assets/food/food3.png';
 import food4 from '../../assets/food/food4.png';
 import bgImage from '../../assets/food/arxa fon.webp';
+import GreenLoader from '../../components/common/GreenLoader'; // ✅ Loader import
 
 const AddRecipe = () => {
   const [title, setTitle] = useState('');
@@ -15,9 +16,11 @@ const AddRecipe = () => {
   const [category, setCategory] = useState('');
   const [image, setImage] = useState(null);
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // ✅
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true); // ✅ Loader göstərilsin
     const formData = new FormData();
     formData.append('title', title);
     formData.append('ingredients', ingredients);
@@ -41,8 +44,12 @@ const AddRecipe = () => {
     } catch (err) {
       setMessage('Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
       console.error('Error uploading recipe:', err);
+    } finally {
+      setIsLoading(false); // ✅ Yükləmə bitdi
     }
   };
+
+  if (isLoading) return <GreenLoader />; // ✅ Yalnız submit zamanı loader
 
   return (
     <div

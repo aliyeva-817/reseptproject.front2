@@ -8,6 +8,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  animation: fadeInPage 0.8s ease-out both;
+}
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .heading {

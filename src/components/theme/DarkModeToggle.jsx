@@ -1,7 +1,6 @@
-// src/components/theme/DarkModeToggle.jsx
-
 import React, { useEffect, useState } from 'react';
-import { FaSun, FaMoon } from 'react-icons/fa';
+import { CiSun } from "react-icons/ci";
+import { IoMoonOutline } from "react-icons/io5";
 import styles from './DarkModeToggle.module.css';
 
 const DarkModeToggle = () => {
@@ -20,7 +19,11 @@ const DarkModeToggle = () => {
 
   return (
     <button onClick={toggleTheme} className={styles.toggleBtn}>
-      {isDark ? <FaSun /> : <FaMoon />}
+      {isDark ? (
+        <CiSun style={{ fontSize: '32px' }} />
+      ) : (
+        <IoMoonOutline style={{ fontSize: '27px' }} />
+      )}
     </button>
   );
 };

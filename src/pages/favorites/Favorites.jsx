@@ -1,14 +1,16 @@
+// ✅ Favorites.jsx (tam uyğunlaşdırılmış versiya)
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getFavorites, removeFavorite } from '../../services/axiosInstance';
 import styles from './Favorites.module.css';
-import CommentSection from '../../components/comments/CommentSection';
 import CommentModal from '../../components/comments/CommentModal';
+import GreenLoader from '../../components/common/GreenLoader';
 import { FaCommentDots } from 'react-icons/fa';
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
   const [activeCommentId, setActiveCommentId] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const token = localStorage.getItem("accessToken");
 
@@ -17,7 +19,6 @@ const Favorites = () => {
       navigate("/login");
       return;
     }
-
     const fetchFavorites = async () => {
       try {
         const data = await getFavorites();
@@ -25,9 +26,10 @@ const Favorites = () => {
         setFavorites(filtered);
       } catch (err) {
         console.error('Favoritləri yükləmək olmadı:', err);
+      } finally {
+        setIsLoading(false);
       }
     };
-
     fetchFavorites();
   }, [token, navigate]);
 
@@ -49,13 +51,10 @@ const Favorites = () => {
     }
   };
 
-  const openComments = (recipeId) => {
-    setActiveCommentId(recipeId);
-  };
+  const openComments = (recipeId) => setActiveCommentId(recipeId);
+  const closeComments = () => setActiveCommentId(null);
 
-  const closeComments = () => {
-    setActiveCommentId(null);
-  };
+  if (isLoading) return <GreenLoader />;
 
   return (
     <div className={styles.container}>
@@ -64,42 +63,50 @@ const Favorites = () => {
         {favorites.length === 0 ? (
           <p>Favorit resept yoxdur.</p>
         ) : (
-          favorites.map((recipe) => {
-            if (!recipe) return null;
-            return (
-              <div key={recipe._id} className={styles.card}>
-                {recipe.isPremium && <div className={styles.premiumLabel}>★ Premium</div>}
+          favorites.map((recipe) => (
+            <div key={recipe._id} className={styles.card}>
+              {recipe.isPremium && <div className={styles.premiumLabel}>★ Premium</div>}
+              <div className={styles.imageWrapper}>
                 <img
-                  src={
-                    recipe.image?.includes('uploads/')
-                      ? `http://localhost:5000/${recipe.image}`
-                      : `http://localhost:5000/uploads/${recipe.image}`
-                  }
+                  src={recipe.image?.includes('uploads/')
+                    ? `http://localhost:5000/${recipe.image}`
+                    : `http://localhost:5000/uploads/${recipe.image}`}
                   alt={recipe.title}
                   className={styles.image}
                 />
-                <h3>{recipe.title}</h3>
-                <div className={styles.buttons}>
-                  <button onClick={() => handleDetail(recipe)} className={styles.detailBtn}>
-                    Ətraflı bax
+                <div className={styles.iconOverlay}>
+                  <button onClick={() => handleRemove(recipe._id)}>
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: `
+                         <lord-icon
+  src="https://cdn.lordicon.com/drxwpfop.json"
+  trigger="hover"
+  colors="primary:#fff,secondary:#ffdd57"
+  style="width:26px;height:26px">
+</lord-icon>
+
+                        `,
+                      }}
+                    />
                   </button>
-                  <button onClick={() => handleRemove(recipe._id)} className={styles.removeBtn}>
-                    Sil
-                  </button>
-                  <button onClick={() => openComments(recipe._id)} className={styles.commentBtn}>
-                    <FaCommentDots /> Şərh yaz
+                  <button onClick={() => openComments(recipe._id)}>
+                    <FaCommentDots />
                   </button>
                 </div>
-                <CommentSection recipeId={recipe._id} />
               </div>
-            );
-          })
+              <h3>{recipe.title}</h3>
+              <button
+                onClick={() => handleDetail(recipe)}
+                className={styles.detailBtnFull}
+              >
+                Ətraflı bax
+              </button>
+            </div>
+          ))
         )}
       </div>
-
-      {activeCommentId && (
-        <CommentModal recipeId={activeCommentId} onClose={closeComments} />
-      )}
+      {activeCommentId && <CommentModal recipeId={activeCommentId} onClose={closeComments} />}
     </div>
   );
 };

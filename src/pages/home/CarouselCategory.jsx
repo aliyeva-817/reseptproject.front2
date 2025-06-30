@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import styles from './CarouselCategory.module.css';
 
 // 🖼️ Şəkilləri import et (yolu sənin layihəndəki yerləşməyə uyğun olaraq tənzimlənib)
-import dessert from '../../assets/categories/burger.png';
-import main from '../../assets/categories/burger.png';
-import soup from '../../assets/categories/burger.png';
-import salad from '../../assets/categories/burger.png';
-import breakfast from '../../assets/categories/burger.png';
-import fastfood from '../../assets/categories/burger.png';
-import drinks from '../../assets/categories/burger.png';
+import dessert from '../../assets/categories/dessert.png';
+import main from '../../assets/categories/dessert.png';
+import soup from '../../assets/categories/dessert.png';
+import salad from '../../assets/categories/dessert.png';
+import breakfast from '../../assets/categories/dessert.png';
+import fastfood from '../../assets/categories/dessert.png';
+import drinks from '../../assets/categories/dessert.png';
 
 const categories = [
   { name: 'Dessert', image: dessert },

@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Payment.module.css';
+import GreenLoader from '../../components/common/GreenLoader'; // ✅ Loader import
 
 const PaymentCancel = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Sadəcə 500ms sonra yüklənmiş kimi göstərək
+    const timer = setTimeout(() => setLoading(false), 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) return <GreenLoader />;
+
   return (
     <div className={styles.container}>
       <h2>❌ Ödəniş ləğv olundu</h2>

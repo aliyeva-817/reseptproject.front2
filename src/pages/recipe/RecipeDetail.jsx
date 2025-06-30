@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../services/axiosInstance';
 import styles from './RecipeDetail.module.css';
-import CommentSection from '../../components/comments/CommentSection';
 import CommentModal from '../../components/comments/CommentModal';
 import { FaCommentDots } from 'react-icons/fa';
+import GreenLoader from '../../components/common/GreenLoader'; 
 
 const RecipeDetail = () => {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
   const [activeCommentId, setActiveCommentId] = useState(null);
+  const [loading, setLoading] = useState(true); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,6 +20,8 @@ const RecipeDetail = () => {
         setRecipe(res.data);
       } catch (err) {
         console.error('Resept tapılmadı:', err);
+      } finally {
+        setLoading(false); // ✅ Loader bağlanır
       }
     };
     fetchDetail();
@@ -46,7 +49,7 @@ const RecipeDetail = () => {
     setActiveCommentId(null);
   };
 
-  if (!recipe) return <p>Yüklənir...</p>;
+  if (loading) return <GreenLoader />; // ✅ Loader görünür
 
   return (
     <div className={styles.container}>
@@ -72,7 +75,7 @@ const RecipeDetail = () => {
 
       <p><strong>Hazırlanma:</strong></p>
       {recipe.instructions && recipe.instructions.length > 0 ? (
-        <ol>
+        <ol className={styles.instructionsList}>
           {recipe.instructions.map((step, idx) => (
             <li key={idx}>{step.trim()}</li>
           ))}
@@ -87,17 +90,12 @@ const RecipeDetail = () => {
         </button>
       )}
 
-      <h3>Şərhlər</h3>
+      <div className={styles.commentTriggerBox}>
+        <button onClick={openComments} className={styles.commentButton}>
+          <FaCommentDots /> Şərh yaz
+        </button>
+      </div>
 
-      {/* Şərh yaz düyməsi */}
-      <button onClick={openComments} className={styles.commentButton}>
-        <FaCommentDots /> Şərh yaz
-      </button>
-
-      {/* Mövcud şərhlərin siyahısı */}
-      <CommentSection recipeId={id} />
-
-      {/* Şərh modalı */}
       {activeCommentId && (
         <CommentModal recipeId={activeCommentId} onClose={closeComments} />
       )}
