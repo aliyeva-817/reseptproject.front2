@@ -41,13 +41,11 @@ const Header = () => {
   return (
     <header className={`${styles.header} ${darkMode ? styles.dark : styles.light}`}>
       <div className={styles.nav1}>
-        {/* Sol hissə - logo və ad */}
         <div className={styles.left}>
           <img src={logo} alt="logo" className={styles.logo} />
           <h1 className={styles.title}>RESEPTMATIK</h1>
         </div>
 
-        {/* Naviqasiya menyusu */}
         <nav className={`${styles.nav} ${menuOpen ? styles.open : ''}`}>
           <Link to="/home" className={styles.link}>Əsas</Link>
           {isLoggedIn && (
@@ -67,51 +65,44 @@ const Header = () => {
           )}
         </nav>
 
-        {/* Sağ hissə - ikonlar + darkmode + menyu düyməsi */}
         <div className={styles.right}>
           {isLoggedIn && (
             <>
               <Link to="/chat" className={styles.iconWrapper}>
-                <span
-                  className={styles.lordIcon}
-                  dangerouslySetInnerHTML={{
-                    __html: `
-                      <lord-icon
-                        src="https://cdn.lordicon.com/uyxrgiem.json"
-                        trigger="hover"
-                        colors="primary:#121331,secondary:#5a7b5b"
-                        style="width:32px;height:32px">
-                      </lord-icon>`
-                  }}
-                />
+                <lord-icon
+                  src="https://cdn.lordicon.com/uyxrgiem.json"
+                  trigger="hover"
+                  colors={
+                    darkMode
+                      ? "primary:#ffffff,secondary:#cccccc"
+                      : "primary:#121331,secondary:#5a7b5b"
+                  }
+                  style={{ width: "32px", height: "32px" }}
+                ></lord-icon>
                 {unreadTotal > 0 && (
                   <span className={styles.notificationDot}>{unreadTotal}</span>
                 )}
               </Link>
 
               <Link to="/profile" className={styles.iconWrapper}>
-                <span
-                  className={styles.lordIcon}
-                  dangerouslySetInnerHTML={{
-                    __html: `
-                      <lord-icon
-                        src="https://cdn.lordicon.com/kdduutaw.json"
-                        trigger="hover"
-                        colors="primary:#121331,secondary:#2f5249"
-                        style="width:32px;height:32px">
-                      </lord-icon>`
-                  }}
-                />
+                <lord-icon
+                  src="https://cdn.lordicon.com/kdduutaw.json"
+                  trigger="hover"
+                  colors={
+                    darkMode
+                      ? "primary:#ffffff,secondary:#cccccc"
+                      : "primary:#121331,secondary:#2f5249"
+                  }
+                  style={{ width: "32px", height: "32px" }}
+                ></lord-icon>
               </Link>
             </>
           )}
 
-         <div className={styles.mode}>
-  <DarkModeToggle />
-</div>
+          <div className={styles.mode}>
+            <DarkModeToggle />
+          </div>
 
-
-          {/* Menyu düyməsi dark mode-dan sonra */}
           <button type="button" className={styles.menuButton} onClick={toggleMenu}>
             <CiMenuBurger />
           </button>

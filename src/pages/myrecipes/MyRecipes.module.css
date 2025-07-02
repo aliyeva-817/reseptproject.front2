@@ -1,82 +1,279 @@
-/* === Reset === */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 .container {
-  padding: 0;
-  background-color: transparent;
+  padding: 2rem;
+  background-color: #e1e5d3;
   font-family: 'Poppins', sans-serif;
-  animation: fadeInPage 0.8s ease-out both;
 }
-@keyframes fadeInPage {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+:global(body.dark) .container {
+  background-color: #1a1a1a;
 }
 
-/* === Dark Mode === */
-:global(body.dark) {
-  background-color: #1a1a1a;
-  color: #f0f0f0;
+:global(body.dark) .title,
+:global(body.dark) .noRecipe,
+:global(body.dark) .noResultsMessage {
+  color: #ffffff;
 }
+
+:global(body.dark) .addRecipeLink {
+  background-color: #6e9170;
+  color: #ffffff;
+}
+
+:global(body.dark) .addRecipeLink:hover {
+  background-color: #5a7b5b;
+}
+
+
 
 :global(body.dark) .card {
-  background-color: #2c2c2c;
+ background-color: #515050;
   box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
 }
 
-:global(body.dark) .card:hover {
-  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
+:global(body.dark) h3 {
+  color: #ffffff;
 }
 
-:global(body.dark) .commentBtn,
-:global(body.dark) .detailBtn,
-:global(body.dark) .deleteBtn {
-  color: #ffa500;
+
+.title {
+  text-align: center;
+  font-size: 29px;
+  margin-bottom: 20px;
+  color: #2F5249;
 }
 
-:global(body.dark) .commentBtn:hover,
-:global(body.dark) .detailBtn:hover,
-:global(body.dark) .deleteBtn:hover {
-  color: #ffd580;
+.noRecipe {
+  text-align: center;
+  color: gray;
+  font-size: 1rem;
+}
+.noRecipeWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  text-align: center;
 }
 
-/* === Recipe List === */
+.addRecipeLink {
+  margin-top: 12px;
+  background-color: #6e9170;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.addRecipeLink:hover {
+  background-color: #5a7b5b;
+}
+
+
+
 .recipeList {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center; 
   gap: 20px;
-  padding: 20px;
+  padding: 10px;
 }
-
 .card {
+  margin-bottom: 30px;
   width: 300px;
+  padding: 10px;
   min-height: 320px;
-  background: #EEEFE0;
+  background: #f5f5f1;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: stretch;
   position: relative;
   animation: fadeUp 0.6s ease-in-out;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(107, 174, 110, 0.25);
+}
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
+
+.image {
+  border-radius: 10px;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Home-dakı kimi hover zamanı ikonlar görünür */
+.iconOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 20px 20px 0 0;
+}
+
+.imageWrapper:hover .iconOverlay {
+  opacity: 1;
+}
+
+.iconOverlay button {
+  font-size: 25px;
+  background: none;
+  border: none;
+  color: white;
+  background-color: transparent !important;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.iconOverlay button:hover {
+  transform: scale(1.2);
+  color: #ffdd57;
+  background-color: transparent !important;
+}
+
+
+.image {
+  border-radius: 10px;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+h3 {
+  text-align: center;
+  margin: 14px 0 0;
+  padding: 0 12px;
+  font-size: 19px;
+  font-weight: 700;
+  color: #2F5249;
+}
+
+.greenLines {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  margin-bottom: 12px;
+}
+
+.greenLines .line {
+  height: 3px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #4CAF50, #2E7D32);
+  transition: all 0.3s ease;
+  box-shadow: 0 0 4px rgba(76, 175, 80, 0.4);
+}
+
+.greenLines .full {
+  width: 60%;
+}
+
+.greenLines .short {
+  width: 30%;
+}
+
+.card:hover .greenLines .line {
+  transform: scaleX(1.1);
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.7);
+}
+
+.ingredientCarousel {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 10px 12px;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.ingredientCarousel::-webkit-scrollbar {
+  display: none;
+}
+
+.ingredientTag {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  background-color: #e6e49b;
+  color: #2F5249;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.detailBtnFull {
+  margin-top: 10px;
+  background-color: #6e9170;
+  color: white;
+  font-weight: bold;
+  border: none;
+  font-size: 16px;
+  padding: 10px;
+  width: 100%;
+  height: 50px;
+  border-radius: 0 0 20px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.detailBtnFull:hover {
+  background-color: #5a7b5b;
+  transform: translateY(-2px);
+}
+.linkText {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.actionRow {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 12px 0 16px;
+}
+
+.commentBtn,
+.deleteBtn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: #437057;
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.commentBtn:hover,
+.deleteBtn:hover {
+  transform: scale(1.15);
+  color: #ff7a00;
 }
 
 @keyframes fadeUp {
@@ -90,96 +287,14 @@
   }
 }
 
-.image {
-  height: 200px;
-  width: 100%;
-  object-fit: cover;
-}
-
-h3 {
-  text-align: center;
-  font-size: 16px;
-  margin: 12px 0 0;
-  padding: 0 10px;
-  height: 40px;
-  font-weight: 600;
-}
-
-.greenLines {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  margin-top: 4px;
-  margin-bottom: 12px;
-}
-
-.greenLines .line {
-  height: 3px;
-  border-radius: 5px;
-  background-color: #5ba05b;
-}
-
-.greenLines .full {
-  width: 60%;
-}
-
-.greenLines .short {
-  width: 35%;
-}
-
-.actionRow {
-  margin-top: auto;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 12px 0 16px;
-}
-
-.commentBtn,
-.detailBtn,
-.deleteBtn {
-  background: none;
-  border: none;
-  font-size: 22px;
-  color: #819A91;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s ease;
-}
-
-.commentBtn:hover,
-.detailBtn:hover,
-.deleteBtn:hover {
-  transform: scale(1.15);
-  background-color: transparent !important;
-  /* intentionally no color change on hover */
-}
-
-.noRecipe {
-  text-align: center;
-  color: gray;
-  font-size: 1rem;
-  margin-top: 1rem;
-}
-
-.title {
-  text-align: center;
-  font-size: 24px;
-  margin: 20px 0;
-}
-
-/* === Responsive === */
 @media (max-width: 768px) {
   .card {
-    width: 70vw;
+    width: 85vw;
   }
 }
 
 @media (max-width: 480px) {
   .card {
-    width: 92vw;
+    width: 94vw;
   }
 }

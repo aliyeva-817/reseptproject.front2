@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../../services/axiosInstance';
 import styles from './PremiumDetail.module.css';
-import GreenLoader from '../../components/common/GreenLoader'; // ✅ Loader import
+import GreenLoader from '../../components/common/GreenLoader';
 
 const PremiumDetail = () => {
   const { id } = useParams();
@@ -38,24 +38,30 @@ const PremiumDetail = () => {
     }
   };
 
-  if (!recipe) return <GreenLoader />; // ✅ Əvvəlki 'Yüklənir...' əvəzinə
+  if (!recipe) return <GreenLoader />;
 
   return (
     <div className={styles.container}>
-      <img
-        className={styles.image}
-        src={
-          recipe.image?.includes('uploads/')
-            ? `http://localhost:5000/${recipe.image}`
-            : `http://localhost:5000/uploads/${recipe.image}`
-        }
-        alt={recipe.title}
-      />
-      <h1>{recipe.title}</h1>
+      <div className={styles.card}>
+        <img
+          className={styles.image}
+          src={
+            recipe.image?.includes('uploads/')
+              ? `http://localhost:5000/${recipe.image}`
+              : `http://localhost:5000/uploads/${recipe.image}`
+          }
+          alt={recipe.title}
+        />
+        <h1 className={styles.title}>{recipe.title}</h1>
 
-      <button onClick={handlePayment} className={styles.button} disabled={loading}>
-        {loading ? 'Yönləndirilir...' : 'Ödəniş et və bax'}
-      </button>
+        <button
+          onClick={handlePayment}
+          className={styles.button}
+          disabled={loading}
+        >
+          {loading ? 'Yönləndirilir...' : 'Ödəniş et və bax'}
+        </button>
+      </div>
     </div>
   );
 };

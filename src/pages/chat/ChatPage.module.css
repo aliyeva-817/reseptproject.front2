@@ -3,6 +3,49 @@
   padding: 0px;
   box-sizing: border-box;
 }
+/* === Öz mesajlar və qarşı tərəf mesajları üçün tema rəngləri === */
+.theme_brokoli .fromSelf { background-color: #fff8d6; }
+.theme_brokoli .fromOther { background-color: #b7d7c1; }
+
+.theme_carrot .fromSelf { background-color: #ffebcc; }
+.theme_carrot .fromOther { background-color: #ffe0b2; }
+
+.theme_watermelon .fromSelf { background-color: #ffd6e0; }
+.theme_watermelon .fromOther { background-color: #ffc0cb; }
+
+.theme_dark .fromSelf { background-color: #3a3a3a; color: white; }
+.theme_dark .fromOther { background-color: #2a2a2a; color: white; }
+
+/* === Arxa fonda avokado şəkilləri === */
+.avocadoBackground {
+  position: absolute;
+  top: 16%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.05;
+  z-index: 0;
+  pointer-events: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.avocadoItem {
+  width: 100px;
+  height: auto;
+  margin: 20px;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-13px); }
+  100% { transform: translateY(0); }
+}
+
+
 
 /* === Əsas konteyner - bütün chat səhifəsi üçün === */
 .chatPage {
@@ -38,24 +81,27 @@
   color: #333;
 }
 
-
-
-
-/* === Sol Panel (Sidebar) === */
 .sidebar {
+ 
   width: 360px;
- background-color: white;/* daha fərqli görünüş üçün */
+  background-color: white;
   padding: 24px 18px;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  box-shadow: 4px 0 16px rgba(0, 0, 0, 0.15);
   border-right: 1px solid #c8dcc6;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08), 4px 0 20px rgba(0, 0, 0, 0.06); /* ✅ qabariq effekt */
+  transition: all 0.3s ease-in-out;
+
 }
+
 
 
 /* Sidebar başlıqları üçün yazı tərzi */
 .sidebar label {
+  margin-top: 10%;
   font-weight: 500;
   font-size: 19px;
   color: #819A91;
@@ -129,7 +175,7 @@
 .chatList {
   margin-top: 20px;
   list-style: none;
-  padding: 0;
+ padding-top: 20%;
   margin: 0;
   overflow-y: auto;
   flex-grow: 1;
@@ -219,16 +265,29 @@
   box-shadow: 0 0 0 4px rgba(111, 163, 111, 0.3);
 }
 
-/* Header - mesajlaşma başlığı */
+
 .header {
   height: 80px;
-
   padding: 16px;
-  font-weight: bold;
-  font-size: 18px;
   background-color: white;
   border-bottom: 1px solid #ddd;
+
+  display: flex;
+  justify-content: center;   /* 🔥 Ortalayır */
+  align-items: center;       /* 🔥 Dikey ortalama */
+  font-weight: bold;
+  font-size: 18px;
+  position: relative;        /* 🔁 Ox sola çəkiləcəksə, burdan işlənəcək */
 }
+
+.header h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #2f5249;
+  cursor: pointer;
+}
+
 
 /* === Mesaj siyahısı === */
 .messageList {
@@ -301,20 +360,19 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
- background-color: transparent;
-  
+  background-color: transparent;
 }
 
 .inputArea textarea {
   flex: 1;
-  resize: none;
-  border: 2px solid #ddd;
-  border-radius: 10px;
+  height: 48px;
   padding: 10px 12px;
   font-size: 14px;
   font-family: inherit;
-  height: 48px;
-  box-sizing: border-box; /* 🧠 vacib: padding + border daxil edilir */
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  resize: none;
+  box-sizing: border-box;
 }
 
 .inputArea button {
@@ -326,16 +384,13 @@
   border-radius: 10px;
   cursor: pointer;
   font-size: 14px;
-  padding: 0;
-  margin: 10px;
-  box-sizing: border-box; /* 🧠 vacib */
 }
-
 
 /* === Söhbət seçilməyibsə göstəriş === */
 .noChatSelected {
   flex: 1;
   display: flex;
+  margin-top: 20%;
   justify-content: center;
   align-items: center;
   font-style: italic;
@@ -370,4 +425,50 @@
 .messageList {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+/* === Sidebar toggle düyməsi === */
+.toggleBtn {
+  position: absolute;
+  background-color: transparent !important;
+ 
+  top: -0.2%;
+  left: -0.2%;
+  color: #6e9170;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+ 
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+
+.toggleBtn:hover {
+  background-color: #588463;
+}
+
+/* === Sidebar qapalı vəziyyətdə === */
+.sidebarClosed {
+  width: 0 !important;
+  padding: 0 !important;
+  overflow: hidden;
+  border: none;
+  box-shadow: none;
+}
+
+@media (max-width: 400px) {
+  .inputArea textarea {
+    height: 36px;
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  .inputArea button {
+    width: 60px;
+    height: 36px;
+    font-size: 12px;
+  }
 }

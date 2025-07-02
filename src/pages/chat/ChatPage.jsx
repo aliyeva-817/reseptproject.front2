@@ -3,11 +3,14 @@ import axios from '../../services/axiosInstance';
 import { io } from 'socket.io-client';
 import { ThemeContext } from '../../components/theme/ThemeContext';
 import styles from './ChatPage.module.css';
-import { FaEdit, FaTrashAlt, FaArrowLeft, FaSearch } from 'react-icons/fa';
+import { FaEdit, FaTrashAlt, FaArrowLeft, FaSearch, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
 import 'animate.css';
+import avokado from '../../assets/food/avokado.png';
+import strawberry from '../../assets/food/strawberry.png';
+import orange from '../../assets/food/orange.png';
 
 const SOCKET_SERVER_URL = 'http://localhost:5000';
 
@@ -21,6 +24,7 @@ const ChatPage = () => {
   const [messageText, setMessageText] = useState('');
   const [editId, setEditId] = useState(null);
   const [unreadCounts, setUnreadCounts] = useState({});
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const socket = useRef(null);
   const userId = localStorage.getItem('userId');
 
@@ -250,7 +254,13 @@ const ChatPage = () => {
   return (
     <div className={`${styles.chatPage} ${styles[`theme_${theme}`]}`}>
       <ToastContainer />
-      <aside className={styles.sidebar}>
+
+      {/* Toggle Sidebar Button */}
+      <button className={styles.toggleBtn} onClick={() => setSidebarOpen(!sidebarOpen)}>
+        {sidebarOpen ? <FaChevronLeft /> : <FaChevronRight />}
+      </button>
+
+      <aside className={`${styles.sidebar} ${!sidebarOpen ? styles.sidebarClosed : ''}`}>
         <label>Istifadəçi axtar:</label>
         <div className={styles.searchWrapDribbble}>
           <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Istifadəçi..." />
@@ -286,6 +296,30 @@ const ChatPage = () => {
       </aside>
 
       <div className={styles.chatArea}>
+        {(theme === 'brokoli') && (
+          <div className={styles.avocadoBackground}>
+            {[...Array(30)].map((_, i) => (
+              <img key={i} src={avokado} alt="avokado" className={styles.avocadoItem} />
+            ))}
+          </div>
+        )}
+
+        {(theme === 'watermelon') && (
+          <div className={styles.avocadoBackground}>
+            {[...Array(30)].map((_, i) => (
+              <img key={i} src={strawberry} alt="strawberry" className={styles.avocadoItem} />
+            ))}
+          </div>
+        )}
+
+        {(theme === 'carrot') && (
+          <div className={styles.avocadoBackground}>
+            {[...Array(30)].map((_, i) => (
+              <img key={i} src={orange} alt="orange" className={styles.avocadoItem} />
+            ))}
+          </div>
+        )}
+
         <div className={styles.header}>
           {recipient && <h3 onClick={() => {
             setRecipient(null);
