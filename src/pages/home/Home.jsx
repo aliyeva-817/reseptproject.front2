@@ -140,20 +140,23 @@ const Home = () => {
         </video>
         <button
           onClick={handleIntroEnd}
-          style={{
-            position: 'absolute',
-            bottom: 50,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            padding: '12px 24px',
-            fontSize: '1rem',
-            background: '#ff4d4f',
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            zIndex: 10000
-          }}
+           style={{
+     position: 'absolute',
+  bottom: 20,              
+  left: '50%',
+  transform: 'translateX(-50%)',
+  padding: '14px 16px',    
+  fontSize: '1rem',
+  background: '#ff4d4f',    
+  color: 'white',          
+  border: 'none',
+  borderRadius: '8px',
+  cursor: 'pointer',
+  maxWidth: '400px',       
+  width: 'auto',
+  zIndex: 10000,
+  textAlign: 'center',
+  }}
         >
           Əsas səhifəyə keç →
         </button>

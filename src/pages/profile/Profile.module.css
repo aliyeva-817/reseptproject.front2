@@ -1,38 +1,163 @@
-.container{
-  animation: fadeInPage 0.8s ease-out both;
-
-}
-@keyframes fadeInPage {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 .profile {
-  padding: 2rem;
-  max-width: 600px;
-  margin: auto;
-  background-color: #fff;
+  max-width: 480px;
+  margin: 8rem auto 2rem; /* Yuxarı boşluğu 3rem-ə artırdım */
+  padding: 20px 25px;
+  background-color: var(--card-bg);
+  color: var(--text-color);
   border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.12);
+  font-family: 'Inter', sans-serif;
+  animation: fadeInScale 0.5s ease forwards;
 }
+
+
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .profile h2 {
+  font-size: 24px; /* 30px-dən kiçildildi */
+  font-weight: 700;
+  margin-bottom: 1.8rem;
+  color: var(--primary-color);
   text-align: center;
-  margin-bottom: 20px;
 }
+
 .profile img {
-  width: 120px;
-  height: 120px;
+  display: block;
+  max-width: 140px;
+  height: auto;
+  border-radius: 50%;
+  margin: 0 auto 1.5rem auto;
+  border: 3px solid var(--primary-color);
+  object-fit: cover;
+}
+
+.profile p {
+  font-size: 16px; /* 20px-dən endirildi */
+  margin-bottom: 1.2rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.profile p strong {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.profile p span {
+  color: var(--link-color);
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.profile p span:hover {
+  color: var(--primary-color);
+}
+
+/* Çıxış butonu */
+.logoutBtn {
+  display: block;
+  width: 100%;
+  padding: 12px 0;
+  margin-top: 2rem;
+  background-color: var(--primary-color);
+  color: var(--button-text);
+  font-weight: 600;
+  font-size: 1.0rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 0.15);
+}
+
+.logoutBtn:hover {
+  background-color: var(--primary-hover);
+}
+.profileImage {
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  display: block;
-  margin: 0 auto 1rem;
+  margin: 1rem 0;
 }
-.profile p {
-  margin: 0.5rem 0;
-  font-size: 1rem;
+
+/* Dark mode dəstəyi */
+:global(body.dark) .profile {
+  background-color: rgb(45, 43, 43);
+  color: var(--text-color-dark);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.6);
+}
+
+:global(body.dark) .profile h2 {
+  color: white;
+}
+
+:global(body.dark) .profile p {
+  color: white;
+}
+
+:global(body.dark) .profile p strong {
+  color: white;
+}
+
+:global(body.dark) .profile p span {
+  color: white;
+}
+
+:global(body.dark) .profile p span:hover {
+  color: var(--primary-color);
+}
+
+:global(body.dark) .logoutBtn {
+  background-color: rgb(153, 150, 150) !important;
+  color: var(--button-text);
+  
+}
+
+
+
+/* Responsivlik */
+@media (max-width: 480px) {
+  .profile {
+    margin: 7rem 15px 2rem;
+    padding: 15px 20px;
+  }
+
+  .profile h2 {
+    font-size: 20px; /* Kiçildildi */
+  }
+
+  .profile p {
+    font-size: 14px; /* Kiçildildi */
+  }
+
+  .logoutBtn {
+    font-size: 1rem;
+    padding: 10px 0;
+  }
+}
+
+/* CSS dəyişənlər (var--) istifadə edilir. */
+:root {
+  --primary-color: #2f5249;
+  --primary-hover: #3fa557;
+  --button-text: #fff;
+  --text-color: #333;
+  --text-muted: #555;
+  --link-color: #1e6930;
+  --card-bg: #fff;
+  --card-bg-dark: #1f2b29;
+  --text-color-dark: #eee;
+  --text-muted-dark: #bbb;
+  --link-color-dark: #71a77a;
 }

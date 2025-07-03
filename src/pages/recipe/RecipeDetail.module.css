@@ -1,4 +1,4 @@
-/* Yeni RecipeDetail dizaynı */
+/* Ümumi konteyner */
 .container {
   width: 700px;
   margin: 40px auto;
@@ -31,18 +31,24 @@
 }
 
 .title {
-  font-size: 28px;
+  font-size: 33px;
   font-weight: 700;
   color: #2F5249;
   margin-top: 15px;
+  margin-bottom: 29px;
   word-break: break-word;
 }
 
+.basliqq {
+  font-size: 18px;
+}
+
 .adminBadge {
-  background-color: #e6e49b;
+  background-color: #eeeedc;
   color: #2F5249;
   font-size: 14px;
-  padding: 4px 10px;
+  padding: 3px 10px;
+  margin-bottom: -70%;
   margin-left: 10px;
   border-radius: 999px;
   font-weight: 600;
@@ -125,40 +131,7 @@ ol li {
   color: white;
 }
 
-@media (max-width: 480px) {
-  .container {
-    padding: 16px;
-  }
-
-  .title {
-    font-size: 22px;
-  }
-
-  .adminBadge {
-    font-size: 12px;
-    padding: 3px 8px;
-  }
-
-  .image {
-    height: 200px;
-  }
-
-  .commentTriggerBox {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .commentButton {
-    align-self: flex-end;
-  }
-}
-
-@media (min-width: 1330px) {
-  .container {
-    max-width: 1000px;
-  }
-}
-
+/* DARK MODE STİLLƏRİ */
 :global(body.dark) .container {
   background-color: #2a2a2a;
   color: #f0f0f0;
@@ -182,7 +155,74 @@ ol li {
   color: #81c784;
 }
 
+:global(body.dark) .title {
+  color: #ffffff;
+}
+
 :global(body.dark) .commentButton:hover {
   background-color: #81c784;
   color: black;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .image {
+    height: 220px;
+  }
+
+  .premiumButton {
+    width: 100%;
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .commentTriggerBox {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .commentButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 22px;
+  }
+
+  .adminBadge {
+    font-size: 12px;
+    margin-left: 5px;
+  }
+
+  ol li {
+    font-size: 15px;
+    padding: 6px 12px;
+  }
+
+  .premiumButton {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .commentText {
+    font-size: 15px;
+  }
+
+  .commentButton {
+    font-size: 14px;
+    padding: 8px 14px;
+  }
 }

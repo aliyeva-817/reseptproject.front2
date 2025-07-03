@@ -19,6 +19,7 @@ import MyRecipes from "../pages/myrecipes/MyRecipes";
 import MealPlanner from "../pages/mealPlanner/MealPlanner";
 import ResetPassword from '../pages/auth/ResetPassword';
 import CommentPage from "../components/comments/CommentPage";
+import About from "../pages/about/About";
 
 
 
@@ -73,6 +74,8 @@ const Router = () => {
             <Route path="my-recipes" element={<MyRecipes />} />
             <Route path="meal-planner" element={<MealPlanner />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="about" element={<About />} />
+
 
 
             <Route path="chat" element={<Chat />} />

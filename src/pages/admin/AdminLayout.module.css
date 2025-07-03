@@ -7,9 +7,9 @@
 }
 
 .sidebar {
-  width: 240px;
+  width: 340px;
   background-color: #111;
-  padding: 20px;
+  padding: 100px 30px;
   display: flex;
   flex-direction: column;
   border-right: 2px solid #333;
@@ -19,7 +19,8 @@
   font-size: 22px;
   margin-bottom: 25px;
   color: #00bcd4;
-  text-align: center;
+  text-align: start;
+  margin-left: 4px;
 }
 
 .sidebar nav {
@@ -47,7 +48,7 @@
 .logoutBtn {
   margin-top: 20px;
   padding: 10px 15px;
-  background-color: #f44336;
+  background-color: #f44336 !important;
   color: white;
   border: none;
   border-radius: 6px;

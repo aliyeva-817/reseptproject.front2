@@ -11,6 +11,7 @@ import 'animate.css';
 import avokado from '../../assets/food/avokado.png';
 import strawberry from '../../assets/food/strawberry.png';
 import orange from '../../assets/food/orange.png';
+import { BsSendFill } from "react-icons/bs";
 
 const SOCKET_SERVER_URL = 'http://localhost:5000';
 
@@ -359,7 +360,9 @@ const ChatPage = () => {
               value={messageText}
               onChange={(e) => setMessageText(e.target.value)}
             />
-            <button onClick={handleSend}>{editId ? 'Yenilə' : 'Göndər'}</button>
+            <button onClick={handleSend}>
+  {editId ? 'Yenilə' : <BsSendFill />}
+</button>
           </div>
         )}
       </div>

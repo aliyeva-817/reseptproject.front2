@@ -9,6 +9,7 @@
   box-sizing: border-box;
   overflow: hidden;
 }
+
 .replyInput {
   display: flex;
   gap: 8px;
@@ -37,6 +38,10 @@
   margin-bottom: 1.2%;
   transition: background-color 0.3s ease;
 }
+.basliq{
+  margin-bottom: 3%;
+  font-size: 21px;
+}
 
 .replyBtn:hover {
   background-color: #58975d;
@@ -57,51 +62,16 @@
   pointer-events: none;
 }
 
-.avocadoItem:nth-child(1) {
-  top: 10%;
-  left: 5%;
-  animation-delay: 0s;
-}
-.avocadoItem:nth-child(2) {
-  top: 30%;
-  left: 20%;
-  animation-delay: 2s;
-}
-.avocadoItem:nth-child(3) {
-  top: 50%;
-  left: 40%;
-  animation-delay: 4s;
-}
-.avocadoItem:nth-child(4) {
-  top: 70%;
-  left: 60%;
-  animation-delay: 1s;
-}
-.avocadoItem:nth-child(5) {
-  top: 20%;
-  left: 80%;
-  animation-delay: 3s;
-}
-.avocadoItem:nth-child(6) {
-  top: 70%;
-  left: 20%;
-  animation-delay: 3s;
-}
-.avocadoItem:nth-child(7) {
-  top: 56%;
-  right: 10%;
-  animation-delay: 3s;
-}
-.avocadoItem:nth-child(8) {
-  top: 38%;
-  right: 33%;
-  animation-delay: 3s;
-}
-.avocadoItem:nth-child(9) {
-  top: 54%;
-  left: 6%;
-  animation-delay: 3s;
-}
+/* Avocado placement unchanged */
+.avocadoItem:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+.avocadoItem:nth-child(2) { top: 30%; left: 20%; animation-delay: 2s; }
+.avocadoItem:nth-child(3) { top: 50%; left: 40%; animation-delay: 4s; }
+.avocadoItem:nth-child(4) { top: 70%; left: 60%; animation-delay: 1s; }
+.avocadoItem:nth-child(5) { top: 20%; left: 80%; animation-delay: 3s; }
+.avocadoItem:nth-child(6) { top: 70%; left: 20%; animation-delay: 3s; }
+.avocadoItem:nth-child(7) { top: 56%; right: 10%; animation-delay: 3s; }
+.avocadoItem:nth-child(8) { top: 38%; right: 33%; animation-delay: 3s; }
+.avocadoItem:nth-child(9) { top: 54%; left: 6%; animation-delay: 3s; }
 
 @keyframes float {
   0% { transform: translate(0, 0); }
@@ -126,62 +96,67 @@
   justify-content: center;
   transition: background-color 0.3s ease;
 }
+
 .iconButton {
   display: flex;
   align-items: center;
-  gap: 6px; /* <--- ikonla rəqəm arasına məsafə */
+  gap: 6px;
   background: none;
   border: none;
   color: #4caf50;
   font-size: 14px;
   cursor: pointer;
   transition: transform 0.2s ease;
+  display: flex;
+  margin-right: -3%;
+  align-items: center;
 }
-
 
 .closeBtn:hover {
   background-color: #58975d;
 }
 
-
 .commentList {
   flex: 1;
   overflow-y: auto;
   padding-right: 10px;
-  margin-bottom: 90px;
-   /* aşağıdakı input üçün boşluq */
+  margin-bottom: 90px; /* for input area */
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--text-color);
 }
 
-/* Input aşağıda sabit qalsın */
+.inputRow input {
+  padding: 12px 6px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  flex: 1;
+  box-sizing: border-box;
+  background: transparent;
+}
+
 .inputArea {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: transparent !important;
-  padding: 20px 20px;
-  box-shadow: 0 -2px 11px rgba(0, 0, 0, 0.08);
-  box-sizing: border-box;
-  z-index: 999;
-  
+  padding: 10px 20px;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1000;
 }
 
-/* InputRow: yazı + button */
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(100%);
+}
+
 .inputRow {
   display: flex;
   align-items: center;
   gap: 6px;
-}
-
-.inputRow textarea {
-  flex: 1;
-  padding: 10px;
-  border-radius: 10px;
-  border: 2px solid #ccc;
-  font-size: 15px;
-  resize: none;
-  height: 50px;
- 
 }
 
 .inputRow button {
@@ -192,7 +167,7 @@
   border: none;
   border-radius: 10px;
   font-size: 14px;
-  margin-bottom: 1%;
+  margin-bottom: 1.2%;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -205,13 +180,13 @@
   background-color: #599f5f;
 }
 
-/* Yuxarı comment kartları əvvəlki kimi */
 .comment {
   background-color: #fff;
   border-radius: 14px;
   padding: 16px;
   margin-bottom: 14px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  font-size: 16px;
 }
 
 .commentHeader {
@@ -232,7 +207,7 @@
 .commentActions {
   display: flex;
   align-items: center;
-  gap: 0px;
+  gap: 0;
 }
 
 .commentActions button {
@@ -252,17 +227,99 @@
   color: #388e3c;
 }
 
-/* Responsiv üçün */
-@media (max-width: 480px) {
+/* Responsive */
+@media (max-width: 1300px) {
+  .commentList {
+    font-size: 15px;
+  }
+  .commentHeader p {
+    font-size: 16px;
+  }
+  .comment {
+    font-size: 15px;
+  }
+  .inputRow input {
+    font-size: 15px;
+  }
+  .inputRow button {
+    font-size: 13px;
+    width: 70px;
+    height: 38px;
+  }
+  .replyBtn{
+    margin-bottom: 2.8%;
+    width: 60px;
+    font-size: 12px;
+    padding: 2px;
+  }
+}
+
+@media (max-width: 490px) {
   .inputRow {
     flex-direction: column;
   }
-
   .inputRow button {
     width: 100%;
   }
-
+  .replyBtn{
+    margin-bottom: 5.9%;
+    width: 60px;
+    font-size: 12px;
+    padding: 2px;
+  }
+  .icon{
+    font-size: 11px;
+    margin-left: -9px;
+  }
   .commentList {
     padding-bottom: 120px;
+    font-size: 14px;
+    
   }
+  .commentHeader p {
+    font-size: 14px;
+  }
+  .comment {
+    font-size: 14px;
+    padding: 12px;
+  }
+  .inputRow input {
+    font-size: 14px;
+    padding: 10px 8px;
+  }
+}
+
+/* Dark mode */
+:global(body.dark) .modal {
+  background-color: transparent !important;
+}
+
+:global(body.dark) .comment {
+  background-color: #2c2c2c;
+  color: #eee;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+:global(body.dark) .commentHeader p {
+  color: #ddd;
+}
+
+:global(body.dark) .commentActions button {
+  color: #8dde8d;
+}
+
+:global(body.dark) .inputRow input {
+  background: #222;
+  border-radius: 6px;
+  border: 1px solid #4a6b4a;
+  color: #ddd;
+}
+
+:global(body.dark) .inputRow button {
+  background-color: #6bae6e;
+  box-shadow: 0 4px 10px rgb(255 255 255 / 0.2);
+}
+
+:global(body.dark) .inputRow button:hover {
+  background-color: #599f5f;
 }

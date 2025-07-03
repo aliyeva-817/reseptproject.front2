@@ -1,6 +1,8 @@
-// src/pages/admin/Comments.jsx
 import { useEffect, useState } from 'react';
 import axiosInstance from '../../services/axiosInstance';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css'; // SweetAlert2 CSS
+import styles from './Comments.module.css'; // CSS faylı (aşağıda göndərəcəyəm)
 
 const Comments = () => {
   const [comments, setComments] = useState([]);
@@ -15,12 +17,40 @@ const Comments = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Bu şərhi silmək istədiyinizə əminsiniz?")) return;
-    try {
-      await axiosInstance.delete(`/admin/comments/${id}`);
-      fetchComments();
-    } catch (err) {
-      alert("Şərh silinmədi");
+    const result = await Swal.fire({
+      title: 'Əminsiniz?',
+      text: 'Bu şərhi silmək istəyirsiniz?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#6bae6e',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Bəli, sil',
+      cancelButtonText: 'İmtina',
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp'
+      }
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await axiosInstance.delete(`/admin/comments/${id}`);
+        fetchComments();
+        Swal.fire({
+          icon: 'success',
+          title: 'Şərh silindi',
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      } catch (err) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Xəta',
+          text: 'Şərh silinmədi',
+        });
+      }
     }
   };
 
@@ -29,13 +59,21 @@ const Comments = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Şərhlər</h2>
-      <ul>
+    <div className={styles.container}>
+      <h2 className={styles.title}>Şərhlər</h2>
+      <ul className={styles.commentList}>
         {comments.map((c) => (
-          <li key={c._id}>
-            <strong>{c.user?.username}</strong>: {c.content}
-            <button onClick={() => handleDelete(c._id)}>Sil</button>
+          <li key={c._id} className={styles.commentItem}>
+            <span className={styles.commentInfo}>
+              <strong>{c.user?.username || 'Anonim'}</strong>: {c.content}
+            </span>
+            <button
+              className={styles.deleteBtn}
+              onClick={() => handleDelete(c._id)}
+              aria-label="Şərhi sil"
+            >
+              Sil
+            </button>
           </li>
         ))}
       </ul>

@@ -7,8 +7,9 @@ import {
 } from '../../services/api';
 import styles from './MealPlanner.module.css';
 import { FaPlus } from "react-icons/fa";
-import { MdModeEdit } from "react-icons/md";
-import GreenLoader from '../../components/common/GreenLoader'; // ✅
+import { MdModeEdit, MdDelete } from "react-icons/md";
+import { FaCheck } from "react-icons/fa";
+import GreenLoader from '../../components/common/GreenLoader';
 
 const daysOfWeek = [
   'Bazar ertəsi',
@@ -25,7 +26,7 @@ const MealPlanner = () => {
   const [meals, setMeals] = useState([]);
   const [mealInputs, setMealInputs] = useState({});
   const [editingMeals, setEditingMeals] = useState({});
-  const [isLoading, setIsLoading] = useState(true); // ✅
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchMeals();
@@ -38,7 +39,7 @@ const MealPlanner = () => {
     } catch (err) {
       console.error('Yeməklər alınmadı:', err);
     } finally {
-      setIsLoading(false); // ✅
+      setIsLoading(false);
     }
   };
 
@@ -81,7 +82,7 @@ const MealPlanner = () => {
     groupedMeals[meal.day][meal.mealType].push(meal);
   });
 
-  if (isLoading) return <GreenLoader />; // ✅ Loader göstər
+  if (isLoading) return <GreenLoader />;
 
   return (
     <div className={styles.container}>
@@ -112,7 +113,7 @@ const MealPlanner = () => {
                           value={editingMeals[item._id]}
                           onChange={(e) => handleMealEdit(item._id, e.target.value)}
                         />
-                        <button onClick={() => handleMealSave(item._id)}>Yadda saxla</button>
+                        <button  onClick={() => handleMealSave(item._id)}><FaCheck /></button>
                       </>
                     ) : (
                       <>
@@ -121,18 +122,8 @@ const MealPlanner = () => {
                           <button className={styles.sil} onClick={() => handleMealEdit(item._id, item.content)}>
                             <MdModeEdit />
                           </button>
-                          <button className={styles.edit} onClick={() => handleMealDelete(item._id)}>
-                            <span
-                              dangerouslySetInnerHTML={{
-                                __html: `
-                                  <lord-icon
-                                    src="https://cdn.lordicon.com/xyfswyxf.json"
-                                    trigger="hover"
-                                    colors="primary:#000000"
-                                    style="width:24px;height:24px">
-                                  </lord-icon>`
-                              }}
-                            />
+                          <button className={styles.sil} onClick={() => handleMealDelete(item._id)}>
+                            <MdDelete />
                           </button>
                         </div>
                       </>

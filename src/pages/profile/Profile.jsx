@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axiosInstance from '../../services/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import styles from './Profile.module.css';
-import GreenLoader from '../../components/common/GreenLoader'; // ✅ Loader import
+import GreenLoader from '../../components/common/GreenLoader';
 
 function Profile() {
   const [user, setUser] = useState(null);
@@ -17,14 +17,21 @@ function Profile() {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
         localStorage.removeItem("isRegistered");
-        navigate('/login');
+        navigate('/register'); // refreshsiz qeydiyyata yönləndir
       }
     };
 
     fetchUser();
   }, [navigate]);
 
-  if (!user) return <GreenLoader />; // ✅ Loader əlavə olundu
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("isRegistered");
+    window.location.replace("/register"); // ✅ Tam yönləndirmə (refreshsiz loginə düşməmək üçün)
+  };
+
+  if (!user) return <GreenLoader />;
 
   return (
     <div className={styles.profile}>
@@ -37,12 +44,20 @@ function Profile() {
       <p>
         <strong>Şifrəni unutmusuz?</strong>{' '}
         <span
-          style={{ color: 'blue', cursor: 'pointer', textDecoration: 'underline' }}
+          style={{   color: '#666666',           // Yaşıl tonda rəng (və ya istədiyin rəng)
+    cursor: 'pointer',
+    textDecoration: 'underline',
+    fontWeight: '900',
+    transition: 'color 0.3s ease',}}
           onClick={() => navigate('/reset-password')}
         >
           Şifrəni sıfırla
         </span>
       </p>
+
+      <button className={styles.logoutBtn} onClick={handleLogout}>
+        Çıxış et
+      </button>
     </div>
   );
 }

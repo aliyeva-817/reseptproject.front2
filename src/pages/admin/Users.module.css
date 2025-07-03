@@ -1,0 +1,71 @@
+.container {
+  max-width: 900px;
+  margin: 1.5rem auto;
+  padding: 0 15px;
+  font-family: 'Inter', sans-serif;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 4rem;
+  color: #00bcd4;
+  text-align: center;
+}
+
+.userList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.userItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+  flex-wrap: wrap;
+}
+
+.userInfo {
+  font-size: 1rem;
+  color: white;
+  word-break: break-word;
+  flex: 1 1 auto;
+  margin-right: 15px;
+}
+
+.deleteBtn {
+  background-color: #d33 !important;
+  width: 60px;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.3s ease;
+}
+
+.deleteBtn:hover,
+.deleteBtn:focus {
+  background-color: #a52a2a;
+  outline: none;
+}
+
+/* Responsivlik */
+@media (max-width: 480px) {
+  .userItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .deleteBtn {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1.1rem;
+  }
+}

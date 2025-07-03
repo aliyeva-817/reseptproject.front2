@@ -3,7 +3,15 @@
   padding: 0px;
   box-sizing: border-box;
 }
-/* === Öz mesajlar və qarşı tərəf mesajları üçün tema rəngləri === */
+.profileImg {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+}
+
+
 .theme_brokoli .fromSelf { background-color: #fff8d6; }
 .theme_brokoli .fromOther { background-color: #b7d7c1; }
 
@@ -16,7 +24,110 @@
 .theme_dark .fromSelf { background-color: #3a3a3a; color: white; }
 .theme_dark .fromOther { background-color: #2a2a2a; color: white; }
 
-/* === Arxa fonda avokado şəkilləri === */
+
+:global(body.dark) .sidebar {
+  background-color: #000000;
+  color: #ffffff;
+  border-right: 1px solid #333;
+}
+
+:global(body.dark) .sidebar label {
+  color: #cccccc;
+}
+
+:global(body.dark) .searchWrapDribbble input {
+  background-color: #2c2c2c;
+  color: #ffffff;
+  border-color: #555;
+}
+
+:global(body.dark) .ibtn {
+  color: #cccccc;
+}
+
+:global(body.dark) .sidebar select {
+  background-color: #2c2c2c;
+  color: #ffffff;
+  border-color: #555;
+}
+
+:global(body.dark) .chatList li {
+  background-color: #2a2a2a;
+  color: #ffffff;
+}
+
+:global(body.dark) .chatList li:hover {
+  background-color: #3a3a3a;
+}
+
+:global(body.dark) .header {
+  background-color: #222222;
+  color: #ffffff;
+  border-bottom: 1px solid #333;
+}
+
+:global(body.dark) .header h3 {
+  color: #ffffff;
+}
+
+:global(body.dark) .chatArea {
+  background-color: #121212;
+}
+
+:global(body.dark) .fromSelf {
+  background-color: #333333;
+  color: #f5f5f5;
+}
+
+:global(body.dark) .fromOther {
+  background-color: #2a2a2a;
+  color: #f5f5f5;
+}
+
+:global(body.dark) .message small {
+  color: #bbbbbb;
+}
+
+:global(body.dark) .editedTag {
+  color: #888888;
+}
+
+:global(body.dark) .themeLabel {
+  color: #eeeeee;
+}
+
+:global(body.dark) .themeSelect {
+  background-color: #2c2c2c;
+  color: #ffffff;
+  border-color: #555;
+}
+
+:global(body.dark) .themeSelect:hover {
+  border-color: #81c784;
+  box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.2);
+}
+
+:global(body.dark) .themeSelect:focus {
+  border-color: #81c784;
+  box-shadow: 0 0 0 4px rgba(129, 199, 132, 0.3);
+}
+
+:global(body.dark) .noChatSelected {
+  color: #999999;
+}
+
+:global(body.dark) .inputArea textarea {
+  background-color: #2c2c2c;
+  color: #ffffff;
+  border-color: #555;
+}
+
+:global(body.dark) .inputArea button {
+  background-color: #3a3a3a;
+  color: white;
+}
+
+
 .avocadoBackground {
   position: absolute;
   top: 16%;
@@ -47,7 +158,7 @@
 
 
 
-/* === Əsas konteyner - bütün chat səhifəsi üçün === */
+
 .chatPage {
   display: flex;
   height: 100vh;
@@ -65,7 +176,7 @@
     transform: translateY(0);
   }
 }
-/* ChatPage.module.css içində olmalıdır */
+
 .theme_brokoli {
   background-color: #e6ffe6;
   color: #333;
@@ -92,14 +203,12 @@
   border-right: 1px solid #c8dcc6;
   position: relative;
   z-index: 2;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08), 4px 0 20px rgba(0, 0, 0, 0.06); /* ✅ qabariq effekt */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08), 4px 0 20px rgba(0, 0, 0, 0.06); 
   transition: all 0.3s ease-in-out;
 
 }
 
 
-
-/* Sidebar başlıqları üçün yazı tərzi */
 .sidebar label {
   margin-top: 10%;
   font-weight: 500;
@@ -107,7 +216,7 @@
   color: #819A91;
 }
 
-/* === Axtarış input-u və düyməsi (Home dizaynı ilə eyni) === */
+
 .searchWrapDribbble {
   position: relative;
   width: fit-content;
@@ -115,7 +224,7 @@
   height: 48px;
 }
 
-/* Input dizaynı - home dizaynı ilə eyni */
+
 .searchWrapDribbble input {
  margin-left: -16px;
   height: 48px;
@@ -129,7 +238,7 @@
   background-color: white;
 }
 
-/* Axtarış düyməsinin dizaynı - sağda yerləşir, şəffaf fon */
+
 .ibtn{
  color: #819A91;
   position: absolute;
@@ -149,13 +258,12 @@
   justify-content: center;
 }
 
-/* Hover zamanı vizual effekt */
+
 .ibtn:hover {
  background-color: transparent !important;
 }
 
 
-/* Axtarış icon-un stili */
 .ibtn svg {
  
   font-size: 14px;
@@ -171,7 +279,7 @@
   outline: none;
 }
 
-/* === İstifadəçi siyahısı (chat listəsi) === */
+
 .chatList {
   margin-top: 20px;
   list-style: none;
@@ -181,7 +289,6 @@
   flex-grow: 1;
 }
 
-/* Hər bir chat list elementi */
 .chatList li {
   background: #fff;
   padding: 10px 14px;
@@ -194,12 +301,12 @@
   transition: background 0.2s ease;
 }
 
-/* Hover zamanı fon rəngi dəyişir */
+
 .chatList li:hover {
   background: #f2f2f2;
 }
 
-/* Onlayn/oflayn status nöqtələri */
+
 .statusDot {
   width: 8px;
   height: 8px;
@@ -215,7 +322,7 @@
   background-color: #a3a3a3;
 }
 
-/* Oxunmamış mesaj sayı göstəricisi */
+
 .unreadBadge {
   background: red;
   color: white;
@@ -225,7 +332,7 @@
   margin-left: 8px;
 }
 
-/* === Sağ tərəf - Chat yazışma hissəsi === */
+
 .chatArea {
  
   flex: 1;
@@ -273,11 +380,11 @@
   border-bottom: 1px solid #ddd;
 
   display: flex;
-  justify-content: center;   /* 🔥 Ortalayır */
-  align-items: center;       /* 🔥 Dikey ortalama */
+  justify-content: center;   
+  align-items: center;      
   font-weight: bold;
   font-size: 18px;
-  position: relative;        /* 🔁 Ox sola çəkiləcəksə, burdan işlənəcək */
+  position: relative;       
 }
 
 .header h3 {
@@ -289,7 +396,6 @@
 }
 
 
-/* === Mesaj siyahısı === */
 .messageList {
   flex: 1;
   padding: 20px;
@@ -299,7 +405,6 @@
   gap: 12px;
 }
 
-/* === Mesaj qutusu (bubble) === */
 .message {
   
   max-width: 70%;
@@ -311,19 +416,18 @@
   word-break: break-word;
 }
 
-/* Öz mesajların stili */
 .fromSelf {
   align-self: flex-end;
   background-color: #fff8d6;
 }
 
-/* Qarşı tərəfin mesajı */
+
 .fromOther {
   align-self: flex-start;
   background-color: #d6f8e0;
 }
 
-/* Mesajın içindəki yazı */
+
 .message p {
   margin: 0;
   display: flex;
@@ -331,7 +435,6 @@
   gap: 6px;
 }
 
-/* Tarix və düzəliş statusu */
 .message small {
   font-size: 11px;
   color: #555;
@@ -339,21 +442,19 @@
   display: block;
 }
 
-/* "Düzənləndi" etiketi */
+
 .editedTag {
   font-size: 10px;
   color: #819A91;
   margin-left: 6px;
 }
 
-/* Redaktə və silmə icon-ları */
 .message svg {
   margin-left: 6px;
   font-size: 13px;
   cursor: pointer;
 }
 
-/* === Mesaj göndərmə sahəsi === */
 .inputArea {
   padding: 12px;
   display: flex;
@@ -374,9 +475,14 @@
   resize: none;
   box-sizing: border-box;
 }
+.inputArea textarea:hover {
+  border-color: #6e9170;
+  box-shadow: 0 0 0 2px rgba(110, 145, 112, 0.2);
+}
+
 
 .inputArea button {
-  width: 80px;
+  width: 50px;
   height: 48px;
   background-color: #819A91;
   color: white;
@@ -386,7 +492,7 @@
   font-size: 14px;
 }
 
-/* === Söhbət seçilməyibsə göstəriş === */
+
 .noChatSelected {
   flex: 1;
   display: flex;
@@ -398,7 +504,7 @@
   font-size: 16px;
 }
 
-/* === Emoji dekorasiyası mesajlar üçün === */
+
 .message::before {
   content: '🍝';
   position: absolute;
@@ -407,7 +513,7 @@
   font-size: 18px;
 }
 
-/* === Tema üzrə chat sahəsi fonları === */
+
 .theme_brokoli .chatArea { background: #eafbe5; }
 .theme_carrot .chatArea { background: #fff3e6; }
 .theme_watermelon .chatArea { background: #ffeef0; }
@@ -418,7 +524,7 @@
 .theme_dark .inputArea textarea { background: #333; color: white; border-color: #555; }
 .theme_dark .inputArea button { background-color: #444; }
 
-/* === Scroll gizlətmək üçün (esthetic görünüş) === */
+
 .messageList::-webkit-scrollbar {
   display: none;
 }
@@ -426,7 +532,7 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-/* === Sidebar toggle düyməsi === */
+
 .toggleBtn {
   position: absolute;
   background-color: transparent !important;
@@ -449,8 +555,10 @@
 .toggleBtn:hover {
   background-color: #588463;
 }
+.searchWrapDribbble input {
+  min-width: 200px;
+}
 
-/* === Sidebar qapalı vəziyyətdə === */
 .sidebarClosed {
   width: 0 !important;
   padding: 0 !important;
@@ -464,6 +572,9 @@
     height: 36px;
     font-size: 12px;
     padding: 6px 10px;
+  }
+  .searchWrapDribbble input {
+   max-width: 120px;
   }
 
   .inputArea button {

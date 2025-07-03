@@ -63,17 +63,19 @@ const RecipeDetail = () => {
         alt={recipe.title}
       />
 
-      <h1 className={styles.title}>
-        {recipe.title}
-        {(recipe.addedByAdmin === true || recipe.user?.isAdmin) && (
-          <span className={styles.adminBadge}>👑 Admin tərəfindən əlavə olunub</span>
-        )}
-      </h1>
+  <h1 className={styles.title}>
+  {recipe.title}
+  {(recipe.addedByAdmin === true || recipe.user?.isAdmin) && (
+    <span className={styles.adminBadge}>Admin tərəfindən əlavə olunub</span>
+  )}
+</h1>
 
-      <p><strong>Ərzaqlar:</strong> {recipe.ingredients.join(', ')}</p>
-      <p><strong>Kateqoriya:</strong> {recipe.category}</p>
 
-      <p><strong>Hazırlanma:</strong></p>
+
+      <p><strong className={styles.basliqq}>Ərzaqlar:</strong> {recipe.ingredients.join(', ')}</p>
+      <p><strong className={styles.basliqq}>Kateqoriya:</strong> {recipe.category}</p>
+
+      <p><strong className={styles.basliqq}>Hazırlanma:</strong></p>
       {recipe.instructions && recipe.instructions.length > 0 ? (
         <ol className={styles.instructionsList}>
           {recipe.instructions.map((step, idx) => (
@@ -90,11 +92,7 @@ const RecipeDetail = () => {
         </button>
       )}
 
-      <div className={styles.commentTriggerBox}>
-        <button onClick={openComments} className={styles.commentButton}>
-          <FaCommentDots /> Şərh yaz
-        </button>
-      </div>
+     
 
       {activeCommentId && (
         <CommentModal recipeId={activeCommentId} onClose={closeComments} />

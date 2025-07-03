@@ -12,6 +12,7 @@ const CommentModal = ({ recipeId, onClose }) => {
   const [error, setError] = useState('');
   const [replyText, setReplyText] = useState('');
   const [activeReplyId, setActiveReplyId] = useState(null);
+  const [hideInput, setHideInput] = useState(false);
   const userId = localStorage.getItem('userId');
 
   const fetchComments = async () => {
@@ -89,6 +90,21 @@ const CommentModal = ({ recipeId, onClose }) => {
     }
   };
 
+  // Footer görünəndə input gizlətmək üçün scroll yoxlama
+  useEffect(() => {
+    const footer = document.getElementById('footer');
+    if (!footer) return;
+
+    const onScroll = () => {
+      const footerTop = footer.getBoundingClientRect().top;
+      const windowHeight = window.innerHeight;
+      setHideInput(footerTop < windowHeight);
+    };
+
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   useEffect(() => {
     fetchComments();
   }, [recipeId]);
@@ -97,21 +113,14 @@ const CommentModal = ({ recipeId, onClose }) => {
     <div className={styles.overlay} onClick={onClose}>
       {/* ✅ Avokado arxa fon */}
       <div className={styles.avocadoBackground}>
-        <img src={avokado} alt="avokado" className={styles.avocadoItem} />
-        <img src={avokado} alt="avokado" className={styles.avocadoItem} />
-        <img src={avokado} alt="avokado" className={styles.avocadoItem} />
-        <img src={avokado} alt="avokado" className={styles.avocadoItem} />
-        <img src={avokado} alt="avokado" className={styles.avocadoItem} />
-        <img src={avokado} alt="avokado" className={styles.avocadoItem} />
-        <img src={avokado} alt="avokado" className={styles.avocadoItem} />
-        <img src={avokado} alt="avokado" className={styles.avocadoItem} />
-        <img src={avokado} alt="avokado" className={styles.avocadoItem} />
-        <img src={avokado} alt="avokado" className={styles.avocadoItem} />
+        {[...Array(10)].map((_, i) => (
+          <img key={i} src={avokado} alt="avokado" className={styles.avocadoItem} />
+        ))}
       </div>
 
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <button onClick={onClose} className={styles.closeBtn}><FaTimes /></button>
-        <h3>Şərhlər</h3>
+        <h3 className={styles.basliq}>Şərhlər</h3>
 
         <div className={styles.commentList}>
           {comments.map((comment) => (
@@ -124,11 +133,11 @@ const CommentModal = ({ recipeId, onClose }) => {
                     <span style={{ marginLeft: '6px' }}>{comment.likes.length}</span>
                   </button>
                   <button onClick={() => setActiveReplyId(comment._id)}>
-                    <FaReply />
+                    <FaReply className={styles.icon} />
                   </button>
                   {comment.user?._id === userId && (
                     <button onClick={() => handleDelete(comment._id)}>
-                      <FaTrash />
+                      <FaTrash className={styles.icon} />
                     </button>
                   )}
                 </div>
@@ -142,22 +151,21 @@ const CommentModal = ({ recipeId, onClose }) => {
 
               {activeReplyId === comment._id && (
                 <div className={styles.replyInput}>
-  <input
-    className={styles.replyText}
-    type="text"
-    placeholder="Cavab yazın..."
-    value={replyText}
-    onChange={(e) => setReplyText(e.target.value)}
-  />
-  <button className={styles.replyBtn} onClick={() => handleReply(comment._id)}>Cavabla</button>
-</div>
-
+                  <input
+                    className={styles.replyText}
+                    type="text"
+                    placeholder="Cavab yazın..."
+                    value={replyText}
+                    onChange={(e) => setReplyText(e.target.value)}
+                  />
+                  <button className={styles.replyBtn} onClick={() => handleReply(comment._id)}>Cavabla</button>
+                </div>
               )}
             </div>
           ))}
         </div>
 
-        <div className={styles.inputArea}>
+        <div className={`${styles.inputArea} ${hideInput ? styles.hidden : ''}`}>
           <div className={styles.inputRow}>
             <input
               type="text"

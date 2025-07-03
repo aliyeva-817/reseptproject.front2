@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./header/Header";
+import Footer from "./footer/Footer"; // ✅ Footer əlavə olundu
 import axiosInstance from "../../services/axiosInstance";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/reducers/userSlice";
-
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -28,10 +28,10 @@ const Layout = () => {
   return (
     <>
       <Header />
-      <main style={{ padding: "20px" }}>
+      <main style={{ minHeight: "80vh", padding: "20px" }}>
         <Outlet />
       </main>
-      {/* ToastContainer burada */}
+      <Footer /> {/* ✅ Footer burada çağırıldı */}
       <ToastContainer position="top-right" autoClose={3000} />
     </>
   );
