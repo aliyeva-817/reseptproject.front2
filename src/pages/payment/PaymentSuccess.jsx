@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import axiosInstance from '../../services/axiosInstance';
 import styles from './PaymentSuccess.module.css';
-import GreenLoader from '../../components/common/GreenLoader'; // ✅ Loader import
+import GreenLoader from '../../components/common/GreenLoader'; 
 
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();
@@ -21,34 +21,39 @@ const PaymentSuccess = () => {
     if (recipeId) fetchRecipe();
   }, [recipeId]);
 
-  if (!recipe) return <GreenLoader />; // ✅ Yüklənmədə loader göstər
+  if (!recipe) return <GreenLoader />;
 
   return (
-    <div className={styles.container}>
-      <h2 className={styles.heading}>✅ Ödəniş uğurla tamamlandı!</h2>
-      <p className={styles.subtitle}>Premium reseptə baxa bilərsiniz.</p>
-
-      <div className={styles.recipe}>
-        <img
-          src={`http://localhost:5000/${recipe.image}`}
-          alt={recipe.title}
-          className={styles.image}
-        />
-        <h3 className={styles.title}>{recipe.title}</h3>
-        <p className={styles.text}><strong>Kateqoriya:</strong> {recipe.category}</p>
-        <p className={styles.text}><strong>Ərzaqlar:</strong> {recipe.ingredients.join(', ')}</p>
-        <p className={styles.text}><strong>Hazırlanma:</strong> {recipe.instructions.join(' → ')}</p>
-        <ul className={styles.instructions}>
-          {recipe.instructions.map((step, idx) => (
-            <li key={idx}>{step}</li>
-          ))}
-        </ul>
+    <>
+      <div className={styles.successMessage}>
+        <h2>✅ Ödəniş uğurla tamamlandı!</h2>
+        <p>Premium reseptə baxa bilərsiniz.</p>
       </div>
 
-      <Link to="/premium" className={styles.button}>
-        Premium səhifəsinə qayıt
-      </Link>
-    </div>
+      <div className={styles.container}>
+        <div className={styles.recipe}>
+          <img
+            src={`http://localhost:5000/${recipe.image}`}
+            alt={recipe.title}
+            className={styles.image}
+          />
+          <h3 className={styles.title}>{recipe.title}</h3>
+          <p className={styles.text}><strong>Kateqoriya:</strong> {recipe.category}</p>
+          <p className={styles.text}><strong>Ərzaqlar:</strong> {recipe.ingredients.join(', ')}</p>
+
+          <h4 className={styles.basliqq}>Hazırlanma qaydası:</h4>
+          <ol className={styles.instructions}>
+            {recipe.instructions.map((step, idx) => (
+              <li key={idx}>{step}</li>
+            ))}
+          </ol>
+        </div>
+
+        <Link to="/premium" className={styles.button}>
+          Premium səhifəsinə qayıt
+        </Link>
+      </div>
+    </>
   );
 };
 

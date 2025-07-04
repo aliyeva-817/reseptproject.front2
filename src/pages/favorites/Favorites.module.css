@@ -218,13 +218,12 @@ h3 {
   text-align: center;
 }
 
-/* ✅ DARK MODE */
 :global(body.dark) .container {
-  background-color: #1a1a1a;
+  background-color: transparent;
 }
 
 :global(body.dark) .card {
-  background-color: #515050;
+  background-color: #2b2b2b;
   box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
 }
 

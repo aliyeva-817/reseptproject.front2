@@ -1,94 +1,184 @@
-/* Ümumi konteyner */
-.container {
-  width: 700px;
-  margin: 40px auto;
-  background-color: #f5f5f1;
-  padding: 20px 24px;
-  border-radius: 20px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-  font-family: 'Poppins', sans-serif;
-  color: #2F5249;
-  animation: fadeIn 0.7s ease forwards;
-}
-
-@keyframes fadeIn {
-  from {
+@keyframes fadeInSlide {
+  0% {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(40px);
   }
-  to {
+  100% {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
+@keyframes imageFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeStep {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.container {
+  width: 700px;
+  margin: 40px auto;
+  background-color: #ffffff;
+  padding: 28px;
+  border-radius: 24px;
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.15); /* daha dərin və geniş */
+  font-family: 'Poppins', sans-serif;
+  color: #2F5249;
+  animation: fadeInSlide 1.4s ease-out forwards;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  z-index: 10;
+}
+
+.container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.2);
+}
+
+
 .image {
   width: 100%;
-  height: 300px;
+  height: 320px;
   object-fit: cover;
   border-radius: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  animation: imageFadeIn 1.4s ease-out forwards;
 }
 
 .title {
-  font-size: 33px;
+  font-size: 34px;
   font-weight: 700;
   color: #2F5249;
-  margin-top: 15px;
-  margin-bottom: 29px;
+  margin-bottom: 16px;
   word-break: break-word;
+  animation: slideInLeft 1.3s ease-out forwards;
 }
 
 .basliqq {
   font-size: 18px;
+  margin-bottom: 8px;
+  animation: fadeIn 1.2s ease-out forwards;
 }
 
 .adminBadge {
-  background-color: #eeeedc;
+  background-color: #e4f0e7;
   color: #2F5249;
   font-size: 14px;
-  padding: 3px 10px;
-  margin-bottom: -70%;
-  margin-left: 10px;
+  padding: 4px 12px;
+  margin-left: 12px;
   border-radius: 999px;
   font-weight: 600;
-  white-space: nowrap;
+  animation: fadeInUp 1.2s ease-out forwards;
 }
 
 p {
   font-size: 16px;
-  margin: 10px 0;
-  line-height: 1.6;
+  margin: 8px 0;
+  line-height: 1.7;
+  animation: fadeIn 1.2s ease-out forwards;
 }
 
 ol {
-  margin-top: 8px;
-  padding-left: 20px;
+  counter-reset: step-counter;
+  list-style: none;
+  padding-left: 0;
+  margin-top: 24px;
 }
 
 ol li {
-  margin-bottom: 8px;
-  background-color: #e1e5d3;
-  padding: 8px 14px;
-  border-radius: 10px;
-  border-left: 4px solid #6e9170;
+  counter-increment: step-counter;
+  position: relative;
+  padding: 18px 22px 18px 70px;
+  background-color: #f0f5f2;
+  border-radius: 14px;
+  margin-bottom: 18px;
+  font-size: 16px;
+  color: #2F5249;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  animation: fadeStep 1.3s ease-out forwards;
+}
+
+ol li::before {
+  content: counter(step-counter);
+  position: absolute;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #a4c8aa;
+  color: #ffffff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 15px;
+  box-shadow: none;
 }
 
 .premiumButton {
-  margin-top: 20px;
+  margin-top: 30px;
   background-color: #6e9170;
   color: white;
   font-weight: bold;
   border: none;
   font-size: 16px;
-  padding: 12px 20px;
-  border-radius: 12px;
+  padding: 14px 24px;
+  border-radius: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  animation: fadeInUp 1.4s ease-out forwards;
 }
 
 .premiumButton:hover {
   background-color: #5a7b5b;
+  transform: translateY(-2px);
 }
 
 .commentTriggerBox {
@@ -96,26 +186,24 @@ ol li {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 10px;
-  background-color: #f5f5f1;
-  padding: 12px 20px;
-  border-radius: 12px;
-  margin-top: 30px;
+  gap: 12px;
+  background-color: #f8f9f7;
+  padding: 14px 22px;
+  border-radius: 16px;
+  margin-top: 36px;
+  animation: fadeIn 1.4s ease-out forwards;
 }
 
 .commentText {
   font-size: 16px;
   font-weight: 500;
   color: #2F5249;
-  margin: 0;
 }
 
 .commentButton {
-  margin-top: 16px;
   background: none;
   color: #6e9170;
-  background-color: transparent !important;
-  padding: 10px 18px;
+  padding: 10px 20px;
   font-size: 16px;
   border-radius: 12px;
   cursor: pointer;
@@ -131,32 +219,37 @@ ol li {
   color: white;
 }
 
-/* DARK MODE STİLLƏRİ */
 :global(body.dark) .container {
-  background-color: #2a2a2a;
-  color: #f0f0f0;
-}
-
-:global(body.dark) .adminBadge {
-  background-color: #4a4a4a;
-  color: #ffffff;
-}
-
-:global(body.dark) ol li {
-  background-color: #3b3b3b;
-  border-left: 4px solid #81c784;
-}
-
-:global(body.dark) .commentTriggerBox {
-  background-color: #3a3a3a;
-}
-
-:global(body.dark) .commentButton {
-  color: #81c784;
+  background-color: #252b25;
+  color: #eeeeee;
 }
 
 :global(body.dark) .title {
   color: #ffffff;
+}
+
+:global(body.dark) .adminBadge {
+  background-color: #3e4c3f;
+  color: #ffffff;
+}
+
+:global(body.dark) ol li {
+  background-color: #313a32;
+  color: #eeeeee;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+:global(body.dark) ol li::before {
+  background-color: #9fd5a2;
+  color: #1b1b1b;
+}
+
+:global(body.dark) .commentTriggerBox {
+  background-color: #353d36;
+}
+
+:global(body.dark) .commentButton {
+  color: #81c784;
 }
 
 :global(body.dark) .commentButton:hover {
@@ -164,15 +257,14 @@ ol li {
   color: black;
 }
 
-/* RESPONSIVE */
 @media (max-width: 768px) {
   .container {
-    width: 90%;
-    padding: 16px;
+    width: 92%;
+    padding: 18px;
   }
 
   .title {
-    font-size: 26px;
+    font-size: 28px;
   }
 
   .image {
@@ -181,40 +273,44 @@ ol li {
 
   .premiumButton {
     width: 100%;
+    padding: 12px;
     font-size: 15px;
-    padding: 10px;
   }
 
   .commentTriggerBox {
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
   }
 
   .commentButton {
     width: 100%;
     justify-content: center;
   }
+
+  ol li {
+    font-size: 15px;
+    padding: 16px 18px 16px 64px;
+  }
+
+  ol li::before {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+    left: 18px;
+  }
 }
 
 @media (max-width: 480px) {
   .title {
-    font-size: 22px;
+    font-size: 24px;
   }
 
   .adminBadge {
     font-size: 12px;
-    margin-left: 5px;
-  }
-
-  ol li {
-    font-size: 15px;
-    padding: 6px 12px;
   }
 
   .premiumButton {
     font-size: 14px;
-    padding: 10px;
   }
 
   .commentText {
@@ -223,6 +319,6 @@ ol li {
 
   .commentButton {
     font-size: 14px;
-    padding: 8px 14px;
+    padding: 10px 16px;
   }
 }

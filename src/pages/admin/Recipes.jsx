@@ -66,7 +66,7 @@ const Recipes = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Reseptlər</h2>
+  
       <ul className={styles.recipeList}>
         {recipes.map((r) => (
           <li key={r._id} className={styles.recipeItem}>

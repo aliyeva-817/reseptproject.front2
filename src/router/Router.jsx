@@ -90,10 +90,9 @@ const Router = () => {
           </Route>
         </Route>
 
-        {/* ✅ AdminLogin hər zaman göstərilir */}
+     
         <Route path="/admin/login" element={<AdminLogin />} />
 
-        {/* ✅ Admin panel qorunur */}
         <Route path="/admin" element={<AdminRoute />}>
           <Route element={<AdminLayout />}>
             <Route index element={<AdminPanel />} />

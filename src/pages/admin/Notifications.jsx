@@ -6,18 +6,17 @@ const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    // Burada backend-də bildirişlər üçün ayrıca bir API varsa onu istifadə et
-    // Test üçün sadə mock data ilə göstəririk
+  
     const mockData = [
-      { _id: '1', text: 'Yeni istifadəçi qeydiyyatdan keçdi.', date: '2025-06-24' },
-      { _id: '2', text: 'Yeni ödəniş alındı.', date: '2025-06-24' },
+      { _id: '1', text: 'Yeni istifadəçi qeydiyyatdan keçdi.' },
+      { _id: '2', text: 'Yeni ödəniş alındı.' },
     ];
     setNotifications(mockData);
   }, []);
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Bildirişlər</h2>
+     
       {notifications.length === 0 ? (
         <p className={styles.empty}>Bildiriş yoxdur.</p>
       ) : (

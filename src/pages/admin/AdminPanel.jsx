@@ -116,7 +116,7 @@ const AdminPanel = () => {
 
   return (
     <div className={styles.panel}>
-      <h2>Admin Panel</h2>
+    
 
       <div className={styles.cards}>
         <div className={styles.card}>
@@ -137,20 +137,9 @@ const AdminPanel = () => {
         </div>
       </div>
 
-      <div className={styles.newCategory}>
-        <h3>Yeni Kateqoriya</h3>
-        <div className={styles.categoryForm}>
-          <input
-            value={newCategory}
-            onChange={e => setNewCategory(e.target.value)}
-            placeholder="Kateqoriya adı..."
-            className={styles.input}
-          />
-          <button onClick={handleAddCategory} className={styles.button}>Əlavə et</button>
-        </div>
-      </div>
+  
 
-      {/* İstifadəçilər */}
+     
       <div className={styles.section}>
         <h3>İstifadəçilər</h3>
         {users.length === 0 ? (
@@ -184,7 +173,7 @@ const AdminPanel = () => {
         )}
       </div>
 
-      {/* Reseptlər */}
+   
       <div className={styles.section}>
         <h3>Reseptlər</h3>
         {recipes.length === 0 ? (
@@ -224,28 +213,17 @@ const AdminPanel = () => {
         )}
       </div>
 
-      {/* Kateqoriyalar */}
-      <div className={styles.section}>
-        <h3>Kateqoriyalar</h3>
-        {categories.length === 0 ? (
-          <p className={styles.empty}>Kateqoriya yoxdur</p>
-        ) : (
-          <ul className={styles.list}>
-            {categories.map(c => (
-              <li key={c._id} className={styles.item}>
-                <div className={styles.itemInfo}>{c.name}</div>
-                <div className={styles.buttonsGroup}>
-                  <button
-                    onClick={() => handleDelete("categories", c._id)}
-                    className={styles.deleteBtn}
-                  >
-                    Sil
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
+    <div className={styles.newCategory}>
+        <h3 className={styles.cate}>Yeni Kateqoriya</h3>
+        <div className={styles.categoryForm}>
+          <input
+            value={newCategory}
+            onChange={e => setNewCategory(e.target.value)}
+            placeholder="Kateqoriya adı..."
+            className={styles.input}
+          />
+          <button onClick={handleAddCategory} className={styles.button}>Əlavə et</button>
+        </div>
       </div>
 
       {/* Şərhlər */}

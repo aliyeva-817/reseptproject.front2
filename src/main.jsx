@@ -10,26 +10,28 @@ import { ToastContainer } from 'react-toastify';
 import { SnackbarProvider } from 'notistack';
 import React, { useContext, useEffect } from 'react';
 
-// ✅ Toastify üçün xüsusi bağlama düyməsi
+
 const customClose = ({ closeToast }) => (
-  <button
+   <button
     onClick={closeToast}
     style={{
-      position: 'absolute',
-      top: '8px',
+         position: 'absolute',
+      top: '6px',
       right: '10px',
       background: 'transparent',
       border: 'none',
-      fontSize: '14px',
+      fontSize: '16px',
+      fontWeight: 'bold',
+      color: '#1b1b1b', 
       cursor: 'pointer',
-      opacity: 0.6,
+      zIndex: 9999,     
     }}
   >
     ✖
   </button>
 );
 
-// ✅ Dark mode class tətbiq edən komponent
+
 const BodyClassHandler = () => {
   const { theme } = useContext(ThemeContext);
 
@@ -37,7 +39,7 @@ const BodyClassHandler = () => {
     document.body.classList.toggle('dark', theme === 'dark');
   }, [theme]);
 
-  return null; // heçnə render etmir, sadəcə body-ə class əlavə edir
+  return null;
 };
 
 ReactDOM.createRoot(document.getElementById("root")).render(

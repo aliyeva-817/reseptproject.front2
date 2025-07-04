@@ -66,7 +66,7 @@ const Users = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>İstifadəçilər</h2>
+   
       <ul className={styles.userList}>
         {users.map((u) => (
           <li key={u._id} className={styles.userItem}>

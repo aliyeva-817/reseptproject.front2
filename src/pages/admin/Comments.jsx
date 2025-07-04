@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import axiosInstance from '../../services/axiosInstance';
 import Swal from 'sweetalert2';
-import 'sweetalert2/dist/sweetalert2.min.css'; // SweetAlert2 CSS
-import styles from './Comments.module.css'; // CSS faylı (aşağıda göndərəcəyəm)
+import 'sweetalert2/dist/sweetalert2.min.css';
+import styles from './Comments.module.css';
+import { FaCommentSlash } from 'react-icons/fa';
 
 const Comments = () => {
   const [comments, setComments] = useState([]);
@@ -60,23 +61,29 @@ const Comments = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Şərhlər</h2>
-      <ul className={styles.commentList}>
-        {comments.map((c) => (
-          <li key={c._id} className={styles.commentItem}>
-            <span className={styles.commentInfo}>
-              <strong>{c.user?.username || 'Anonim'}</strong>: {c.content}
-            </span>
-            <button
-              className={styles.deleteBtn}
-              onClick={() => handleDelete(c._id)}
-              aria-label="Şərhi sil"
-            >
-              Sil
-            </button>
-          </li>
-        ))}
-      </ul>
+      {comments.length === 0 ? (
+        <div className={styles.emptyBox}>
+          <FaCommentSlash size={60} className={styles.emptyIcon} />
+          <p className={styles.emptyText}>Şərh yoxdur</p>
+        </div>
+      ) : (
+        <ul className={styles.commentList}>
+          {comments.map((c) => (
+            <li key={c._id} className={styles.commentItem}>
+              <span className={styles.commentInfo}>
+                <strong>{c.user?.username || 'Anonim'}</strong>: {c.content}
+              </span>
+              <button
+                className={styles.deleteBtn}
+                onClick={() => handleDelete(c._id)}
+                aria-label="Şərhi sil"
+              >
+                Sil
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

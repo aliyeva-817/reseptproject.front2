@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import styles from "./AdminLayout.module.css";
-import { AuthContext } from "../../context/AuthContext"; // ✅ Əlavə et
+import { AuthContext } from "../../context/AuthContext"; 
 
 const AdminLayout = () => {
-  const { logout } = useContext(AuthContext); // ✅ logout-u AuthContext-dən al
+  const { logout } = useContext(AuthContext); 
 
   return (
     <div className={styles.container}>
@@ -15,11 +15,11 @@ const AdminLayout = () => {
           <NavLink to="/admin/users">Users</NavLink>
           <NavLink to="/admin/recipes">Recipes</NavLink>
           <NavLink to="/admin/comments">Comments</NavLink>
-          <NavLink to="/admin/categories">Categories</NavLink>
+        
           <NavLink to="/admin/payments">Payments</NavLink>
           <NavLink to="/admin/notifications">Notifications</NavLink>
 
-          {/* ✅ Əvvəlki navigate() yerinə logout çağırılır */}
+         
           <button onClick={logout} className={styles.logoutBtn}>
             Logout
           </button>

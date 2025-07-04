@@ -6,8 +6,8 @@ const confirmToast = (onConfirm) => {
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
           <button
             onClick={() => {
-              onConfirm(); // Əsas callback
-              toast.dismiss(toastId); // popup-u bağla
+              onConfirm(); 
+              toast.dismiss(toastId); 
             }}
             style={{ background: '#d32f2f', color: '#fff', border: 'none', padding: '6px 12px', borderRadius: '4px' }}
           >Sil</button>

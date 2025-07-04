@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../services/axiosInstance';
 import styles from './PremiumRecipes.module.css';
 import { useNavigate } from 'react-router-dom';
-import GreenLoader from '../../components/common/GreenLoader'; // ✅ Loader import
+import GreenLoader from '../../components/common/GreenLoader'; 
 
 const PremiumRecipes = () => {
-  const [recipes, setRecipes] = useState(null); // əvvəl boş array idi, indi null
+  const [recipes, setRecipes] = useState(null); 
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPremiumRecipes = async () => {
       try {
-        const res = await axios.get('/recipes'); // Bütün reseptləri al
-        const premiumOnly = res.data.filter(recipe => recipe.isPremium); // Yalnız premium
+        const res = await axios.get('/recipes'); 
+        const premiumOnly = res.data.filter(recipe => recipe.isPremium); 
         setRecipes(premiumOnly);
       } catch (err) {
         console.error('Premium reseptlər alınmadı:', err);
@@ -25,7 +25,7 @@ const PremiumRecipes = () => {
     navigate(`/premium/${recipe._id}`, { state: recipe });
   };
 
-  if (!recipes) return <GreenLoader />; // ✅ Loader göstər
+  if (!recipes) return <GreenLoader />; 
 
   return (
     <div className={styles.container}>

@@ -1,54 +1,139 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .container {
-  max-width: 400px;
-  margin: 80px auto;
-  padding: 30px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background-color: #fefefe;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  font-family: sans-serif;
+  width: 100%;
+  max-width: 500px;
+  margin: 10vh auto;
+  padding: 50px 40px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  margin-top: 12% !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', sans-serif;
+  animation: fadeIn 1s ease-in-out;
 }
 
 h2 {
+  font-size: 30px;
+  color: #2f5249;
   text-align: center;
-  margin-bottom: 25px;
-  color: #333;
+  margin-bottom: 30px;
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #555;
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 input {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
+  padding: 14px 18px;
+  font-size: 16px;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 15px;
+  border-radius: 12px;
+  outline: none;
+  background-color: #f0f5ff;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  border-color: #6e9170;
 }
 
 button {
   width: 100%;
-  padding: 12px;
-  background-color: #007bff;
+  padding: 14px;
+  background-color: #6e9170;
   color: white;
   font-weight: bold;
   border: none;
-  border-radius: 8px;
+  border-radius: 14px;
+  font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #5a7b5b;
+  transform: translateY(-2px);
 }
 
 .error {
-  color: red;
-  margin-bottom: 10px;
+  color: #d9534f;
+  font-size: 14px;
   text-align: center;
+  margin-top: -5px;
 }
+
+
+:global(body.dark) .container {
+  background-color: #1f1f1f;
+  color: #eeeeee;
+  box-shadow: 0 15px 60px rgba(0, 0, 0, 0.5);
+}
+
+:global(body.dark) input {
+  background-color: #2e2e2e;
+  color: #f0f0f0;
+  border: 1px solid #444;
+}
+
+:global(body.dark) input:focus {
+  border-color: #81c784;
+}
+
+:global(body.dark) button {
+  background-color: #3f624e;
+}
+
+:global(body.dark) button:hover {
+  background-color: #5f886c;
+}
+
+
+@media (max-width: 768px) {
+  .container {
+    max-width: 92%;
+    padding: 40px 30px;
+  }
+
+  h2 {
+    font-size: 26px;
+  }
+
+  input,
+  button {
+    font-size: 15.5px;
+    padding: 13px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    max-width: 94%;
+    padding: 32px 22px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  input,
+  button {
+    width: 100%;
+    font-size: 15px;
+    padding: 12px 14px;
+   
+  }
+}
+

@@ -1,4 +1,4 @@
-/* Container və Ümumi */
+
 .panel {
   max-width: 960px;
   margin: 2.5rem auto;
@@ -14,6 +14,23 @@
   text-align: center;
   font-weight: 700;
 }
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 
 .cards {
   display: flex;
@@ -53,7 +70,6 @@
   color: #fff !important;
 }
 
-/* Yuxarıdakı 4 qutu - Kartlar */
 .cards {
   display: flex;
   gap: 1.5rem;
@@ -90,13 +106,19 @@
   color: #00bcd4 !important;
 }
 
-/* Yeni Kateqoriya Bölməsi */
+
 .newCategory {
   margin-bottom: 3rem;
   text-align: center;
   color: #00bcd4 !important;
   font-weight: 700;
   font-size: 1.4rem;
+}
+
+.cate{
+   color: #00bcd4 !important;
+   font-size: 25px;
+
 }
 
 .categoryForm {
@@ -121,10 +143,6 @@
   color: #fff !important;
 }
 
-.input:focus {
-  box-shadow: 0 0 14px #00bcd4 !important;
-  border-color:#00bcd4 !important;
-}
 
 .button {
   background-color: #00bcd4 !important;
@@ -146,7 +164,7 @@
   box-shadow: 0 0 20px #00bcd4 !important;
 }
 
-/* Alt Bölmələr və Siyahılar */
+
 .section {
   margin-bottom: 3rem;
 }
@@ -159,7 +177,7 @@
   text-align: center;
 }
 
-/* Siyahı */
+
 .list {
   list-style: none;
   padding: 0;
@@ -167,7 +185,6 @@
   max-width: 800px;
 }
 
-/* Siyahı elementi */
 .item {
   display: flex;
   align-items: center;
@@ -187,7 +204,7 @@
   box-shadow: 0 0 20px #008ea7ff !important;
 }
 
-/* Məlumat sahəsi (ad, email, məzmun) */
+
 .itemInfo {
   display: flex;
   align-items: center;
@@ -199,7 +216,6 @@
   min-width: 200px;
 }
 
-/* Rol yazısı (Admin/İstifadəçi) */
 .role {
   font-weight: 600;
   color: #00bcd4 !important;
@@ -209,7 +225,6 @@
   text-align: center;
 }
 
-/* Düymələr qrupu */
 .buttonsGroup {
   display: flex;
   gap: 10px;
@@ -240,7 +255,7 @@
   box-shadow: 0 0 12px #005e7cdd !important;
 }
 
-/* Sil düyməsi */
+
 .deleteBtn {
   background-color: #d33 !important;
   color: white !important;
@@ -263,16 +278,15 @@
   box-shadow: 0 0 12px #720000cc !important;
 }
 
-/* Boş siyahı mesajı */
+
 .empty {
-  color: #558877 !important;
+  color: #00bcd4 !important;
   font-size: 1.1rem;
   font-weight: 500;
   text-align: center;
   margin-top: 1rem;
 }
 
-/* Responsivlik */
 @media (max-width: 992px) {
   .cards {
     justify-content: space-around;
